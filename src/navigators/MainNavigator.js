@@ -12,7 +12,7 @@ const Stack = createStackNavigator();
 
 const MainNavigator = () => {
   const [isReady, setIsReady] = useState(false);
-  const [initialScreen, setInitialScren] = useState('Home');
+  const [initialScreen, setInitialScreen] = useState('MainApp');
 
   LogBox.ignoreAllLogs(true);
 
@@ -21,9 +21,9 @@ const MainNavigator = () => {
     const checkToken = async () => {
       const user = await AsyncStorage.getItem('user');
       console.log(user);
-      if (user) {
-        setInitialScreen('MainApp');
-      }
+      //   if (user) {
+      //     setInitialScreen('MainApp');
+      //   }
       console.log('! in user');
       setIsReady(true);
     };
