@@ -2,7 +2,7 @@ import React from 'react';
 import {Text} from 'react-native';
 
 const EditProfileScreen = () => {
-  return <Text> EditProfileScreen </Text>;
+  return <></>;
 };
 
 export default EditProfileScreen;

@@ -8,6 +8,8 @@ target 'rezonanceapp' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+
   target 'rezonanceappTests' do
     inherit! :complete
     # Pods for testing

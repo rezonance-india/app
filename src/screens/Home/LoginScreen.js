@@ -1,8 +1,8 @@
 import React from 'react';
 import {Text} from 'react-native';
 
-const LoginScene = () => {
-  return <Text> LoginScene </Text>;
+const LoginScreen = () => {
+	return <Text> LoginScreen </Text>;
 };
 
-export default LoginScene;
+export default LoginScreen;

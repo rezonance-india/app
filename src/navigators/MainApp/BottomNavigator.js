@@ -16,37 +16,43 @@ const Tab = createBottomTabNavigator();
 const {width, height} = Dimensions.get('window');
 
 const BottomNavigator = ({navigation}) => {
-  return (
-    <Tab.Navigator
-      initialRouteName="HomeScreen"
-      screenOptions={({route}) => ({
-        tabBarIcon: ({focused, color, size}) => {
-          let iconName;
-          if (route.name === 'HomeScreen') {
-            iconName = 'home-outline';
-          } else if (route.name === 'SearchScreen') {
-            iconName = 'search-outline';
-          } else if (route.name === 'ChatScreen') {
-            iconName = 'chatbox-outline';
-          }
-          return <Icon name={iconName} size={size} color={color} />;
-        },
-      })}
-      tabBarOptions={{
-        activeTintColor: PRIMARY,
-        inactiveTintColor: GRAY.T6,
-        keyboardHidesTabBar: true,
-        showLabel: false,
-        style: {
-          height: height / 16,
-          borderWidth: 0,
-        },
-      }}>
-      <Tab.Screen name="HomeScreen" component={HomeScreen} />
-      <Tab.Screen name="SearchScreen" component={SearchScreen} />
-      <Tab.Screen name="ChatScreen" component={ChatScreen} />
-    </Tab.Navigator>
-  );
+	return (
+		<Tab.Navigator
+			initialRouteName="HomeScreen"
+			screenOptions={({route}) => ({
+				tabBarIcon: ({focused, color, size}) => {
+					let iconName;
+					if (route.name === 'HomeScreen') {
+						iconName = 'home-outline';
+					} else if (route.name === 'SearchScreen') {
+						iconName = 'search-outline';
+					} else if (route.name === 'ChatScreen') {
+						iconName = 'chatbox-outline';
+					}
+					return <Icon name={iconName} size={size} color={color} />;
+				},
+			})}
+			tabBarOptions={{
+				activeTintColor: PRIMARY,
+				inactiveTintColor: GRAY.T6,
+				keyboardHidesTabBar: true,
+				showLabel: false,
+				style: {
+					backgroundColor: 'transparent',
+					position: 'absolute',
+					left: 0,
+					right: 0,
+					bottom: 0,
+					elevation: 0,
+					borderTopColor: 'transparent',
+					opacity: 0.5,
+				},
+			}}>
+			<Tab.Screen name="HomeScreen" component={HomeScreen} />
+			<Tab.Screen name="SearchScreen" component={SearchScreen} />
+			<Tab.Screen name="ChatScreen" component={ChatScreen} />
+		</Tab.Navigator>
+	);
 };
 
 export default BottomNavigator;
