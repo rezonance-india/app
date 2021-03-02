@@ -9,7 +9,7 @@ const HomeScreen = () => {
 	return (
 		<LinearGradient
 			colors={[PRIMARY, ACCENT]}
-			locations={[0.3, 0.8]}
+			locations={[0.02, 1]}
 			style={styles.linearGradient}>
 			<View style={styles.greetingContainer}>
 				<Text style={styles.greeting}>Good Evening!</Text>
