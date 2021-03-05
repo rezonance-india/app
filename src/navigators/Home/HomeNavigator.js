@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
-//Importing screens
+//Screens
 import WelcomeScreen from '../../screens/Home/WelcomeScreen';
 import SignUpScreen from '../../screens/Home/SignupScreen';
 import LoginScreen from '../../screens/Home/LoginScreen';

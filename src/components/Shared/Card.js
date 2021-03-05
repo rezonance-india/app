@@ -7,7 +7,7 @@ const Card = ({heading, image, text, children}) => {
 	return (
         <View style={styles.container}>
             <View>
-
+                
             </View>
         </View>
     )
