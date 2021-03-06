@@ -10,7 +10,7 @@ const App = () => {
 		<>
 			<StatusBar
 				barStyle="dark-content"
-				backgroundColor={colors.background}
+				backgroundColor="transparent"
 				translucent
 			/>
 			<MainNavigator />

@@ -4,40 +4,38 @@ import LinearGradient from 'react-native-linear-gradient';
 import {ACCENT, PRIMARY} from '../../constants/colors';
 import ScreenBuilder from '../../components/Shared/ScreenBuilder';
 
-
 const {width, height} = Dimensions.get('window');
 
 const HomeScreen = () => {
 	return (
 		// <ScreenBuilder>
-			<LinearGradient
-				colors={[PRIMARY, ACCENT]}
-				// locations={[0.2, 0.8]}
-				// start={{ x: 0.0, y: 0 }}
-				// end={{ x: 1, y: 0  }}
-				useAngle={true} angle={145} angleCenter={{x:-0.02, y:-0.05}}
-				// useAngle={true} angle={135} angleCenter={{x: 1, y: 1}}
-
-				style={styles.linearGradient}>
+		<LinearGradient
+			colors={[PRIMARY, ACCENT]}
+			useAngle={true}
+			angle={145}
+			angleCenter={{x: -0.02, y: -0.05}}
+			style={styles.linearGradient}>
+			<View style={{marginHorizontal: 15, marginVertical: 10}}>
 				<View style={styles.greetingContainer}>
 					<Text style={styles.greeting}>Good Evening!</Text>
 					<Text
 						style={{
 							...styles.greeting,
-							fontSize: 32
+							fontSize: 32,
 						}}>
 						radioactive
 					</Text>
 				</View>
-				<View></View>
-			</LinearGradient>
-		// </ScreenBuilder>		
+			</View>
+		</LinearGradient>
 	);
 };
 
 const styles = StyleSheet.create({
 	linearGradient: {
 		flex: 1,
+		minHeight: height,
+		paddingTop: 30,
 	},
 	greetingContainer: {
 		justifyContent: 'space-between',
@@ -50,7 +48,7 @@ const styles = StyleSheet.create({
 		color: '#ffffff',
 		fontFamily: 'OpenSans',
 		width: width / 1.5,
-		fontSize: 18
+		fontSize: 18,
 	},
 });
 
