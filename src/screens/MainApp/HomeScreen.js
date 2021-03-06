@@ -9,12 +9,15 @@ const {width, height} = Dimensions.get('window');
 
 const HomeScreen = () => {
 	return (
-		<ScreenBuilder>
+		// <ScreenBuilder>
 			<LinearGradient
 				colors={[PRIMARY, ACCENT]}
 				// locations={[0.2, 0.8]}
-				start={{ x: 0, y: -0.7 }}
-				end={{ x: 0, y: 0.4 }}
+				// start={{ x: 0.0, y: 0 }}
+				// end={{ x: 1, y: 0  }}
+				useAngle={true} angle={145} angleCenter={{x:-0.02, y:-0.05}}
+				// useAngle={true} angle={135} angleCenter={{x: 1, y: 1}}
+
 				style={styles.linearGradient}>
 				<View style={styles.greetingContainer}>
 					<Text style={styles.greeting}>Good Evening!</Text>
@@ -28,7 +31,7 @@ const HomeScreen = () => {
 				</View>
 				<View></View>
 			</LinearGradient>
-		</ScreenBuilder>		
+		// </ScreenBuilder>		
 	);
 };
 
