@@ -2,27 +2,33 @@ import React from 'react';
 import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {ACCENT, PRIMARY} from '../../constants/colors';
+import ScreenBuilder from '../../components/Shared/ScreenBuilder';
+
 
 const {width, height} = Dimensions.get('window');
 
 const HomeScreen = () => {
 	return (
-		<LinearGradient
-			colors={[PRIMARY, ACCENT]}
-			locations={[0.02, 1]}
-			style={styles.linearGradient}>
-			<View style={styles.greetingContainer}>
-				<Text style={styles.greeting}>Good Evening!</Text>
-				<Text
-					style={{
-						...styles.greeting,
-						fontSize: 20,
-					}}>
-					radioactive
-				</Text>
-			</View>
-			<View></View>
-		</LinearGradient>
+		<ScreenBuilder>
+			<LinearGradient
+				colors={[PRIMARY, ACCENT]}
+				// locations={[0.2, 0.8]}
+				start={{ x: 0, y: -0.7 }}
+				end={{ x: 0, y: 0.4 }}
+				style={styles.linearGradient}>
+				<View style={styles.greetingContainer}>
+					<Text style={styles.greeting}>Good Evening!</Text>
+					<Text
+						style={{
+							...styles.greeting,
+							fontSize: 32
+						}}>
+						radioactive
+					</Text>
+				</View>
+				<View></View>
+			</LinearGradient>
+		</ScreenBuilder>		
 	);
 };
 
@@ -41,6 +47,7 @@ const styles = StyleSheet.create({
 		color: '#ffffff',
 		fontFamily: 'OpenSans',
 		width: width / 1.5,
+		fontSize: 18
 	},
 });
 

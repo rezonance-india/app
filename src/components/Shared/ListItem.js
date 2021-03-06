@@ -26,6 +26,8 @@ const ListItem = ({navigation, data}) => {
 					style={{
 						width: 50,
 						height: 50,
+						borderRadius: 6,
+						overflow: 'hidden',
 					}}
 				/>
 			</View>
@@ -36,7 +38,7 @@ const ListItem = ({navigation, data}) => {
 					justifyContent: 'space-around',
 					flex: 1,
 				}}>
-				<Type style={{fontSize: width / 24, color: colors.text}}>
+				<Type style={{fontSize: width / 24, color: colors.text, fontWeight: 'bold'}}>
 					{data.track_name}
 				</Type>
 
@@ -46,15 +48,15 @@ const ListItem = ({navigation, data}) => {
 						marginTop: 5,
 						flex: 1,
 					}}>
-					<Type style={{fontSize: width / 24, color: colors.text}}>
+					{/* <Type style={{fontSize: width / 24, color: colors.text}}>
 						{data.album_name}
-					</Type>
+					</Type> */}
 
 					<Type
 						style={{
 							fontSize: width / 26,
-							color: colors.disabled,
-							paddingLeft: 10,
+							color: "#D3D3D3",
+							// paddingLeft: 10,
 						}}>
 						{data.artist_name}
 					</Type>
