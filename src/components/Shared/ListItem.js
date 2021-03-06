@@ -38,7 +38,12 @@ const ListItem = ({navigation, data}) => {
 					justifyContent: 'space-around',
 					flex: 1,
 				}}>
-				<Type style={{fontSize: width / 24, color: colors.text, fontWeight: 'bold'}}>
+				<Type
+					style={{
+						fontSize: width / 24,
+						color: colors.text,
+						fontWeight: 'bold',
+					}}>
 					{data.track_name}
 				</Type>
 
@@ -55,7 +60,7 @@ const ListItem = ({navigation, data}) => {
 					<Type
 						style={{
 							fontSize: width / 26,
-							color: "#D3D3D3",
+							color: '#D3D3D3',
 							// paddingLeft: 10,
 						}}>
 						{data.artist_name}

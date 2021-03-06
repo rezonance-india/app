@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Dimensions} from 'react-native';
+import {View, Text, StyleSheet, Dimensions, TextInput} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {ACCENT, PRIMARY} from '../../constants/colors';
 import ScreenBuilder from '../../components/Shared/ScreenBuilder';
@@ -27,6 +27,10 @@ const HomeScreen = () => {
 					</Text>
 				</View>
 			</View>
+			<TextInput
+				style={{backgroundColor: 'red'}}
+				onChange={(value) => console.log(value.value, 'lol')}
+			/>
 		</LinearGradient>
 	);
 };
@@ -34,8 +38,8 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
 	linearGradient: {
 		flex: 1,
-		minHeight: height,
-		paddingTop: 30,
+		// minHeight: height,
+		// paddingTop: 30,
 	},
 	greetingContainer: {
 		justifyContent: 'space-between',
