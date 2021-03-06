@@ -1,9 +1,6 @@
 export const PRIMARY = '#7303C0';
 export const ACCENT = '#03001E';
 
-
-
-
 export const GRAY = {
 	T1: '#f8f9fa',
 	T2: '#f6f7f8',
@@ -20,5 +17,6 @@ export const GRAY = {
 export const colors = {
 	text: 'white',
 	disabled: GRAY.T6,
+	active: GRAY.T7,
 	background: '#080910',
 };

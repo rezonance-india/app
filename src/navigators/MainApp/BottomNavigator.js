@@ -6,7 +6,7 @@ import {enableScreens} from 'react-native-screens';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 //Colors
-import {GRAY, PRIMARY} from '../../constants/colors';
+import {colors, GRAY, PRIMARY} from '../../constants/colors';
 import HomeScreen from '../../screens/MainApp/HomeScreen';
 import SearchScreen from '../../screens/MainApp/SearchScreen';
 import ChatScreen from '../../screens/MainApp/ChatScreen';
@@ -33,19 +33,21 @@ const BottomNavigator = ({navigation}) => {
 				},
 			})}
 			tabBarOptions={{
-				activeTintColor: PRIMARY,
-				inactiveTintColor: GRAY.T6,
+				activeTintColor: colors.active,
+				inactiveTintColor: colors.disabled,
 				keyboardHidesTabBar: true,
 				showLabel: false,
 				style: {
-					backgroundColor: 'transparent',
-					position: 'absolute',
-					left: 0,
-					right: 0,
-					bottom: 0,
-					elevation: 0,
-					borderTopColor: 'transparent',
-					opacity: 0.5,
+					backgroundColor: colors.background,
+					// position: 'absolute',
+					// left: 0,
+					// right: 0,
+					// bottom: 0,
+					// elevation: 0,
+					// borderTopColor: 'transparent',
+					// opacity: 0.5,
+					height: height / 12,
+					borderTopWidth: 0,
 				},
 			}}>
 			<Tab.Screen name="HomeScreen" component={HomeScreen} />

@@ -426,7 +426,7 @@ const SearchScreen = ({navigation}) => {
 	const searchHeader = () => <Type>Search</Type>;
 	return (
 		<ScreenBuilder>
-			<Header isBack heading="Search" navigation={navigation} />
+			{/* <Header isBack heading="Search" navigation={navigation} /> */}
 			<FlatList
 				keyExtractor={(item) => item.ref_id}
 				// ListHeaderComponent={searchHeader}
