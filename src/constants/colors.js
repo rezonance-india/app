@@ -1,10 +1,10 @@
 // night
-export const PRIMARY = '#923CB5';
-export const ACCENT = '#000000';
+// export const PRIMARY = '#923CB5';
+// export const ACCENT = '#000000';
 
 // afternoon
-// export const PRIMARY = '#E84393';
-// export const ACCENT = '#000000';
+export const PRIMARY = '#04619F';
+export const ACCENT = '#000000';
 
 
 // morning
