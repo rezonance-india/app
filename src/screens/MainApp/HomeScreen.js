@@ -1,36 +1,63 @@
-import React from 'react';
-import {View, Text, StyleSheet, Dimensions, TextInput} from 'react-native';
+import React, {useEffect} from 'react';
+import {
+	View,
+	Text,
+	StyleSheet,
+	Dimensions,
+	TextInput,
+	ScrollView,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {ACCENT, PRIMARY} from '../../constants/colors';
 import ScreenBuilder from '../../components/Shared/ScreenBuilder';
+import SongContainer from '../../components/Home/SongContainer';
+import {rp, rfu, trending} from '../../constants/dummydata';
 
 const {width, height} = Dimensions.get('window');
 
 const HomeScreen = () => {
+	const titles = ['Recently Played', 'Recommended For You', 'Trending'];
+
+	const renderSongs = () => {
+		return titles.map((title, i) => (
+			<SongContainer
+				songtitles={title}
+				rp={rp}
+				rfu={rfu}
+				trending={trending}
+				key={i}
+			/>
+		));
+	};
+
 	return (
-		// <ScreenBuilder>
 		<LinearGradient
+			height="100%"
 			colors={[PRIMARY, ACCENT]}
 			useAngle={true}
 			angle={145}
 			angleCenter={{x: -0.02, y: -0.05}}
 			style={styles.linearGradient}>
-			<View style={{marginHorizontal: 15, marginVertical: 10}}>
-				<View style={styles.greetingContainer}>
-					<Text style={styles.greeting}>Good Evening!</Text>
-					<Text
-						style={{
-							...styles.greeting,
-							fontSize: 32,
-						}}>
-						radioactive
-					</Text>
+			<ScrollView>
+				<View style={{marginHorizontal: 15, marginVertical: 10}}>
+					<View style={styles.greetingContainer}>
+						<Text style={styles.greeting}>Good Evening!</Text>
+						<Text
+							style={{
+								...styles.greeting,
+								fontSize: 32,
+							}}>
+							radioactive
+						</Text>
+					</View>
+					<View>
+						{titles.map((title, i) => (
+							<View></View>
+						))}
+					</View>
+					{renderSongs()}
 				</View>
-			</View>
-			<TextInput
-				style={{backgroundColor: 'red'}}
-				onChange={(value) => console.log(value.value, 'lol')}
-			/>
+			</ScrollView>
 		</LinearGradient>
 	);
 };

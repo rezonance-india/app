@@ -10,32 +10,32 @@ import ForgotPasswordScreen from '../../screens/Home/ForgotPasswordScreen';
 const Stack = createStackNavigator();
 
 const HomeNavigator = () => {
-  return (
-    <>
-      <Stack.Navigator initialRouteName="WelcomeScreen">
-        <Stack.Screen
-          name="WelcomeScreen"
-          component={WelcomeScreen}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="LoginScreen"
-          component={LoginScreen}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="SignUpScreen"
-          component={SignUpScreen}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="ForgotPasswordScreen"
-          component={ForgotPasswordScreen}
-          options={{headerShown: false}}
-        />
-      </Stack.Navigator>
-    </>
-  );
+	return (
+		<>
+			<Stack.Navigator initialRouteName="WelcomeScreen">
+				<Stack.Screen
+					name="WelcomeScreen"
+					component={WelcomeScreen}
+					options={{headerShown: false}}
+				/>
+				<Stack.Screen
+					name="LoginScreen"
+					component={LoginScreen}
+					options={{headerShown: false}}
+				/>
+				<Stack.Screen
+					name="SignUpScreen"
+					component={SignUpScreen}
+					options={{headerShown: false}}
+				/>
+				<Stack.Screen
+					name="ForgotPasswordScreen"
+					component={ForgotPasswordScreen}
+					options={{headerShown: false}}
+				/>
+			</Stack.Navigator>
+		</>
+	);
 };
 
 export default HomeNavigator;
