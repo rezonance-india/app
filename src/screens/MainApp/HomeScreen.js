@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		flex: 0.08,
 		marginTop: 50,
-		paddingTop: height / 25,
+		marginBottom: 20,
 		paddingLeft: width / 12,
 	},
 	greeting: {

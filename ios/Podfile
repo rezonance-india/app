@@ -10,6 +10,8 @@ target 'rezonanceapp' do
 
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
 
+  pod 'react-native-blur', :path => '../node_modules/@react-native-community/blur'
+
   target 'rezonanceappTests' do
     inherit! :complete
     # Pods for testing
