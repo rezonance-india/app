@@ -19,11 +19,14 @@ const SongCards = ({item}) => {
 				imageStyle={{borderRadius: 10}}>
 				<View
 					style={{
-						height: '30%',
-						top: '70%',
+						height: '25%',
+						top: '75%',
 						width: '100%',
-						backgroundColor: '#535353',
-						opacity: 0.6,
+						backgroundColor: '#000',
+						opacity: 0.65,
+						borderBottomLeftRadius: 10,
+						borderBottomRightRadius: 10
+
 					}}></View>
 				<Text
 					style={{
@@ -51,7 +54,7 @@ const styles = StyleSheet.create({
 	},
 	text: {
 		fontSize: 12,
-		top: '40%',
+		top: '50%',
 		color: 'white',
 		fontWeight: '600',
 		marginVertical: 4,
