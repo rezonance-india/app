@@ -23,18 +23,17 @@ const SongCards = ({item}) => {
 						top: '70%',
 						width: '100%',
 						backgroundColor: '#535353',
-						opacity: 0.8,
+						opacity: 0.6,
+					}}></View>
+				<Text
+					style={{
+						...styles.text,
+						fontWeight: 'bold',
+						fontSize: 15,
 					}}>
-					<Text
-						style={{
-							...styles.text,
-							fontWeight: 'bold',
-							fontSize: 15,
-						}}>
-						{track_name}
-					</Text>
-					<Text style={styles.text}>{artist_name} </Text>
-				</View>
+					{track_name}
+				</Text>
+				<Text style={styles.text}>{artist_name} </Text>
 			</ImageBackground>
 		</View>
 	);
@@ -52,7 +51,7 @@ const styles = StyleSheet.create({
 	},
 	text: {
 		fontSize: 12,
-		top: 0,
+		top: '40%',
 		color: 'white',
 		fontWeight: '600',
 		marginVertical: 4,
