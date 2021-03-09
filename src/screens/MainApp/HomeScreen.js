@@ -7,21 +7,21 @@ import {
 	TextInput,
 	ScrollView,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+import LinearGradient from '../../components/Shared/LinearGradient';
 import {ACCENT, PRIMARY} from '../../constants/colors';
 import ScreenBuilder from '../../components/Shared/ScreenBuilder';
 import SongContainer from '../../components/Home/SongContainer';
 import {rp, rfu, trending} from '../../constants/dummydata';
-import {Constants} from 'react-native-unimodules';
 
 const {width, height} = Dimensions.get('window');
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
 	const titles = ['Recently Played', 'Recommended For You', 'Trending'];
 
 	const renderSongs = () => {
 		return titles.map((title, i) => (
 			<SongContainer
+				navigation={navigation}
 				songtitles={title}
 				rp={rp}
 				rfu={rfu}
@@ -32,13 +32,7 @@ const HomeScreen = () => {
 	};
 
 	return (
-		<LinearGradient
-			height="100%"
-			colors={[PRIMARY, ACCENT]}
-			useAngle={true}
-			angle={145}
-			angleCenter={{x: -0.02, y: -0.05}}
-			style={styles.linearGradient}>
+		<LinearGradient bgcolors={{PRIMARY, ACCENT}}>
 			<ScrollView>
 				<View style={{marginHorizontal: 15, marginVertical: 10}}>
 					<View style={styles.greetingContainer}>
@@ -64,11 +58,11 @@ const HomeScreen = () => {
 };
 
 const styles = StyleSheet.create({
-	linearGradient: {
-		flex: 1,
-		// minHeight: height,
-		// paddingTop: 30,
-	},
+	// linearGradient: {
+	// 	flex: 1,
+	// 	// minHeight: height,
+	// 	// paddingTop: 30,
+	// },
 	greetingContainer: {
 		justifyContent: 'space-between',
 		flex: 0.08,

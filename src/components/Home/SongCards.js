@@ -9,7 +9,7 @@ import {
 import {BlurView} from 'expo-blur';
 const {width, height} = Dimensions.get('window');
 
-const SongCards = ({item}) => {
+const SongCards = ({item, navigation}) => {
 	const {album_image, track_name, artist_name} = item;
 	return (
 		<View style={styles.container}>
@@ -17,21 +17,30 @@ const SongCards = ({item}) => {
 				source={{uri: album_image}}
 				style={styles.album}
 				imageStyle={{borderRadius: 10}}>
-				<BlurView
-					intensity={100}
+				<View
 					style={{
 						height: '25%',
 						top: '75%',
 						width: '100%',
-						backgroundColor: '#0f0f0f',
+						backgroundColor: '#000',
+						opacity: 0.65,
 						borderBottomLeftRadius: 10,
 						borderBottomRightRadius: 10,
-					}}></BlurView>
+					}}></View>
+
 				<Text
 					style={{
 						...styles.text,
 						fontWeight: 'bold',
 						fontSize: 15,
+					}}
+					onPress={() => {
+						console.log('lol');
+						navigation.navigate('PlayerScreen', {
+							album_image,
+							track_name,
+							artist_name,
+						});
 					}}>
 					{track_name}
 				</Text>

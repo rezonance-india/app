@@ -4,11 +4,13 @@ import SongCards from './SongCards';
 
 const {width, height} = Dimensions.get('window');
 
-const SongContainer = ({songtitles, rp, rfu, trending}) => {
+const SongContainer = ({songtitles, rp, rfu, trending, navigation}) => {
 	const renderItems = () => {
 		if (rp) {
 			return rp.map((songs, i) => {
-				return <SongCards item={songs} key={i} />;
+				return (
+					<SongCards navigation={navigation} item={songs} key={i} />
+				);
 			});
 		}
 		if (rfu) {
