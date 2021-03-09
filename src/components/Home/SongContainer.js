@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
 		marginLeft: 7,
 		color: 'white',
 		fontSize: 16,
+		fontFamily: 'sans-serif',
 		fontWeight: '700',
 		marginBottom: 8,
 	},

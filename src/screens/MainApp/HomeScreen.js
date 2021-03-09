@@ -12,6 +12,7 @@ import {ACCENT, PRIMARY} from '../../constants/colors';
 import ScreenBuilder from '../../components/Shared/ScreenBuilder';
 import SongContainer from '../../components/Home/SongContainer';
 import {rp, rfu, trending} from '../../constants/dummydata';
+import {Constants} from 'react-native-unimodules';
 
 const {width, height} = Dimensions.get('window');
 
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
 	},
 	greeting: {
 		color: '#ffffff',
-		fontFamily: 'OpenSans',
+		fontFamily: 'sans-serif',
 		width: width / 1.5,
 		fontSize: 18,
 	},

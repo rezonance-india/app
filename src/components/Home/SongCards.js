@@ -6,7 +6,7 @@ import {
 	StyleSheet,
 	Dimensions,
 } from 'react-native';
-
+import {BlurView} from 'expo-blur';
 const {width, height} = Dimensions.get('window');
 
 const SongCards = ({item}) => {
@@ -17,17 +17,16 @@ const SongCards = ({item}) => {
 				source={{uri: album_image}}
 				style={styles.album}
 				imageStyle={{borderRadius: 10}}>
-				<View
+				<BlurView
+					intensity={100}
 					style={{
 						height: '25%',
 						top: '75%',
 						width: '100%',
-						backgroundColor: '#000',
-						opacity: 0.65,
+						backgroundColor: '#0f0f0f',
 						borderBottomLeftRadius: 10,
-						borderBottomRightRadius: 10
-
-					}}></View>
+						borderBottomRightRadius: 10,
+					}}></BlurView>
 				<Text
 					style={{
 						...styles.text,
@@ -56,8 +55,9 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 		top: '50%',
 		color: 'white',
+		fontFamily: 'sans-serif',
 		fontWeight: '600',
-		marginVertical: 4,
+		marginVertical: 2,
 		marginHorizontal: 8,
 	},
 });
