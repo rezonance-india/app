@@ -7,9 +7,12 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 //Colors
 import {colors, GRAY, PRIMARY} from '../../constants/colors';
+
+//Screens
 import HomeScreen from '../../screens/MainApp/HomeScreen';
 import SearchScreen from '../../screens/MainApp/SearchScreen';
 import ChatScreen from '../../screens/MainApp/ChatScreen';
+import MusicPlayer from '../../components/Player/App';
 
 const Tab = createBottomTabNavigator();
 
@@ -52,7 +55,7 @@ const BottomNavigator = ({navigation}) => {
 			}}>
 			<Tab.Screen name="HomeScreen" component={HomeScreen} />
 			<Tab.Screen name="SearchScreen" component={SearchScreen} />
-			<Tab.Screen name="ChatScreen" component={ChatScreen} />
+			<Tab.Screen name="ChatScreen" component={MusicPlayer} />
 		</Tab.Navigator>
 	);
 };
