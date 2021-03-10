@@ -51,7 +51,7 @@ const Controls = ({
 			<TouchableOpacity onPress={onPressPlay}>
 				<View style={styles.playButton}>
 					<Icon
-						name="play-button"
+						name="play-outline"
 						style={{tintColor: defaultString.darkColor}}
 					/>
 				</View>
