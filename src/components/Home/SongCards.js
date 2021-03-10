@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
 	},
 	text: {
 		fontSize: 12,
-		top: '50%',
+		top: '52%',
 		color: 'white',
 		fontFamily: 'sans-serif',
 		fontWeight: '600',

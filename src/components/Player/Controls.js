@@ -101,8 +101,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	secondaryControl: {
-		height: 18,
-		width: 18,
+		height: 60,
+		width: 60,
 	},
 	off: {
 		opacity: 0.3,
