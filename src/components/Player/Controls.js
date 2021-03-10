@@ -21,7 +21,7 @@ const Controls = ({
 			<Icon
 				name="shuffle-outline"
 				style={[
-					{tintColor: defaultString.darkColor},
+					{color: defaultString.darkColor},
 					styles.secondaryControl,
 					shuffleOn ? [] : styles.off,
 				]}
@@ -33,7 +33,7 @@ const Controls = ({
 		<TouchableOpacity onPress={onBack}>
 			<Icon
 				name="play-back-circle-outline"
-				style={{tintColor: defaultString.darkColor}}
+				style={{color: defaultString.darkColor}}
 			/>
 		</TouchableOpacity>
 
@@ -43,7 +43,7 @@ const Controls = ({
 				<View style={styles.playButton}>
 					<Icon
 						name="pause-outline"
-						style={{tintColor: defaultString.darkColor}}
+						style={{color: defaultString.darkColor}}
 					/>
 				</View>
 			</TouchableOpacity>
@@ -52,7 +52,7 @@ const Controls = ({
 				<View style={styles.playButton}>
 					<Icon
 						name="play-outline"
-						style={{tintColor: defaultString.darkColor}}
+						style={{color: defaultString.darkColor}}
 					/>
 				</View>
 			</TouchableOpacity>
@@ -64,7 +64,7 @@ const Controls = ({
 				name="play-skip-forward-outline"
 				style={[
 					forwardDisabled && {opacity: 0.3},
-					{tintColor: defaultString.darkColor},
+					{color: defaultString.darkColor},
 				]}
 			/>
 		</TouchableOpacity>
@@ -73,7 +73,7 @@ const Controls = ({
 			<Icon
 				name="repeat-outline"
 				style={[
-					{tintColor: defaultString.darkColor},
+					{color: defaultString.darkColor},
 					styles.secondaryControl,
 					repeatOn ? [] : styles.off,
 				]}
