@@ -1,4 +1,4 @@
 export const defaultString = {
-	darkColor: '#2118d6',
+	darkColor: '#ffffff',
 	lightColor: '#9e9aed',
 };
