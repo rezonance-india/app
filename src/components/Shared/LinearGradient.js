@@ -6,7 +6,7 @@ const LinearGradientComp = (props) => {
 	return (
 		<LinearGradient
 			height="100%"
-			colors={[bgcolors.PRIMARY, bgcolors.ACCENT]}
+			colors={[bgcolors.colorOne, bgcolors.colorTwo]}
 			useAngle={true}
 			angle={145}
 			angleCenter={{x: -0.02, y: -0.05}}

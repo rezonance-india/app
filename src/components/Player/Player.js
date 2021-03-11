@@ -25,15 +25,11 @@ const Player = (props) => {
 
 	const audioElement = useRef(null);
 
-	console.log(currentPosition, 'currPos');
-	console.log(paused, 'pause');
-
 	const setDuration = (data) => {
 		setTotalLength(Math.floor(data.duration));
 	};
 
 	const setTime = (data) => {
-		console.log(data, 'time');
 		setCurrentPosition(Math.floor(data.currentTime));
 	};
 
@@ -77,7 +73,7 @@ const Player = (props) => {
 	};
 
 	const videoError = (data) => {
-		console.log(data, 'data');
+		console.log(data, 'error');
 	};
 
 	const track = props.tracks[selectedTrack];
@@ -101,12 +97,9 @@ const Player = (props) => {
 	return (
 		<LinearGradientComp
 			bgcolors={{
-				PRIMARY,
-				ACCENT,
+				colorOne: PRIMARY,
+				colorTwo: ACCENT,
 			}}>
-			{/* <StatusBar hidden={true} /> */}
-			{/* <Header message="Playing From Charts" /> */}
-			{/* <AlbumArt url={track.albumArtUrl} /> */}
 			<TrackDetails
 				track_name={track.title}
 				artist_name={track.artist}

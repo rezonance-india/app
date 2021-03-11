@@ -32,7 +32,11 @@ const HomeScreen = ({navigation}) => {
 	};
 
 	return (
-		<LinearGradient bgcolors={{PRIMARY, ACCENT}}>
+		<LinearGradient
+			bgcolors={{
+				colorOne: PRIMARY,
+				colorTwo: ACCENT,
+			}}>
 			<ScrollView>
 				<View style={{marginHorizontal: 15, marginVertical: 10}}>
 					<View style={styles.greetingContainer}>
