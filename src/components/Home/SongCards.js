@@ -34,14 +34,15 @@ const SongCards = ({item, navigation}) => {
 						fontWeight: 'bold',
 						fontSize: 15,
 					}}
-					onPress={() => {
-						console.log('lol');
-						navigation.navigate('PlayerScreen', {
-							album_image,
-							track_name,
-							artist_name,
-						});
-					}}>
+					// onPress={() => {
+					// 	console.log('lol');
+					// 	navigation.navigate('PlayerScreen', {
+					// 		album_image,
+					// 		track_name,
+					// 		artist_name,
+					// 	});
+					// }}
+				>
 					{track_name}
 				</Text>
 				<Text style={styles.text}>{artist_name} </Text>

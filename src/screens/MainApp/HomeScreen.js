@@ -45,11 +45,6 @@ const HomeScreen = ({navigation}) => {
 							radioactive
 						</Text>
 					</View>
-					<View>
-						{titles.map((title, i) => (
-							<View></View>
-						))}
-					</View>
 					{renderSongs()}
 				</View>
 			</ScrollView>

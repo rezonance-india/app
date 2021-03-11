@@ -12,7 +12,7 @@ import {colors, GRAY, PRIMARY} from '../../constants/colors';
 import HomeScreen from '../../screens/MainApp/HomeScreen';
 import SearchScreen from '../../screens/MainApp/SearchScreen';
 import ChatScreen from '../../screens/MainApp/ChatScreen';
-import MusicPlayer from '../../components/Player/App';
+import PlayerScreen from '../../screens/MainApp/PlayerScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -55,7 +55,7 @@ const BottomNavigator = ({navigation}) => {
 			}}>
 			<Tab.Screen name="HomeScreen" component={HomeScreen} />
 			<Tab.Screen name="SearchScreen" component={SearchScreen} />
-			<Tab.Screen name="ChatScreen" component={MusicPlayer} />
+			<Tab.Screen name="ChatScreen" component={PlayerScreen} />
 		</Tab.Navigator>
 	);
 };
