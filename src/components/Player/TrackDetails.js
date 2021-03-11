@@ -23,12 +23,15 @@ const TrackDetails = (props) => {
 			<Text
 				style={{
 					...styles.text,
+					width: '100%',
+					textAlign: 'center',
+					paddingTop: '10%',
 					fontWeight: 'bold',
 					fontSize: 20,
 				}}>
 				{track_name}
 			</Text>
-			<Text style={styles.text}>{artist_name}</Text>
+			<Text style={{...styles.text, fontSize: 17}}>{artist_name}</Text>
 		</View>
 	);
 };
