@@ -45,7 +45,7 @@ export const TRACKS = [
 		albumArtUrl:
 			'https://i.scdn.co/image/ab67616d0000b273b234aeff6eedc8276fe0333a',
 		audioUrl:
-			'http://schnncdnems03.cdnsrv.jio.com/jiosaavn.cdn.jio.com/551/5a1dff7e97d046f9a6f3e60e428f39d2_96.mp44',
+			'http://schnncdnems03.cdnsrv.jio.com/jiosaavn.cdn.jio.com/551/5a1dff7e97d046f9a6f3e60e428f39d2_96.mp4',
 	},
 	{
 		title: 'Payphone',
