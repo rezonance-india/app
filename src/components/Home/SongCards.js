@@ -6,7 +6,6 @@ import {
 	StyleSheet,
 	Dimensions,
 } from 'react-native';
-import {BlurView} from 'expo-blur';
 const {width, height} = Dimensions.get('window');
 
 const SongCards = ({item, navigation}) => {

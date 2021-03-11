@@ -1,7 +1,8 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import ScreenBuilder from '../../components/Shared/ScreenBuilder';
 import {Text, View, Image, StyleSheet} from 'react-native';
 import Video from 'react-native-video';
+import ImageColors from 'react-native-image-colors';
 
 //Colors
 import {ACCENT, PRIMARY} from '../../constants/colors';
@@ -22,6 +23,7 @@ const Player = (props) => {
 	const [repeatOn, setRepeatOn] = useState(false);
 	const [shuffleOn, setShuffleOn] = useState(false);
 	const [isChanging, setIsChanging] = useState(false);
+	const [color, setColor] = useState('');
 
 	const audioElement = useRef(null);
 
@@ -77,6 +79,26 @@ const Player = (props) => {
 	};
 
 	const track = props.tracks[selectedTrack];
+
+	useEffect(() => {
+		const getDominantColors = async () => {
+			console.log('in');
+			const colors = await ImageColors.getColors(track.albumArtUrl, {
+				fallback: '#000000',
+			});
+			if (colors.platform === 'android') {
+				averageColor = colors.average;
+				setColor(averageColor);
+				console.log(averageColor, 'color');
+			} else {
+				const backgroundColor = colors.background;
+				setColor(backgroundColor);
+			}
+			return averageColor;
+		};
+		getDominantColors();
+	}, [track]);
+
 	const video = isChanging ? null : (
 		<Video
 			source={{uri: track.audioUrl}} // Can be a URL or a local file.
@@ -97,7 +119,7 @@ const Player = (props) => {
 	return (
 		<LinearGradientComp
 			bgcolors={{
-				colorOne: PRIMARY,
+				colorOne: color ? color : '#ffffff',
 				colorTwo: ACCENT,
 			}}>
 			<TrackDetails
