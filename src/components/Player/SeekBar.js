@@ -34,14 +34,13 @@ const SeekBar = ({trackLength, currentPosition, onSeek, onSlidingStart}) => {
 				</Text>
 			</View>
 			<Slider
+				style={styles.slider}
 				maximumValue={Math.max(trackLength, 1, currentPosition + 1)}
 				onSlidingStart={onSlidingStart}
 				onSlidingComplete={onSeek}
 				value={currentPosition}
 				minimumTrackTintColor={defaultString.darkColor}
 				maximumTrackTintColor={defaultString.lightGrayColor}
-				thumbStyle={styles.thumb}
-				trackStyle={styles.track}
 			/>
 		</View>
 	);
@@ -50,27 +49,12 @@ const SeekBar = ({trackLength, currentPosition, onSeek, onSlidingStart}) => {
 export default SeekBar;
 
 const styles = StyleSheet.create({
-	slider: {
-		marginTop: -12,
-	},
-	container: {
-		paddingLeft: 16,
-		paddingRight: 16,
-		paddingTop: 16,
-	},
-	track: {
-		height: 2,
-		borderRadius: 1,
-	},
-	thumb: {
-		width: 10,
-		height: 10,
-		borderRadius: 5,
-		backgroundColor: defaultString.darkColor,
-	},
 	text: {
 		color: 'rgba(255, 255, 255, 0.72)',
 		fontSize: 12,
 		textAlign: 'center',
+	},
+	slider: {
+		height: '10%',
 	},
 });

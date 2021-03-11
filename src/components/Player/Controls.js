@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'center',
-		paddingTop: 8,
+		marginBottom: '15%',
 	},
 	playButton: {
 		height: 72,
