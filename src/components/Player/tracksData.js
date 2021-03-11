@@ -40,6 +40,14 @@ export const TRACKS = [
 			'http://schnncdnems03.cdnsrv.jio.com/jiosaavn.cdn.jio.com/765/6142d8e7cd5c2cdbefe505763bd3f266_96.mp4',
 	},
 	{
+		title: 'Titanium (feat. Sia)',
+		artist: 'David Guetta',
+		albumArtUrl:
+			'https://i.scdn.co/image/ab67616d0000b273b234aeff6eedc8276fe0333a',
+		audioUrl:
+			'http://schnncdnems03.cdnsrv.jio.com/jiosaavn.cdn.jio.com/551/5a1dff7e97d046f9a6f3e60e428f39d2_96.mp44',
+	},
+	{
 		title: 'Payphone',
 		artist: 'Maroon 5',
 		albumArtUrl:
