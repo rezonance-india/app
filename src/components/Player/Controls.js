@@ -55,7 +55,6 @@ const Controls = ({
 								style={[
 									{
 										color: defaultString.darkColor,
-										borderWidth: 2,
 									},
 								]}
 							/>
