@@ -39,8 +39,10 @@ const SeekBar = ({trackLength, currentPosition, onSeek, onSlidingStart}) => {
 				onSlidingStart={onSlidingStart}
 				onSlidingComplete={onSeek}
 				value={currentPosition}
-				minimumTrackTintColor={defaultString.darkColor}
-				maximumTrackTintColor={defaultString.lightGrayColor}
+				minimumTrackTintColor="#fff"
+				maximumTrackTintColor="#fff"
+				thumbTintColor="#fff"
+				animateTransitions="true"
 			/>
 		</View>
 	);
@@ -56,5 +58,6 @@ const styles = StyleSheet.create({
 	},
 	slider: {
 		height: '10%',
+
 	},
 });
