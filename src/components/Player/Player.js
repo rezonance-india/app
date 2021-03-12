@@ -24,6 +24,7 @@ const Player = (props) => {
 	const [shuffleOn, setShuffleOn] = useState(false);
 	const [isChanging, setIsChanging] = useState(false);
 	const [color, setColor] = useState('');
+	const [liked, setLiked] = useState(false);
 
 	const audioElement = useRef(null);
 
@@ -132,6 +133,8 @@ const Player = (props) => {
 				currentPosition={currentPosition}
 			/>
 			<Controls
+				onPressLike={() => setLiked((liked) => !liked)}
+				liked={liked}
 				onPressRepeat={() => setRepeatOn((repeatOn) => !repeatOn)}
 				repeatOn={repeatOn}
 				shuffleOn={shuffleOn}

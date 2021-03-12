@@ -1,8 +1,5 @@
 import React from 'react';
-import ScreenBuilder from '../../components/Shared/ScreenBuilder';
 import {Text, View, Image, StyleSheet} from 'react-native';
-import LinearGradient from '../../components/Shared/LinearGradient';
-import {ACCENT, PRIMARY} from '../../constants/colors';
 
 const TrackDetails = (props) => {
 	const {album_image, artist_name, track_name} = props;
@@ -10,7 +7,7 @@ const TrackDetails = (props) => {
 		<View
 			style={{
 				flex: 1,
-				marginTop: '25%',
+				marginTop: '10%',
 				alignItems: 'center',
 			}}>
 			<Image
@@ -25,7 +22,7 @@ const TrackDetails = (props) => {
 					...styles.text,
 					width: '100%',
 					textAlign: 'center',
-					paddingTop: '10%',
+					paddingTop: '5%',
 					fontWeight: 'bold',
 					fontSize: 20,
 				}}>
@@ -39,7 +36,7 @@ const TrackDetails = (props) => {
 const styles = StyleSheet.create({
 	text: {
 		color: 'white',
-		paddingTop: '5%',
+		paddingTop: '3%',
 	},
 });
 
