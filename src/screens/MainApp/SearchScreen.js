@@ -29,7 +29,7 @@ const SearchScreen = ({navigation}) => {
 		if (text.length > 3 && text.value !== 0) {
 			axios
 				.post(
-					`${apiUrl}search`,
+					`${apiUrl}search/tracks`,
 					{
 						query: text,
 					},
