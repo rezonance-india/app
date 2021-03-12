@@ -84,7 +84,7 @@ const Player = (props) => {
 		const getDominantColors = async () => {
 			console.log('in');
 			const colors = await ImageColors.getColors(track.albumArtUrl, {
-				fallback: '#000000',
+				fallback: '#7f8c8d',
 			});
 			if (colors.platform === 'android') {
 				averageColor = colors.average;
@@ -119,7 +119,7 @@ const Player = (props) => {
 	return (
 		<LinearGradientComp
 			bgcolors={{
-				colorOne: color ? color : '#ffffff',
+				colorOne: color ? color : '#7f8c8d',
 				colorTwo: ACCENT,
 			}}>
 			<TrackDetails
@@ -135,8 +135,8 @@ const Player = (props) => {
 			/>
 			<Controls
 				onPressRepeat={() => setRepeatOn(!repeatOn)}
-				repeatOn={repeatOn}
-				shuffleOn={shuffleOn}
+				repeatOn={!repeatOn}
+				shuffleOn={!shuffleOn}
 				backwardDisabled={selectedTrack === 0}
 				forwardDisabled={selectedTrack === props.tracks.length - 1}
 				onPressShuffle={() => setShuffleOn(!shuffleOn)}
