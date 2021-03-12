@@ -5,6 +5,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 
 const Controls = ({
+	liked,
+	onPressLike,
 	paused,
 	shuffleOn,
 	repeatOn,
@@ -19,83 +21,150 @@ const Controls = ({
 }) => {
 	return (
 		<View style={styles.container}>
-			<TouchableOpacity activeOpacity={0} onPress={onPressShuffle}>
-				<Icon
-					size={40}
-					name="shuffle-outline"
-					style={[
-						{color: defaultString.darkColor},
-						styles.secondaryControl,
-						shuffleOn ? [] : styles.off,
-					]}
-				/>
-			</TouchableOpacity>
-
-			<View style={{width: 40}} />
-			<TouchableOpacity onPress={onBack} disabled={backwardDisabled}>
-				<Icon
-					size={40}
-					name="play-skip-back-circle-outline"
-					style={[
-						{color: defaultString.darkColor},
-						backwardDisabled && {opacity: 0.3},
-					]}
-				/>
-			</TouchableOpacity>
-
-			<View style={{width: 20}} />
-			{!paused ? (
-				<TouchableOpacity onPress={onPressPause}>
-					<View style={styles.playButton}>
+			<View>
+				<View
+					style={{
+						width: '100%',
+						bottom: '10%',
+						flexDirection: 'row',
+						justifyContent: 'space-around',
+					}}>
+					<TouchableOpacity
+						activeOpacity={0}
+						onPress={onPressShuffle}>
 						<Icon
 							size={40}
-							name="pause-outline"
-							style={{
-								color: defaultString.darkColor,
-								fontSize: 30,
-							}}
+							name="shuffle-outline"
+							style={[
+								{color: defaultString.darkColor},
+								shuffleOn ? [] : styles.off,
+							]}
 						/>
-					</View>
-				</TouchableOpacity>
-			) : (
-				<TouchableOpacity onPress={onPressPlay}>
-					<View style={styles.playButton}>
+					</TouchableOpacity>
+
+					<TouchableOpacity
+						onPress={() => {
+							console.log('lol');
+							onPressLike();
+						}}>
+						{liked ? (
+							<Icon
+								size={40}
+								name="heart"
+								style={[
+									{
+										color: defaultString.darkColor,
+									},
+								]}
+							/>
+						) : (
+							<Icon
+								size={40}
+								name="heart-outline"
+								style={[
+									{
+										color: defaultString.darkColor,
+									},
+								]}
+							/>
+						)}
+					</TouchableOpacity>
+
+					<TouchableOpacity
+						onPress={() => {
+							console.log('lol');
+						}}>
 						<Icon
 							size={40}
-							name="play-outline"
-							style={{
-								color: defaultString.darkColor,
-								marginLeft: 5,
-							}}
+							name="add-outline"
+							style={[{color: defaultString.darkColor}]}
 						/>
-					</View>
-				</TouchableOpacity>
-			)}
-
-			<View style={{width: 20}} />
-			<TouchableOpacity onPress={onForward} disabled={forwardDisabled}>
-				<Icon
-					size={40}
-					name="play-skip-forward-circle-outline"
-					style={[
-						forwardDisabled && {opacity: 0.3},
-						{color: defaultString.darkColor},
-					]}
-				/>
-			</TouchableOpacity>
-			<View style={{width: 40}} />
-
-			<TouchableOpacity activeOpacity={0.0} onPress={onPressRepeat}>
-				<Icon
-					size={40}
-					name="repeat-outline"
-					style={[
-						{color: defaultString.darkColor},
-						styles.secondaryControl,
-						repeatOn ? [] : styles.off,
-					]}
-				/>
-			</TouchableOpacity>
+					</TouchableOpacity>
+					<TouchableOpacity
+						onPress={() => {
+							console.log('lol');
+						}}>
+						<Icon
+							size={40}
+							name="chatbubble-outline"
+							style={[{color: defaultString.darkColor}]}
+						/>
+					</TouchableOpacity>
+					<TouchableOpacity
+						activeOpacity={0.0}
+						onPress={onPressRepeat}>
+						<Icon
+							size={40}
+							name="repeat-outline"
+							style={[
+								{color: defaultString.darkColor},
+								repeatOn ? [] : styles.off,
+							]}
+						/>
+					</TouchableOpacity>
+				</View>
+				<View
+					style={{
+						marginLeft: '20%',
+						top: '5%',
+						width: '60%',
+						flexDirection: 'row',
+						justifyContent: 'space-around',
+					}}>
+					<TouchableOpacity
+						onPress={onBack}
+						disabled={backwardDisabled}>
+						<Icon
+							size={40}
+							name="play-skip-back-circle-outline"
+							style={[
+								{
+									color: defaultString.darkColor,
+								},
+								backwardDisabled && {opacity: 0.3},
+							]}
+						/>
+					</TouchableOpacity>
+					{!paused ? (
+						<TouchableOpacity onPress={onPressPause}>
+							<View style={styles.playButton}>
+								<Icon
+									size={40}
+									name="pause-outline"
+									style={{
+										color: defaultString.darkColor,
+									}}
+								/>
+							</View>
+						</TouchableOpacity>
+					) : (
+						<TouchableOpacity onPress={onPressPlay}>
+							<View style={styles.playButton}>
+								<Icon
+									size={40}
+									name="play-outline"
+									style={{
+										color: defaultString.darkColor,
+										marginLeft: 5,
+									}}
+								/>
+							</View>
+						</TouchableOpacity>
+					)}
+					<TouchableOpacity
+						onPress={onForward}
+						disabled={forwardDisabled}>
+						<Icon
+							size={40}
+							name="play-skip-forward-circle-outline"
+							style={[
+								forwardDisabled && {opacity: 0.3},
+								{color: defaultString.darkColor},
+							]}
+						/>
+					</TouchableOpacity>
+				</View>
+			</View>
 		</View>
 	);
 };
@@ -117,9 +186,6 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
-	},
-	secondaryControl: {
-		bottom: '70%',
 	},
 	off: {
 		opacity: 0.3,
