@@ -31,5 +31,5 @@ export const colors = {
 	text: 'white',
 	disabled: GRAY.T6,
 	active: GRAY.T7,
-	background: '#080910',
+	background: '#000000',
 };

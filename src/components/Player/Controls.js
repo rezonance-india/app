@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {defaultString} from './config';
 import Icon from 'react-native-vector-icons/Ionicons';
+import OctIcon from 'react-native-vector-icons/Octicons';
 
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 
@@ -33,7 +34,7 @@ const Controls = ({
 						activeOpacity={0}
 						onPress={onPressShuffle}>
 						<Icon
-							size={40}
+							size={30}
 							name="shuffle-outline"
 							style={[
 								{color: defaultString.darkColor},
@@ -49,17 +50,18 @@ const Controls = ({
 						}}>
 						{liked ? (
 							<Icon
-								size={40}
+								size={30}
 								name="heart"
 								style={[
 									{
 										color: defaultString.darkColor,
+										borderWidth: 2,
 									},
 								]}
 							/>
 						) : (
 							<Icon
-								size={40}
+								size={30}
 								name="heart-outline"
 								style={[
 									{
@@ -74,9 +76,9 @@ const Controls = ({
 						onPress={() => {
 							console.log('lol');
 						}}>
-						<Icon
-							size={40}
-							name="add-outline"
+						<OctIcon
+							size={30}
+							name="versions"
 							style={[{color: defaultString.darkColor}]}
 						/>
 					</TouchableOpacity>
@@ -85,8 +87,8 @@ const Controls = ({
 							console.log('lol');
 						}}>
 						<Icon
-							size={40}
-							name="chatbubble-outline"
+							size={30}
+							name="rocket-outline"
 							style={[{color: defaultString.darkColor}]}
 						/>
 					</TouchableOpacity>
@@ -94,7 +96,7 @@ const Controls = ({
 						activeOpacity={0.0}
 						onPress={onPressRepeat}>
 						<Icon
-							size={40}
+							size={30}
 							name="repeat-outline"
 							style={[
 								{color: defaultString.darkColor},

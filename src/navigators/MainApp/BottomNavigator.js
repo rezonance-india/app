@@ -36,7 +36,7 @@ const BottomNavigator = ({navigation}) => {
 				},
 			})}
 			tabBarOptions={{
-				activeTintColor: colors.active,
+				activeTintColor: 'white',
 				inactiveTintColor: colors.disabled,
 				keyboardHidesTabBar: true,
 				showLabel: false,
@@ -49,7 +49,7 @@ const BottomNavigator = ({navigation}) => {
 					// elevation: 0,
 					// borderTopColor: 'transparent',
 					// opacity: 0.5,
-					height: height / 12,
+					height: height / 15,
 					borderTopWidth: 0,
 				},
 			}}>

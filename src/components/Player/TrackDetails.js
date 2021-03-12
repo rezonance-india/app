@@ -7,7 +7,7 @@ const TrackDetails = (props) => {
 		<View
 			style={{
 				flex: 1,
-				marginTop: '10%',
+				marginTop: '15%',
 				alignItems: 'center',
 			}}>
 			<Image
