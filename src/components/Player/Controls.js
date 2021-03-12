@@ -19,9 +19,9 @@ const Controls = ({
 }) => {
 	return (
 		<View style={styles.container}>
-			<TouchableOpacity onPress={onPressShuffle}>
+			<TouchableOpacity activeOpacity={0} onPress={onPressShuffle}>
 				<Icon
-					size={30}
+					size={40}
 					name="shuffle-outline"
 					style={[
 						{color: defaultString.darkColor},
@@ -35,7 +35,7 @@ const Controls = ({
 			<TouchableOpacity onPress={onBack} disabled={backwardDisabled}>
 				<Icon
 					size={40}
-					name="play-back-circle-outline"
+					name="play-skip-back-circle-outline"
 					style={[
 						{color: defaultString.darkColor},
 						backwardDisabled && {opacity: 0.3},
@@ -50,7 +50,10 @@ const Controls = ({
 						<Icon
 							size={40}
 							name="pause-outline"
-							style={{color: defaultString.darkColor}}
+							style={{
+								color: defaultString.darkColor,
+								fontSize: 30,
+							}}
 						/>
 					</View>
 				</TouchableOpacity>
@@ -60,7 +63,10 @@ const Controls = ({
 						<Icon
 							size={40}
 							name="play-outline"
-							style={{color: defaultString.darkColor}}
+							style={{
+								color: defaultString.darkColor,
+								marginLeft: 5,
+							}}
 						/>
 					</View>
 				</TouchableOpacity>
@@ -81,7 +87,7 @@ const Controls = ({
 
 			<TouchableOpacity activeOpacity={0.0} onPress={onPressRepeat}>
 				<Icon
-					size={30}
+					size={40}
 					name="repeat-outline"
 					style={[
 						{color: defaultString.darkColor},
@@ -106,10 +112,9 @@ const styles = StyleSheet.create({
 	playButton: {
 		height: 72,
 		width: 72,
-		borderWidth: 1,
 		borderColor: defaultString.darkColor,
 		borderRadius: 72 / 2,
-		borderWidth: 4,
+		borderWidth: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
@@ -117,6 +122,6 @@ const styles = StyleSheet.create({
 		bottom: '70%',
 	},
 	off: {
-		opacity: 0.6,
+		opacity: 0.3,
 	},
 });

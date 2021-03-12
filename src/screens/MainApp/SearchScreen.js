@@ -18,7 +18,6 @@ const SearchScreen = ({navigation}) => {
 	const [value, setValue] = useState('');
 	const [result, setResult] = useState([]);
 
-	console.log('in search');
 	const renderer = ({item}) => (
 		<TouchableOpacity activeOpacity={0.75} onPress={null}>
 			<ListItem navigation={navigation} data={item} />

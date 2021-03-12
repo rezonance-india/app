@@ -11,44 +11,42 @@ import HomeNavigator from './Home/HomeNavigator';
 const Stack = createStackNavigator();
 
 const MainNavigator = () => {
-  const [isReady, setIsReady] = useState(false);
-  const [initialScreen, setInitialScreen] = useState('MainApp');
+	const [isReady, setIsReady] = useState(false);
+	const [initialScreen, setInitialScreen] = useState('MainApp');
 
-  LogBox.ignoreAllLogs(true);
+	LogBox.ignoreAllLogs(true);
 
-  useEffect(() => {
-    //? when auth will be implemented
-    const checkToken = async () => {
-      const user = await AsyncStorage.getItem('user');
-      console.log(user);
-      //   if (user) {
-      //     setInitialScreen('MainApp');
-      //   }
-      console.log('! in user');
-      setIsReady(true);
-    };
-    checkToken();
-  }, []);
+	useEffect(() => {
+		//? when auth will be implemented
+		const checkToken = async () => {
+			const user = await AsyncStorage.getItem('user');
+			//   if (user) {
+			//     setInitialScreen('MainApp');
+			//   }
+			setIsReady(true);
+		};
+		checkToken();
+	}, []);
 
-  if (!isReady) {
-    return null;
-  }
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName={initialScreen}>
-        <Stack.Screen
-          name="MainApp"
-          component={MainAppNavigator}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Home"
-          component={HomeNavigator}
-          options={{headerShown: false}}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+	if (!isReady) {
+		return null;
+	}
+	return (
+		<NavigationContainer>
+			<Stack.Navigator initialRouteName={initialScreen}>
+				<Stack.Screen
+					name="MainApp"
+					component={MainAppNavigator}
+					options={{headerShown: false}}
+				/>
+				<Stack.Screen
+					name="Home"
+					component={HomeNavigator}
+					options={{headerShown: false}}
+				/>
+			</Stack.Navigator>
+		</NavigationContainer>
+	);
 };
 
 export default MainNavigator;

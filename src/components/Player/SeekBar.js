@@ -21,15 +21,11 @@ const SeekBar = ({trackLength, currentPosition, onSeek, onSlidingStart}) => {
 	return (
 		<View style={styles.container}>
 			<View style={{flexDirection: 'row'}}>
-				<Text style={[styles.text, {color: defaultString.darkColor}]}>
+				<Text style={[styles.text, {left: '80%'}]}>
 					{elapsed[0] + ':' + elapsed[1]}
 				</Text>
 				<View style={{flex: 1}} />
-				<Text
-					style={[
-						styles.text,
-						{width: 40, color: defaultString.darkColor},
-					]}>
+				<Text style={[styles.text, {right: '50%'}]}>
 					{trackLength > 1 && '-' + remaining[0] + ':' + remaining[1]}
 				</Text>
 			</View>
@@ -52,12 +48,11 @@ export default SeekBar;
 
 const styles = StyleSheet.create({
 	text: {
-		color: 'rgba(255, 255, 255, 0.72)',
 		fontSize: 12,
-		textAlign: 'center',
+		color: defaultString.darkColor,
+		paddingBottom: '1%',
 	},
 	slider: {
 		height: '10%',
-
 	},
 });

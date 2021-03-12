@@ -82,14 +82,12 @@ const Player = (props) => {
 
 	useEffect(() => {
 		const getDominantColors = async () => {
-			console.log('in');
 			const colors = await ImageColors.getColors(track.albumArtUrl, {
 				fallback: '#7f8c8d',
 			});
 			if (colors.platform === 'android') {
 				averageColor = colors.average;
 				setColor(averageColor);
-				console.log(averageColor, 'color');
 			} else {
 				const backgroundColor = colors.background;
 				setColor(backgroundColor);
@@ -134,12 +132,12 @@ const Player = (props) => {
 				currentPosition={currentPosition}
 			/>
 			<Controls
-				onPressRepeat={() => setRepeatOn(!repeatOn)}
-				repeatOn={!repeatOn}
-				shuffleOn={!shuffleOn}
+				onPressRepeat={() => setRepeatOn((repeatOn) => !repeatOn)}
+				repeatOn={repeatOn}
+				shuffleOn={shuffleOn}
 				backwardDisabled={selectedTrack === 0}
 				forwardDisabled={selectedTrack === props.tracks.length - 1}
-				onPressShuffle={() => setShuffleOn(!shuffleOn)}
+				onPressShuffle={() => setShuffleOn((shuffleOn) => !shuffleOn)}
 				onPressPlay={() => {
 					setPaused(false);
 				}}
