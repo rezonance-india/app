@@ -182,6 +182,7 @@ const styles = StyleSheet.create({
 	playButton: {
 		height: 72,
 		width: 72,
+		bottom: '15%',
 		borderColor: defaultString.darkColor,
 		borderRadius: 72 / 2,
 		borderWidth: 1,
