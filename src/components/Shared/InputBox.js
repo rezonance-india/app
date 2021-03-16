@@ -1,8 +1,10 @@
 import React, {useState, useRef} from 'react';
-import {View, Text, TextInput} from 'react-native';
-import {GRAY, PRIMARY} from '../../constants/colors';
+import {View, Text, TextInput, TouchableOpacity} from 'react-native';
+import {ACCENT, GRAY, PRIMARY} from '../../constants/colors';
+import Icon from 'react-native-vector-icons/Ionicons';
+// import Touchab from "react-native-gesture-handler"
 
-const TextBox = (props) => {
+const InputBox = (props) => {
 	const [isFocused, setIsFocused] = useState(false);
 	const [value, setValue] = useState('');
 
@@ -29,19 +31,28 @@ const TextBox = (props) => {
 		}
 	};
 
+	const handleIconPress = () => {
+		console.log('lol');
+		if (value.length > 0) {
+			setValue('');
+		}
+	};
+
 	return (
 		<View style={{marginVertical: 10, ...props.viewStyle}}>
 			<TextInput
 				{...props}
 				style={{
 					backgroundColor: GRAY.T2,
-					borderColor: PRIMARY,
+					// borderColor: PRIMARY,
 					borderWidth: 1,
+					flex: 1,
 					borderRadius: 2,
 					height: 45,
-					paddingHorizontal: 5,
+					paddingHorizontal: 20,
 					...props.style,
 				}}
+				placeholder={props.placeholder}
 				onBlur={handleBlur}
 				onFocus={handleFocus}
 				onChangeText={(text) => handleType(text)}
@@ -50,12 +61,32 @@ const TextBox = (props) => {
 				ref={inputRef}
 			/>
 
+			{props.icon ? (
+				<TouchableOpacity onPress={handleIconPress}>
+					<Text
+						// style={styles.searchIcon}
+						// name="search-outline"
+						style={{
+							// position: 'absolute',
+							right: 20,
+							top: 8,
+							fontSize: 24,
+							color: 'black',
+						}}
+						color="red">
+						{props.icon}
+					</Text>
+				</TouchableOpacity>
+			) : (
+				<Text>{''}</Text>
+			)}
+
 			<Text
 				style={{
 					position: 'absolute',
 					left: 2,
 					top: !isFocused && value === '' ? 13 : -20,
-					color: !isFocused && value === '' ? GRAY.T1 : ACCENT,
+					color: !isFocused && value === '' ? GRAY.T1 : GRAY.T1,
 				}}
 				onPress={() => {
 					inputRef.current.focus();
@@ -66,4 +97,4 @@ const TextBox = (props) => {
 	);
 };
 
-export default TextBox;
+export default InputBox;
