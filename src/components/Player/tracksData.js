@@ -16,12 +16,28 @@ export const TRACKS = [
 			'http://snoidcdnems07.cdnsrv.jio.com/jiosaavn.cdn.jio.com/049/8bbc73dac899d6f14052d6fac9d7ee86_160.mp4',
 	},
 	{
+		title: 'Payphone',
+		artist: 'Maroon 5',
+		albumArtUrl:
+			'https://i.scdn.co/image/ab67616d0000b27388b3414802727efbacf8dc43',
+		audioUrl:
+			'http://schnncdnems03.cdnsrv.jio.com/jiosaavn.cdn.jio.com/057/93ae3e517d72a924a5dc68edb69bd812_96.mp4',
+	},
+	{
 		title: 'Vertigo',
 		artist: 'Khalid',
 		albumArtUrl:
 			'https://i.scdn.co/image/ab67616d0000b273c43edd2cf01edf73bf0b97a3',
 		audioUrl:
 			'http://schnncdnems03.cdnsrv.jio.com/jiosaavn.cdn.jio.com/385/a6fa35ad1a1313d8d3e412352fe9c51a_96.mp4',
+	},
+	{
+		title: 'Play',
+		artist: 'K-391',
+		albumArtUrl:
+			'https://i.scdn.co/image/ab67616d0000b273a8eaa2a7e6fc4579903ba552',
+		audioUrl:
+			'http://snoidcdnems08.cdnsrv.jio.com/jiosaavn.cdn.jio.com/391/39c02a2f05abb970ffb6cf2e6815b2dd_160.mp4',
 	},
 	{
 		title: 'Closer',
@@ -38,7 +54,7 @@ export const TRACKS = [
 			'https://i.scdn.co/image/ab67616d0000b273aadb13ae608f6af20528409b',
 		audioUrl:
 			'http://schnncdnems03.cdnsrv.jio.com/jiosaavn.cdn.jio.com/765/6142d8e7cd5c2cdbefe505763bd3f266_96.mp4',
-	},
+		},
 	{
 		title: 'Titanium (feat. Sia)',
 		artist: 'David Guetta',
@@ -46,14 +62,6 @@ export const TRACKS = [
 			'https://i.scdn.co/image/ab67616d0000b273b234aeff6eedc8276fe0333a',
 		audioUrl:
 			'http://schnncdnems03.cdnsrv.jio.com/jiosaavn.cdn.jio.com/551/5a1dff7e97d046f9a6f3e60e428f39d2_96.mp4',
-	},
-	{
-		title: 'Payphone',
-		artist: 'Maroon 5',
-		albumArtUrl:
-			'https://i.scdn.co/image/ab67616d0000b27388b3414802727efbacf8dc43',
-		audioUrl:
-			'http://schnncdnems03.cdnsrv.jio.com/jiosaavn.cdn.jio.com/057/93ae3e517d72a924a5dc68edb69bd812_96.mp4',
 	},
 	{
 		title: 'A Sky Full of Stars',
