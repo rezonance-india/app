@@ -35,9 +35,8 @@ const SearchScreen = ({navigation}) => {
 		// 	timerId = setTimeout(func, delay);
 		// 	console.log(timerId, 'after setting');
 		// };
-		// debounceFunction(fetchSongs, 6000);
 		const debouncedFunction = _.debounce(fetchSongs, 2000);
-		debouncedFunction();
+		debouncedFunction(fetchSongs, 6000);
 	}, [searchQuery]);
 
 	const fetchSongs = () => {

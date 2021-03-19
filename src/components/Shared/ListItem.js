@@ -1,14 +1,109 @@
 import React from 'react';
-import {View, Text, Dimensions, Image} from 'react-native';
+import {
+	View,
+	Text,
+	Dimensions,
+	Modal,
+	Pressable,
+	Image,
+	StyleSheet,
+	Alert,
+} from 'react-native';
 import Type from '../Shared/Type';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {colors} from '../../constants/colors';
+import Overlay from './Overlay';
+import {useState} from 'react';
 
 const {width, height} = Dimensions.get('screen');
 
 const ListItem = ({navigation, data}) => {
+	const handlePress = () => {
+		console.log('lol pressed');
+		// return <Overlay open={true} />;
+		setModalVisible(true);
+	};
+
+	const [modalVisible, setModalVisible] = useState(false);
+
+	const options = [
+		{
+			// id=1,
+			name: 'Like',
+			icon_name: 'heart-outline',
+		},
+		{
+			// id=2,
+			name: 'Add to queue',
+			icon_name: 'add-outline',
+		},
+		{
+			// id=3,
+			name: 'Send to Friends',
+			icon_name: 'rocket-outline',
+		},
+		{
+			// id=4,
+			name: 'Add to Playlist',
+			icon_name: 'musical-notes-outline',
+		},
+	];
+
 	return (
 		<View style={{flexDirection: 'row', width: '100%'}}>
+			<View style={styles.centeredView}>
+				<Modal
+					animationType="fade"
+					anima
+					transparent={true}
+					visible={modalVisible}
+					onRequestClose={() => {
+						Alert.alert('Modal has been closed.');
+						setModalVisible(!modalVisible);
+					}}>
+					<View style={styles.centeredView}>
+						<View style={styles.modalView}>
+							{/* <Pressable
+								style={[styles.button, styles.buttonClose]}
+								onPress={() => setModalVisible(!modalVisible)}>
+								<Text style={styles.textStyle}>Hide Modal</Text>
+							</Pressable> */}
+							{options.map((option, i) => (
+								<View
+									key={i}
+									style={{
+										flexDirection: 'column',
+										alignContent: 'space-between',
+										margin: 15,
+									}}>
+									<View
+										style={{
+											flexDirection: 'row',
+											justifyContent: 'flex-start',
+										}}>
+										<Icon
+											name={option.icon_name}
+											size={24}
+											color="white"
+										/>
+										<Text
+											style={{
+												color: 'white',
+												left: 70,
+												fontFamily: 'open-sans',
+												fontSize: 16,
+											}}>
+											{option.name}
+										</Text>
+									</View>
+								</View>
+							))}
+						</View>
+					</View>
+				</Modal>
+			</View>
+
 			<View
 				style={{
 					width: width / 7,
@@ -31,6 +126,7 @@ const ListItem = ({navigation, data}) => {
 					}}
 				/>
 			</View>
+
 			<View
 				style={{
 					marginVertical: 10,
@@ -38,37 +134,58 @@ const ListItem = ({navigation, data}) => {
 					justifyContent: 'space-around',
 					flex: 1,
 				}}>
-				<Type
-					style={{
-						fontSize: width / 24,
-						color: colors.text,
-						fontWeight: 'bold',
-					}}>
-					{data.track_name}
-				</Type>
-
 				<View
 					style={{
 						flexDirection: 'row',
 						marginTop: 5,
+						justifyContent: 'space-between',
 						flex: 1,
+						width: '100%',
 					}}>
-					{/* <Type style={{fontSize: width / 24, color: colors.text}}>
-						{data.album_name}
-					</Type> */}
-
 					<Type
 						style={{
-							fontSize: width / 26,
-							color: '#D3D3D3',
-							// paddingLeft: 10,
+							fontSize: width / 24,
+							color: colors.text,
+							fontWeight: 'bold',
 						}}>
-						{data.artist_name}
+						{data.track_name.length > 10
+							? `${data.track_name.substring(0, 10)}....`
+							: data.track_name}
 					</Type>
+
+					<TouchableOpacity onPress={handlePress}>
+						<Icon
+							name="pause-outline"
+							size={20}
+							style={{
+								color: 'white',
+							}}
+						/>
+					</TouchableOpacity>
 				</View>
+
+				<Type
+					style={{
+						fontSize: width / 26,
+						color: '#D3D3D3',
+					}}>
+					{data.artist_name}
+				</Type>
 			</View>
 		</View>
 	);
 };
 
 export default ListItem;
+
+const styles = StyleSheet.create({
+	modalView: {
+		marginTop: '120%',
+		backgroundColor: '#000000',
+		// zIndex: 100,
+		width: '100%',
+		height: '150%',
+		// flex: 1,
+		// opacity: 0.6,
+	},
+});
