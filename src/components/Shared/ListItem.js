@@ -14,6 +14,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {colors} from '../../constants/colors';
 import {useState} from 'react';
+import LinearGradient from './LinearGradient';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -53,43 +54,48 @@ const ListItem = ({navigation, data}) => {
 					transparent={true}
 					visible={modalVisible}
 					onRequestClose={() => {
-						Alert.alert('Modal has been closed.');
 						setModalVisible(!modalVisible);
 					}}>
-					<View style={styles.centeredView}>
-						<View style={styles.modalView}>
-							{options.map((option, i) => (
-								<View
-									key={i}
-									style={{
-										flexDirection: 'column',
-										alignContent: 'space-between',
-										margin: 15,
-									}}>
+					<LinearGradient
+						bgcolors={{
+							colorOne: 'red',
+							colorTwo: 'green',
+						}}>
+						<View style={styles.centeredView}>
+							<View style={styles.modalView}>
+								{options.map((option, i) => (
 									<View
+										key={i}
 										style={{
-											flexDirection: 'row',
-											justifyContent: 'flex-start',
+											flexDirection: 'column',
+											alignContent: 'space-between',
+											margin: 15,
 										}}>
-										<Icon
-											name={option.icon_name}
-											size={24}
-											color="white"
-										/>
-										<Text
+										<View
 											style={{
-												color: 'white',
-												left: 70,
-												fontFamily: 'open-sans',
-												fontSize: 16,
+												flexDirection: 'row',
+												justifyContent: 'flex-start',
 											}}>
-											{option.name}
-										</Text>
+											<Icon
+												name={option.icon_name}
+												size={24}
+												color="white"
+											/>
+											<Text
+												style={{
+													color: 'white',
+													left: 70,
+													fontFamily: 'open-sans',
+													fontSize: 16,
+												}}>
+												{option.name}
+											</Text>
+										</View>
 									</View>
-								</View>
-							))}
+								))}
+							</View>
 						</View>
-					</View>
+					</LinearGradient>
 				</Modal>
 			</View>
 
@@ -168,9 +174,10 @@ const ListItem = ({navigation, data}) => {
 export default ListItem;
 
 const styles = StyleSheet.create({
+	centeredView: {},
 	modalView: {
 		marginTop: '120%',
-		backgroundColor: '#000000',
+		// backgroundColor: '#000000',
 		// zIndex: 100,
 		width: '100%',
 		height: '150%',
