@@ -58,8 +58,8 @@ const ListItem = ({navigation, data}) => {
 					}}>
 					<LinearGradient
 						bgcolors={{
-							colorOne: 'red',
-							colorTwo: 'green',
+							colorOne: '#00000000',
+							colorTwo: '#000000FF',
 						}}>
 						<View style={styles.centeredView}>
 							<View style={styles.modalView}>
