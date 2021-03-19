@@ -28,25 +28,18 @@ const SearchScreen = ({navigation}) => {
 		</TouchableOpacity>
 	);
 
-	useEffect(() => {
-		// const debounceFunction = (func, delay) => {
-		// 	console.log(timerId);
-		// 	timerId ? clearTimeout(timerId) : '';
-		// 	timerId = setTimeout(func, delay);
-		// 	console.log(timerId, 'after setting');
-		// };
-		const debouncedFunction = _.debounce(fetchSongs, 2000);
-		debouncedFunction(fetchSongs, 6000);
-	}, [searchQuery]);
+	// useEffect(() => {
+	// 	const debouncedFunction = _.debounce(fetchSongs, 2000);
+	// 	debouncedFunction();
+	// }, [searchQuery]);
 
-	const fetchSongs = () => {
-		// setValue(text);
-		console.log('in fetchSongs', searchQuery);
+	const search = _.debounce((value) => {
+		console.log('in search');
 		axios
 			.post(
 				`${apiUrl}search/tracks`,
 				{
-					query: searchQuery,
+					query: value,
 				},
 				{
 					headers: {
@@ -60,26 +53,18 @@ const SearchScreen = ({navigation}) => {
 			.catch((err) => {
 				console.log(err);
 			});
-	};
+	}, 500);
 
 	const searchHeader = () => <Type>Search</Type>;
 
 	return (
 		<ScreenBuilder>
-			{/* <TextInput
-				style={{
-					backgroundColor: 'white',
-				}}
-				onChangeText={(text) => fetchSongs(text)}
-				value={value}
-			/> */}
 			<SearchBox
 				searchQuery={searchQuery}
-				setSearchQuery={setSearchQuery}
+				setSearchQuery={search}
 				navigation={navigation}
 			/>
 
-			{/* <Header isBack heading="Search" navigation={navigation} /> */}
 			<FlatList
 				keyExtractor={(item) => item.ref_id}
 				// ListHeaderComponent={searchHeader}

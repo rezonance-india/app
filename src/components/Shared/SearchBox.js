@@ -5,12 +5,6 @@ import {colors} from '../../constants/colors';
 import InputBox from './InputBox';
 
 const SearchBox = ({setSearchQuery, searchQuery, navigation}) => {
-	const handleBack = () => {
-		console.log('hello');
-	};
-
-	const pressIcon = () => {};
-
 	return (
 		<View
 			style={{

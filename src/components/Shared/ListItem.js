@@ -13,7 +13,6 @@ import Type from '../Shared/Type';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {colors} from '../../constants/colors';
-import Overlay from './Overlay';
 import {useState} from 'react';
 
 const {width, height} = Dimensions.get('screen');
@@ -29,22 +28,18 @@ const ListItem = ({navigation, data}) => {
 
 	const options = [
 		{
-			// id=1,
 			name: 'Like',
 			icon_name: 'heart-outline',
 		},
 		{
-			// id=2,
 			name: 'Add to queue',
 			icon_name: 'add-outline',
 		},
 		{
-			// id=3,
 			name: 'Send to Friends',
 			icon_name: 'rocket-outline',
 		},
 		{
-			// id=4,
 			name: 'Add to Playlist',
 			icon_name: 'musical-notes-outline',
 		},
@@ -55,7 +50,6 @@ const ListItem = ({navigation, data}) => {
 			<View style={styles.centeredView}>
 				<Modal
 					animationType="fade"
-					anima
 					transparent={true}
 					visible={modalVisible}
 					onRequestClose={() => {
@@ -64,11 +58,6 @@ const ListItem = ({navigation, data}) => {
 					}}>
 					<View style={styles.centeredView}>
 						<View style={styles.modalView}>
-							{/* <Pressable
-								style={[styles.button, styles.buttonClose]}
-								onPress={() => setModalVisible(!modalVisible)}>
-								<Text style={styles.textStyle}>Hide Modal</Text>
-							</Pressable> */}
 							{options.map((option, i) => (
 								<View
 									key={i}
