@@ -78,10 +78,11 @@ const ListItem = ({navigation, data, selectedSong}) => {
 					<Type
 						style={{
 							fontSize: width / 24,
+							width: '80%',
 							color: colors.text,
 							fontWeight: 'bold',
 						}}>
-						{data.track_name.length > 10
+						{data.track_name.length > 20
 							? `${data.track_name.substring(0, 10)}....`
 							: data.track_name}
 					</Type>
