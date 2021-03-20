@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
 	View,
 	Text,
@@ -13,90 +13,28 @@ import Type from '../Shared/Type';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {colors} from '../../constants/colors';
-import {useState} from 'react';
-import LinearGradient from './LinearGradient';
+import LinearGradient from '../Shared/LinearGradient';
+import Overlay from './Overlay';
 
 const {width, height} = Dimensions.get('screen');
 
 const ListItem = ({navigation, data}) => {
+	const [modalVisible, setModalVisible] = useState(false);
+
 	const handlePress = () => {
 		console.log('lol pressed');
 		// return <Overlay open={true} />;
 		setModalVisible(true);
 	};
 
-	const [modalVisible, setModalVisible] = useState(false);
-
-	const options = [
-		{
-			name: 'Like',
-			icon_name: 'heart-outline',
-		},
-		{
-			name: 'Add to queue',
-			icon_name: 'add-outline',
-		},
-		{
-			name: 'Send to Friends',
-			icon_name: 'rocket-outline',
-		},
-		{
-			name: 'Add to Playlist',
-			icon_name: 'musical-notes-outline',
-		},
-	];
-
 	return (
 		<View style={{flexDirection: 'row', width: '100%'}}>
 			<View style={styles.centeredView}>
-				<Modal
-					animationType="fade"
-					transparent={true}
-					visible={modalVisible}
-					onRequestClose={() => {
-						setModalVisible(!modalVisible);
-					}}>
-					<LinearGradient
-						bgcolors={{
-							colorOne: 'red',
-							colorTwo: 'green',
-						}}>
-						<View style={styles.centeredView}>
-							<View style={styles.modalView}>
-								{options.map((option, i) => (
-									<View
-										key={i}
-										style={{
-											flexDirection: 'column',
-											alignContent: 'space-between',
-											margin: 15,
-										}}>
-										<View
-											style={{
-												flexDirection: 'row',
-												justifyContent: 'flex-start',
-											}}>
-											<Icon
-												name={option.icon_name}
-												size={24}
-												color="white"
-											/>
-											<Text
-												style={{
-													color: 'white',
-													left: 70,
-													fontFamily: 'open-sans',
-													fontSize: 16,
-												}}>
-												{option.name}
-											</Text>
-										</View>
-									</View>
-								))}
-							</View>
-						</View>
-					</LinearGradient>
-				</Modal>
+				<Overlay
+					data={data}
+					toggleVisibility={setModalVisible}
+					modalVisible={modalVisible}
+				/>
 			</View>
 
 			<View
@@ -175,13 +113,4 @@ export default ListItem;
 
 const styles = StyleSheet.create({
 	centeredView: {},
-	modalView: {
-		marginTop: '120%',
-		// backgroundColor: '#000000',
-		// zIndex: 100,
-		width: '100%',
-		height: '150%',
-		// flex: 1,
-		// opacity: 0.6,
-	},
 });

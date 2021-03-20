@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {colors} from '../../constants/colors';
-import InputBox from './InputBox';
+import InputBox from '../Shared/InputBox';
 
 const SearchBox = ({setSearchQuery, searchQuery, navigation}) => {
 	return (

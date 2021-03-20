@@ -1,20 +1,20 @@
 import React, {useState} from 'react';
 import {ScrollView, FlatList, Text, View, TextInput} from 'react-native';
-import ListItem from '../../components/Shared/ListItem';
+import ListItem from '../../components/Search/ListItem';
 import ItemSeparator from '../../components/Shared/ItemSeperator';
 import Header from '../../components/Shared/Header';
 import Type from '../../components/Shared/Type';
 import ScreenBuilder from '../../components/Shared/ScreenBuilder';
 import axios from 'axios';
 import {apiUrl} from '../../constants/config';
-import _ from 'lodash';
+import _, {set} from 'lodash';
 
 import {
 	TouchableHighlight,
 	TouchableWithoutFeedback,
 	TouchableOpacity,
 } from 'react-native-gesture-handler';
-import SearchBox from '../../components/Shared/SearchBox';
+import SearchBox from '../../components/Search/SearchBox';
 import {useEffect} from 'react';
 
 const SearchScreen = ({navigation}) => {
@@ -28,31 +28,33 @@ const SearchScreen = ({navigation}) => {
 		</TouchableOpacity>
 	);
 
-	// useEffect(() => {
-	// 	const debouncedFunction = _.debounce(fetchSongs, 2000);
-	// 	debouncedFunction();
-	// }, [searchQuery]);
-
 	const search = _.debounce((value) => {
-		console.log('in search');
-		axios
-			.post(
-				`${apiUrl}search/tracks`,
-				{
-					query: value,
-				},
-				{
-					headers: {
-						'Content-Type': 'application/json',
+		if (value.length === 0) {
+			console.log('lol in null');
+			setResult([]);
+		}
+		if (value.length !== 0) {
+			console.log('in search');
+			axios
+				.post(
+					`${apiUrl}search/tracks`,
+					{
+						query: value,
 					},
-				},
-			)
-			.then((res) => {
-				setResult(res.data);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+					{
+						headers: {
+							'Content-Type': 'application/json',
+						},
+					},
+				)
+				.then((res) => {
+					console.log(res.data);
+					setResult(res.data);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		}
 	}, 500);
 
 	const searchHeader = () => <Type>Search</Type>;
