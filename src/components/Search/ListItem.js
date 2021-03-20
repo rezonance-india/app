@@ -18,11 +18,10 @@ import Overlay from './Overlay';
 
 const {width, height} = Dimensions.get('screen');
 
-const ListItem = ({navigation, data}) => {
+const ListItem = ({navigation, data, selectedSong}) => {
 	const [modalVisible, setModalVisible] = useState(false);
 
 	const handlePress = () => {
-		console.log('lol pressed');
 		// return <Overlay open={true} />;
 		setModalVisible(true);
 	};
@@ -32,6 +31,7 @@ const ListItem = ({navigation, data}) => {
 			<View style={styles.centeredView}>
 				<Overlay
 					data={data}
+					selectedSong={selectedSong}
 					toggleVisibility={setModalVisible}
 					modalVisible={modalVisible}
 				/>

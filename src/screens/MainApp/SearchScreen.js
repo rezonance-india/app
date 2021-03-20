@@ -21,16 +21,24 @@ const SearchScreen = ({navigation}) => {
 	const [value, setValue] = useState('');
 	const [result, setResult] = useState([]);
 	const [searchQuery, setSearchQuery] = useState('');
+	const [selectedSong, setSelectedSong] = useState({});
 
 	const renderer = ({item}) => (
-		<TouchableOpacity activeOpacity={0.75} onPress={null}>
-			<ListItem navigation={navigation} data={item} />
+		<TouchableOpacity
+			activeOpacity={0.75}
+			onPress={() => {
+				setSelectedSong(item);
+			}}>
+			<ListItem
+				navigation={navigation}
+				selectedSong={selectedSong}
+				data={item}
+			/>
 		</TouchableOpacity>
 	);
 
 	const search = _.debounce((value) => {
 		if (value.length === 0) {
-			console.log('lol in null');
 			setResult([]);
 		}
 		if (value.length !== 0) {

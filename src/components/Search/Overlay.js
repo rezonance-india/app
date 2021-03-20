@@ -1,11 +1,18 @@
 import React from 'react';
-import {Modal, View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+	Modal,
+	View,
+	Image,
+	Text,
+	StyleSheet,
+	TouchableOpacity,
+} from 'react-native';
 import LinearGradient from '../Shared/LinearGradient';
 import Icon from 'react-native-vector-icons/Ionicons';
 import OctIcon from 'react-native-vector-icons/Octicons';
 import {useState} from 'react';
 
-const Overlay = ({toggleVisibility, modalVisible, data}) => {
+const Overlay = ({toggleVisibility, modalVisible, data, selectedSong}) => {
 	const [liked, setLiked] = useState(false);
 	const [heartIcon, setHeartIcon] = useState('heart-outline');
 
@@ -55,14 +62,47 @@ const Overlay = ({toggleVisibility, modalVisible, data}) => {
 				}}>
 				<View style={styles.centeredView}>
 					<View style={styles.modalView}>
-						<View>{/* <Image source={} /> */}</View>
+						<View
+							style={{
+								flexDirection: 'column',
+								alignItems: 'center',
+								justifyContent: 'space-between',
+							}}>
+							<Image
+								source={{
+									uri: selectedSong.album_image,
+								}}
+								style={{
+									width: 200,
+									height: 200,
+								}}
+							/>
+							<Text
+								style={{
+									color: 'white',
+									paddingTop: 20,
+									fontSize: 18,
+									fontWeight: 'bold',
+								}}>
+								{selectedSong.track_name}
+							</Text>
+							<Text
+								style={{
+									color: 'white',
+									fontSize: 16,
+									paddingTop: 15,
+									paddingBottom: 20,
+								}}>
+								{selectedSong.artist_name}
+							</Text>
+						</View>
 						{options.map((option, i) => (
 							<View
 								key={i}
 								style={{
 									flexDirection: 'column',
 									alignContent: 'space-between',
-									margin: 15,
+									margin: '4%',
 								}}>
 								<View
 									style={{
@@ -110,14 +150,14 @@ export default Overlay;
 
 const styles = StyleSheet.create({
 	modalView: {
-		marginTop: '120%',
-		width: '100%',
-		height: '150%',
+		marginTop: '40%',
+		// width: '100%',
+		// height: '150%',
 	},
 	options: {
 		color: 'white',
 		left: 70,
-		fontFamily: 'open-sans',
+		fontFamily: 'Open Sans',
 		fontSize: 16,
 	},
 });
