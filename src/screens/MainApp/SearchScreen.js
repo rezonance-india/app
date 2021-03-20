@@ -7,7 +7,8 @@ import Type from '../../components/Shared/Type';
 import ScreenBuilder from '../../components/Shared/ScreenBuilder';
 import axios from 'axios';
 import {apiUrl} from '../../constants/config';
-import _, {set} from 'lodash';
+import _ from 'lodash';
+import {TRACKS} from '../../components/Player/tracksData';
 
 import {
 	TouchableHighlight,
@@ -27,6 +28,15 @@ const SearchScreen = ({navigation}) => {
 		<TouchableOpacity
 			activeOpacity={0.75}
 			onPress={() => {
+				console.log('lol');
+				TRACKS[0] = {
+					title: item.track_name,
+					artist: item.artist_name,
+					albumArtUrl: item.album_image,
+					audioUrl: item.track_url,
+				};
+				navigation.navigate('PlayerScreen');
+
 				setSelectedSong(item);
 			}}>
 			<ListItem

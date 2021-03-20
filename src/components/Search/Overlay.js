@@ -133,22 +133,6 @@ const Overlay = ({toggleVisibility, modalVisible, data, selectedSong}) => {
 								</View>
 							</View>
 						))}
-						{/* 
-						<View
-							style={{
-								flexDirection: 'row',
-								justifyContent: 'flex-start',
-							}}>
-							<OctIcon
-								style={{margin: 15}}
-								name="versions"
-								size={24}
-								color="white"
-							/>
-							<Text style={styles.options}>
-								Get recommendations
-							</Text>
-						</View> */}
 					</View>
 				</View>
 			</LinearGradient>
@@ -160,7 +144,7 @@ export default Overlay;
 
 const styles = StyleSheet.create({
 	modalView: {
-		marginTop: '40%',
+		marginTop: '30%',
 		// width: '100%',
 		// height: '150%',
 	},
