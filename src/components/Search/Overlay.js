@@ -37,12 +37,17 @@ const Overlay = ({toggleVisibility, modalVisible, data, selectedSong}) => {
 		},
 		{
 			name: 'Add to Playlist',
-			icon_name: 'musical-notes-outline',
+			icon_name: 'list-outline',
 			onPress: () => {},
 		},
 		{
 			name: 'View artist',
-			icon_name: 'person-add-outline',
+			icon_name: 'person-outline',
+			onPress: () => {},
+		},
+		{
+			name: 'Similar Songs',
+			icon_name: 'layers-outline',
 			onPress: () => {},
 		},
 	];
@@ -57,8 +62,8 @@ const Overlay = ({toggleVisibility, modalVisible, data, selectedSong}) => {
 			}}>
 			<LinearGradient
 				bgcolors={{
-					colorOne: 'rgba(0,0,0,0.2)',
-					colorTwo: 'black',
+					colorOne: '#2d3436AF',
+					colorTwo: '#000000FF',
 				}}>
 				<View style={styles.centeredView}>
 					<View style={styles.modalView}>
@@ -74,6 +79,7 @@ const Overlay = ({toggleVisibility, modalVisible, data, selectedSong}) => {
 								}}
 								style={{
 									width: 200,
+									borderRadius: 12,
 									height: 200,
 								}}
 							/>
@@ -82,6 +88,8 @@ const Overlay = ({toggleVisibility, modalVisible, data, selectedSong}) => {
 									color: 'white',
 									paddingTop: 20,
 									fontSize: 18,
+									width: '100%',
+									textAlign: 'center',
 									fontWeight: 'bold',
 								}}>
 								{selectedSong.track_name}
@@ -91,6 +99,8 @@ const Overlay = ({toggleVisibility, modalVisible, data, selectedSong}) => {
 									color: 'white',
 									fontSize: 16,
 									paddingTop: 15,
+									width: '100%',
+									textAlign: 'center',
 									paddingBottom: 20,
 								}}>
 								{selectedSong.artist_name}
