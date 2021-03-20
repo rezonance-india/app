@@ -11,6 +11,7 @@ import LinearGradient from '../Shared/LinearGradient';
 import Icon from 'react-native-vector-icons/Ionicons';
 import OctIcon from 'react-native-vector-icons/Octicons';
 import {useState} from 'react';
+import {TRACKS} from '../Player/tracksData';
 
 const Overlay = ({toggleVisibility, modalVisible, data, selectedSong}) => {
 	const [liked, setLiked] = useState(false);
@@ -28,7 +29,16 @@ const Overlay = ({toggleVisibility, modalVisible, data, selectedSong}) => {
 		{
 			name: 'Add to queue',
 			icon_name: 'add-outline',
-			onPress: () => {},
+			onPress: () => {
+				console.log('lol');
+				TRACKS.push({
+					title: selectedSong.track_name,
+					artist: selectedSong.artist_name,
+					albumArtUrl: selectedSong.album_image,
+					audioUrl: selectedSong.track_url,
+				});
+				console.log(TRACKS);
+			},
 		},
 		{
 			name: 'Send to Friends',

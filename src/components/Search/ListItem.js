@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
 	View,
 	Text,
@@ -18,13 +18,21 @@ import Overlay from './Overlay';
 
 const {width, height} = Dimensions.get('screen');
 
-const ListItem = ({navigation, data, selectedSong}) => {
+const ListItem = ({navigation, data, selectedSong, toggleDisability}) => {
 	const [modalVisible, setModalVisible] = useState(false);
 
 	const handlePress = () => {
 		// return <Overlay open={true} />;
 		setModalVisible(true);
 	};
+
+	useEffect(() => {
+		if (modalVisible) {
+			toggleDisability(true);
+		} else {
+			toggleDisability(false);
+		}
+	}, [modalVisible]);
 
 	return (
 		<View style={{flexDirection: 'row', width: '100%'}}>
