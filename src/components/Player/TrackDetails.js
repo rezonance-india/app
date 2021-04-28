@@ -14,7 +14,7 @@ const TrackDetails = (props) => {
 				source={{uri: album_image}}
 				style={{
 					width: '80%',
-					height: '70%',
+					height: '65%',
 					borderRadius: 20,
 				}}></Image>
 			<Text
