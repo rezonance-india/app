@@ -23,23 +23,26 @@ const SearchScreen = ({navigation}) => {
 	const [result, setResult] = useState([]);
 	const [searchQuery, setSearchQuery] = useState('');
 	const [selectedSong, setSelectedSong] = useState({});
+	const [disable, setDisable] = useState(false);
 
 	const renderer = ({item}) => (
 		<TouchableOpacity
 			activeOpacity={0.75}
 			onPress={() => {
-				console.log('lol');
-				TRACKS[0] = {
-					title: item.track_name,
-					artist: item.artist_name,
-					albumArtUrl: item.album_image,
-					audioUrl: item.track_url,
-				};
-				navigation.navigate('PlayerScreen');
-
 				setSelectedSong(item);
+				if (disable) {
+				} else {
+					TRACKS[0] = {
+						title: item.track_name,
+						artist: item.artist_name,
+						albumArtUrl: item.album_image,
+						audioUrl: item.track_url,
+					};
+					navigation.navigate('PlayerScreen');
+				}
 			}}>
 			<ListItem
+				toggleDisability={setDisable}
 				navigation={navigation}
 				selectedSong={selectedSong}
 				data={item}
@@ -52,7 +55,6 @@ const SearchScreen = ({navigation}) => {
 			setResult([]);
 		}
 		if (value.length !== 0) {
-			console.log('in search');
 			axios
 				.post(
 					`${apiUrl}search/tracks`,
@@ -66,7 +68,6 @@ const SearchScreen = ({navigation}) => {
 					},
 				)
 				.then((res) => {
-					console.log(res.data);
 					setResult(res.data);
 				})
 				.catch((err) => {
