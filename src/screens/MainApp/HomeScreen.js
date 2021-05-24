@@ -12,6 +12,7 @@ import {ACCENT, PRIMARY} from '../../constants/colors';
 import ScreenBuilder from '../../components/Shared/ScreenBuilder';
 import SongContainer from '../../components/Home/SongContainer';
 import {rp, rfu, trending} from '../../constants/dummydata';
+import MiniPlayer from '../../components/Shared/MiniPlayer';
 
 const {width, height} = Dimensions.get('window');
 
@@ -52,6 +53,7 @@ const HomeScreen = ({navigation}) => {
 					{renderSongs()}
 				</View>
 			</ScrollView>
+			<MiniPlayer />
 		</LinearGradient>
 	);
 };
