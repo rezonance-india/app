@@ -90,14 +90,14 @@ const ListItem = ({navigation, data, selectedSong, toggleDisability}) => {
 							color: colors.text,
 							fontWeight: 'bold',
 						}}>
-						{data.track_name.length > 20
-							? `${data.track_name.substring(0, 10)}....`
+						{data.track_name.length > 30
+							? `${data.track_name.substring(0, 20)}....`
 							: data.track_name}
 					</Type>
 
 					<TouchableOpacity onPress={handlePress}>
 						<Icon
-							name="pause-outline"
+							name="ellipsis-vertical-outline"
 							size={20}
 							style={{
 								color: 'white',
