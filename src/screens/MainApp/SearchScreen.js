@@ -17,6 +17,7 @@ import {
 } from 'react-native-gesture-handler';
 import SearchBox from '../../components/Search/SearchBox';
 import {useEffect} from 'react';
+import {miniPlayerTrack} from '../../constants/store';
 
 const SearchScreen = ({navigation}) => {
 	const [value, setValue] = useState('');
@@ -37,6 +38,11 @@ const SearchScreen = ({navigation}) => {
 						artist: item.artist_name,
 						albumArtUrl: item.album_image,
 						audioUrl: item.track_url,
+					};
+					miniPlayerTrack = {
+						image: item.album_image,
+						trackName: item.track_name,
+						artistName: item.artist_name,
 					};
 					navigation.navigate('PlayerScreen');
 				}

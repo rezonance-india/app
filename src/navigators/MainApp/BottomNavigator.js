@@ -43,7 +43,7 @@ const BottomNavigator = ({navigation}) => {
 					keyboardHidesTabBar: true,
 					showLabel: false,
 					style: {
-						backgroundColor: colors.background,
+						backgroundColor: '#272829',
 						// position: 'absolute',
 						// left: 0,
 						// right: 0,

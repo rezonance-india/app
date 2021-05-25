@@ -53,17 +53,12 @@ const HomeScreen = ({navigation}) => {
 					{renderSongs()}
 				</View>
 			</ScrollView>
-			<MiniPlayer />
+			<MiniPlayer nav={navigation} />
 		</LinearGradient>
 	);
 };
 
 const styles = StyleSheet.create({
-	// linearGradient: {
-	// 	flex: 1,
-	// 	// minHeight: height,
-	// 	// paddingTop: 30,
-	// },
 	greetingContainer: {
 		justifyContent: 'space-between',
 		flex: 0.08,
