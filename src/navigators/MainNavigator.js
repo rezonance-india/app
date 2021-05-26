@@ -7,6 +7,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 //Navigators
 import MainAppNavigator from './MainApp/MainAppNavigator.js';
 import HomeNavigator from './Home/HomeNavigator';
+import {GlobalProvider} from '../context/GlobalState.js';
 
 const Stack = createStackNavigator();
 
@@ -32,20 +33,22 @@ const MainNavigator = () => {
 		return null;
 	}
 	return (
-		<NavigationContainer>
-			<Stack.Navigator initialRouteName={initialScreen}>
-				<Stack.Screen
-					name="MainApp"
-					component={MainAppNavigator}
-					options={{headerShown: false}}
-				/>
-				<Stack.Screen
-					name="Home"
-					component={HomeNavigator}
-					options={{headerShown: false}}
-				/>
-			</Stack.Navigator>
-		</NavigationContainer>
+		<GlobalProvider>
+			<NavigationContainer>
+				<Stack.Navigator initialRouteName={initialScreen}>
+					<Stack.Screen
+						name="MainApp"
+						component={MainAppNavigator}
+						options={{headerShown: false}}
+					/>
+					<Stack.Screen
+						name="Home"
+						component={HomeNavigator}
+						options={{headerShown: false}}
+					/>
+				</Stack.Navigator>
+			</NavigationContainer>
+		</GlobalProvider>
 	);
 };
 
