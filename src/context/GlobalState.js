@@ -6,7 +6,7 @@ import {Actions} from './ActionsOverview';
 const retrieveItem = async (key) => {
 	try {
 		const data = await AsyncStorage.getItem(key);
-		return data ? JSON.parse(data) : null;
+		return data ? JSON.parse(data) : [];
 	} catch (e) {
 		console.log('Failed to fetch the data from storage');
 	}
@@ -22,7 +22,13 @@ export const GlobalContext = createContext(initialState);
 export const GlobalProvider = ({children}) => {
 	const [state, dispatch] = useReducer(AppReducer, initialState);
 
-	// useEffect(() => {}, []);
+	useEffect(() => {
+		const fetchQueue = async () => {
+			const queue = await retrieveItem('queue');
+			dispatch({type: Actions.UPDATE_QUEUE, payload: queue});
+		};
+		fetchQueue();
+	}, []);
 
 	const updateQueue = (trackDetails) => {
 		dispatch({

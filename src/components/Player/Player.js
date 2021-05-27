@@ -81,8 +81,12 @@ const Player = (props) => {
 	};
 
 	const popSongFromQueue = () => {
-		const newQueue = queue.shift();
+		queue.shift();
 		updateQueue(queue);
+		const persistingData = async () => {
+			await AsyncStorage.setItem('queue', JSON.stringify(queue));
+		};
+		persistingData();
 	};
 
 	const track = props.tracks[selectedTrack];
@@ -112,7 +116,7 @@ const Player = (props) => {
 			playWhenInactive={true}
 			paused={paused} // Pauses playback entirely.
 			resizeMode="cover" // Fill the whole screen at aspect ratio.
-			repeat={false} // Repeat forever.
+			repeat={repeatOn} // Repeat forever.
 			onLoad={setDuration} // Callback when video loads
 			onProgress={setTime} // Callback every ~250ms with currentTime
 			// onEnd={onEnd} // Callback when playback finishes

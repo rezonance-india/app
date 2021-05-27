@@ -9,6 +9,7 @@ import axios from 'axios';
 import {apiUrl} from '../../constants/config';
 import _ from 'lodash';
 import {TRACKS} from '../../components/Player/tracksData';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
 	TouchableHighlight,
@@ -44,6 +45,16 @@ const SearchScreen = ({navigation}) => {
 						audioUrl: item.track_url,
 					};
 					updateQueue(trackDetails);
+
+					const persistingData = async () => {
+						await AsyncStorage.setItem(
+							'queue',
+							JSON.stringify(trackDetails),
+						);
+					};
+
+					persistingData();
+
 					navigation.navigate('PlayerScreen');
 				}
 			}}>

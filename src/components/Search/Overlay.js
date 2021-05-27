@@ -13,6 +13,7 @@ import OctIcon from 'react-native-vector-icons/Octicons';
 import {useState} from 'react';
 import {TRACKS} from '../Player/tracksData';
 import {GlobalContext} from '../../context/GlobalState';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Overlay = ({toggleVisibility, modalVisible, data, selectedSong}) => {
 	const [liked, setLiked] = useState(false);
@@ -40,6 +41,15 @@ const Overlay = ({toggleVisibility, modalVisible, data, selectedSong}) => {
 					audioUrl: selectedSong.track_url,
 				});
 				updateQueue(trackDetails);
+
+				const persistingData = async () => {
+					await AsyncStorage.setItem(
+						'queue',
+						JSON.stringify(trackDetails),
+					);
+				};
+
+				persistingData();
 			},
 		},
 		{
