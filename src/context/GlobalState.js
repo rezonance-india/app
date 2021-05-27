@@ -15,9 +15,10 @@ const retrieveItem = async (key) => {
 const initialState = {
 	queue: [
 		{
-			trackName: '',
-			artistName: '',
-			trackImage: '',
+			title,
+			artist,
+			albumArtUrl,
+			audioUrl,
 		},
 	],
 	isPlaying: false,

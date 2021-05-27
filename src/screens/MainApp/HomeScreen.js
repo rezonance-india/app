@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {
 	View,
 	Text,
@@ -13,11 +13,13 @@ import ScreenBuilder from '../../components/Shared/ScreenBuilder';
 import SongContainer from '../../components/Home/SongContainer';
 import {rp, rfu, trending} from '../../constants/dummydata';
 import MiniPlayer from '../../components/Shared/MiniPlayer';
+import {GlobalContext} from '../../context/GlobalState';
 
 const {width, height} = Dimensions.get('window');
 
 const HomeScreen = ({navigation}) => {
 	const titles = ['Recently Played', 'Recommended For You', 'Trending'];
+	const {queue} = useContext(GlobalContext);
 
 	const renderSongs = () => {
 		return titles.map((title, i) => (
@@ -53,7 +55,7 @@ const HomeScreen = ({navigation}) => {
 					{renderSongs()}
 				</View>
 			</ScrollView>
-			<MiniPlayer nav={navigation} />
+			{queue ? <MiniPlayer nav={navigation} /> : <></>}
 		</LinearGradient>
 	);
 };

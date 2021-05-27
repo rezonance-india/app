@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useRef, useEffect, useContext} from 'react';
 import ScreenBuilder from '../../components/Shared/ScreenBuilder';
 import {Text, View, Image, StyleSheet} from 'react-native';
 import Video from 'react-native-video';
@@ -12,6 +12,7 @@ import Controls from '../../components/Player/Controls';
 import SeekBar from '../../components/Player/SeekBar';
 import TrackDetails from '../../components/Player/TrackDetails';
 import LinearGradientComp from '../Shared/LinearGradient';
+import {GlobalContext} from '../../context/GlobalState';
 
 const Player = (props) => {
 	// const {album_image, artist_name, track_name} = props.route.params;
@@ -25,6 +26,7 @@ const Player = (props) => {
 	const [isChanging, setIsChanging] = useState(false);
 	const [color, setColor] = useState('');
 	const [liked, setLiked] = useState(false);
+	const {queue, updateQueue} = useContext(GlobalContext);
 
 	const audioElement = useRef(null);
 
@@ -75,6 +77,10 @@ const Player = (props) => {
 		}
 	};
 
+	const popSongFromQueue = () => {
+		const newQueue = queue.shift();
+		updateQueue(newQueue);
+	};
 	const videoError = (data) => {
 		console.log(data, 'error');
 	};
@@ -112,6 +118,7 @@ const Player = (props) => {
 			// onEnd={onEnd} // Callback when playback finishes
 			onError={videoError} // Callback when video cannot be loaded
 			style={styles.audioElement}
+			onEnd={popSongFromQueue}
 		/>
 	);
 
