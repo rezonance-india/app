@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
 	Modal,
 	View,
@@ -12,10 +12,12 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import OctIcon from 'react-native-vector-icons/Octicons';
 import {useState} from 'react';
 import {TRACKS} from '../Player/tracksData';
+import {GlobalContext} from '../../context/GlobalState';
 
 const Overlay = ({toggleVisibility, modalVisible, data, selectedSong}) => {
 	const [liked, setLiked] = useState(false);
 	const [heartIcon, setHeartIcon] = useState('heart-outline');
+	const {queue, updateQueue} = useContext(GlobalContext);
 
 	const options = [
 		{
@@ -30,14 +32,14 @@ const Overlay = ({toggleVisibility, modalVisible, data, selectedSong}) => {
 			name: 'Add to queue',
 			icon_name: 'add-outline',
 			onPress: () => {
-				console.log('lol');
-				TRACKS.push({
+				const trackDetails = queue;
+				trackDetails.push({
 					title: selectedSong.track_name,
 					artist: selectedSong.artist_name,
 					albumArtUrl: selectedSong.album_image,
 					audioUrl: selectedSong.track_url,
 				});
-				console.log(TRACKS);
+				updateQueue(trackDetails);
 			},
 		},
 		{
@@ -117,31 +119,30 @@ const Overlay = ({toggleVisibility, modalVisible, data, selectedSong}) => {
 							</Text>
 						</View>
 						{options.map((option, i) => (
-							<View
-								key={i}
-								style={{
-									flexDirection: 'column',
-									alignContent: 'space-between',
-									margin: '4%',
-								}}>
+							<TouchableOpacity key={i} onPress={option.onPress}>
 								<View
 									style={{
-										flexDirection: 'row',
-										justifyContent: 'flex-start',
+										flexDirection: 'column',
+										alignContent: 'space-between',
+										margin: '4%',
 									}}>
-									<TouchableOpacity onPress={option.onPress}>
+									<View
+										style={{
+											flexDirection: 'row',
+											justifyContent: 'flex-start',
+										}}>
 										<Icon
 											name={option.icon_name}
 											size={24}
 											style={{left: 10}}
 											color="white"
 										/>
-									</TouchableOpacity>
-									<Text style={styles.options}>
-										{option.name}
-									</Text>
+										<Text style={styles.options}>
+											{option.name}
+										</Text>
+									</View>
 								</View>
-							</View>
+							</TouchableOpacity>
 						))}
 					</View>
 				</View>

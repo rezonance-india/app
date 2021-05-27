@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useRef, useEffect, useContext} from 'react';
 import ScreenBuilder from '../../components/Shared/ScreenBuilder';
 import {Text, View, Image, StyleSheet} from 'react-native';
 import Video from 'react-native-video';
@@ -12,6 +12,7 @@ import Controls from '../../components/Player/Controls';
 import SeekBar from '../../components/Player/SeekBar';
 import TrackDetails from '../../components/Player/TrackDetails';
 import LinearGradientComp from '../Shared/LinearGradient';
+import {GlobalContext} from '../../context/GlobalState';
 
 const Player = (props) => {
 	// const {album_image, artist_name, track_name} = props.route.params;
@@ -25,7 +26,7 @@ const Player = (props) => {
 	const [isChanging, setIsChanging] = useState(false);
 	const [color, setColor] = useState('');
 	const [liked, setLiked] = useState(false);
-
+	const {queue, updateQueue} = useContext(GlobalContext);
 	const audioElement = useRef(null);
 
 	const setDuration = (data) => {
@@ -79,6 +80,11 @@ const Player = (props) => {
 		console.log(data, 'error');
 	};
 
+	const popSongFromQueue = () => {
+		const newQueue = queue.shift();
+		updateQueue(queue);
+	};
+
 	const track = props.tracks[selectedTrack];
 
 	useEffect(() => {
@@ -106,12 +112,13 @@ const Player = (props) => {
 			playWhenInactive={true}
 			paused={paused} // Pauses playback entirely.
 			resizeMode="cover" // Fill the whole screen at aspect ratio.
-			repeat={true} // Repeat forever.
+			repeat={false} // Repeat forever.
 			onLoad={setDuration} // Callback when video loads
 			onProgress={setTime} // Callback every ~250ms with currentTime
 			// onEnd={onEnd} // Callback when playback finishes
 			onError={videoError} // Callback when video cannot be loaded
 			style={styles.audioElement}
+			onEnd={popSongFromQueue}
 		/>
 	);
 

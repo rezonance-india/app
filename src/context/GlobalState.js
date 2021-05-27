@@ -13,13 +13,7 @@ const retrieveItem = async (key) => {
 };
 
 const initialState = {
-	queue: [
-		{
-			trackName: '',
-			artistName: '',
-			trackImage: '',
-		},
-	],
+	queue: [],
 	isPlaying: false,
 };
 
