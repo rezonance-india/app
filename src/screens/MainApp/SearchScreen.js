@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import {ScrollView, FlatList, Text, View, TextInput} from 'react-native';
 import ListItem from '../../components/Search/ListItem';
 import ItemSeparator from '../../components/Shared/ItemSeperator';
@@ -9,7 +9,6 @@ import axios from 'axios';
 import {apiUrl} from '../../constants/config';
 import _ from 'lodash';
 import {TRACKS} from '../../components/Player/tracksData';
-import {GlobalContext} from '../../context/GlobalState';
 
 import {
 	TouchableHighlight,
@@ -26,7 +25,6 @@ const SearchScreen = ({navigation}) => {
 	const [searchQuery, setSearchQuery] = useState('');
 	const [selectedSong, setSelectedSong] = useState({});
 	const [disable, setDisable] = useState(false);
-	const {queue, updateQueue} = useContext(GlobalContext);
 
 	const renderer = ({item}) => (
 		<TouchableOpacity
@@ -35,14 +33,17 @@ const SearchScreen = ({navigation}) => {
 				setSelectedSong(item);
 				if (disable) {
 				} else {
-					const trackDetails = queue;
-					trackDetails.push({
+					TRACKS[0] = {
 						title: item.track_name,
 						artist: item.artist_name,
 						albumArtUrl: item.album_image,
 						audioUrl: item.track_url,
-					});
-					updateQueue(queue);
+					};
+					miniPlayerTrack = {
+						image: item.album_image,
+						trackName: item.track_name,
+						artistName: item.artist_name,
+					};
 					navigation.navigate('PlayerScreen');
 				}
 			}}>

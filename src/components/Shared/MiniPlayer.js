@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import {
 	StyleSheet,
 	Text,
@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {miniPlayerTrack} from '../../constants/store';
-import {GlobalContext} from '../../context/GlobalState';
 import {defaultString} from '../Player/config';
 
 const {width, height} = Dimensions.get('window');
@@ -37,7 +36,6 @@ const styles = StyleSheet.create({
 const MiniPlayer = ({nav}) => {
 	const [paused, setPaused] = useState(false);
 	const [liked, setLiked] = useState(false);
-	const {queue} = useContext(GlobalContext);
 
 	const onPressPlay = () => {
 		setPaused((paused) => !paused);
@@ -63,7 +61,7 @@ const MiniPlayer = ({nav}) => {
 						borderWidth: 2,
 					}}
 					source={{
-						uri: queue[0].albumArtUrl,
+						uri: miniPlayerTrack.image,
 					}}
 				/>
 				<View
@@ -78,9 +76,11 @@ const MiniPlayer = ({nav}) => {
 							paddingBottom: 2,
 							fontWeight: 'bold',
 						}}>
-						{queue[0].title}
+						{miniPlayerTrack.trackName}
 					</Text>
-					<Text style={styles.text}>{queue[0].artist}</Text>
+					<Text style={styles.text}>
+						{miniPlayerTrack.artistName}
+					</Text>
 				</View>
 			</TouchableOpacity>
 
