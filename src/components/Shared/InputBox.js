@@ -43,16 +43,18 @@ const InputBox = (props) => {
 			<TextInput
 				{...props}
 				style={{
-					backgroundColor: GRAY.T2,
-					// borderColor: PRIMARY,
+					backgroundColor: GRAY.T8,
+					opacity: 0.6,
 					borderWidth: 1,
+					borderColor: 'transparent',
 					flex: 1,
-					borderRadius: 2,
-					height: 45,
-					paddingHorizontal: 20,
+					color: 'white',
+					borderRadius: 5,
+					height: 50,
 					...props.style,
 				}}
 				placeholder={props.placeholder}
+				placeholderTextColor={GRAY.T5}
 				onBlur={handleBlur}
 				onFocus={handleFocus}
 				onChangeText={(text) => handleType(text)}
@@ -71,7 +73,7 @@ const InputBox = (props) => {
 							right: 20,
 							top: 8,
 							fontSize: 24,
-							color: 'black',
+							color: 'white',
 						}}
 						color="red">
 						{props.icon}
@@ -81,18 +83,18 @@ const InputBox = (props) => {
 				<Text>{''}</Text>
 			)}
 
-			<Text
+			{/* <Text
 				style={{
 					position: 'absolute',
 					left: 2,
 					top: !isFocused && value === '' ? 13 : -20,
-					color: !isFocused && value === '' ? GRAY.T1 : GRAY.T1,
+					color: !isFocused && value === '' ? 'white' : 'white',
 				}}
 				onPress={() => {
 					inputRef.current.focus();
 				}}>
 				{props.label ? props.label : null}
-			</Text>
+			</Text> */}
 		</View>
 	);
 };

@@ -4,31 +4,25 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {colors} from '../../constants/colors';
 import InputBox from '../Shared/InputBox';
 
-const SearchBox = ({setSearchQuery, searchQuery, navigation}) => {
+const SearchBox = ({setSearchQuery, searchQuery, navigation, placeholder}) => {
 	return (
 		<View
 			style={{
-				paddingHorizontal: 20,
-				paddingTop: 30,
-				paddingBottom: 10,
-				backgroundColor: colors.background,
+				paddingHorizontal: 10,
 				flexDirection: 'row',
 			}}>
 			<InputBox
 				value={searchQuery}
 				onChangeText={(value) => setSearchQuery(value)}
-				placeholder="Search song/artists"
-				// label={'search'}
+				placeholder={placeholder}
 				style={{
-					borderRadius: 5,
+					borderRadius: 6,
 				}}
-				// handleIconPress={pressIcon}
 				autoFocus={true}
 				icon={'X'}
 				viewStyle={{
 					flex: 1,
 					flexDirection: 'row',
-					borderBottomWidth: 1,
 					paddingBottom: 10,
 				}}
 			/>
