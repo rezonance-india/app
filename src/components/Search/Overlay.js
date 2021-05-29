@@ -18,7 +18,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const Overlay = ({toggleVisibility, modalVisible, data, selectedSong}) => {
 	const [liked, setLiked] = useState(false);
 	const [heartIcon, setHeartIcon] = useState('heart-outline');
+	const [chatModalVisible, setChatModalVisible] = useState(false);
 	const {queue, updateQueue} = useContext(GlobalContext);
+
+	// const handlePress = () => {
+	// 	console.log('lol');
+	// 	setChatModalVisible(true);
+	// };
 
 	const options = [
 		{
@@ -55,7 +61,10 @@ const Overlay = ({toggleVisibility, modalVisible, data, selectedSong}) => {
 		{
 			name: 'Send to Friends',
 			icon_name: 'rocket-outline',
-			onPress: () => {},
+			onPress: () => {
+				console.log('lol rocket');
+				setChatModalVisible(true);
+			},
 		},
 		{
 			name: 'Add to Playlist',

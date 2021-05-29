@@ -1,9 +1,10 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import {defaultString} from './config';
 import Icon from 'react-native-vector-icons/Ionicons';
 import OctIcon from 'react-native-vector-icons/Octicons';
 
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import ChatModal from '../Shared/ChatModal';
 
 const Controls = ({
 	liked,
@@ -20,9 +21,14 @@ const Controls = ({
 	backwardDisabled,
 	forwardDisabled,
 }) => {
+	const [chatModalVisible, setChatModalVisible] = useState(false);
 	return (
 		<View style={styles.container}>
 			<View>
+				<ChatModal
+					toggleVisibility={setChatModalVisible}
+					modalVisible={chatModalVisible}
+				/>
 				<View
 					style={{
 						width: '100%',
@@ -83,7 +89,8 @@ const Controls = ({
 					</TouchableOpacity>
 					<TouchableOpacity
 						onPress={() => {
-							console.log('lol');
+							console.log('sending to the moon');
+							setChatModalVisible(true);
 						}}>
 						<Icon
 							size={30}
