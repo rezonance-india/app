@@ -43,7 +43,7 @@ const BottomNavigator = ({navigation}) => {
 					keyboardHidesTabBar: true,
 					showLabel: false,
 					style: {
-						backgroundColor: '#272829',
+						backgroundColor: '#353941',
 						// position: 'absolute',
 						// left: 0,
 						// right: 0,
@@ -51,7 +51,8 @@ const BottomNavigator = ({navigation}) => {
 						// elevation: 0,
 						// borderTopColor: 'transparent',
 						// opacity: 0.5,
-						height: height / 15,
+						// borderRadius: 5,
+						height: height / 18,
 						borderTopWidth: 0,
 					},
 				}}>
