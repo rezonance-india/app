@@ -19,8 +19,9 @@ const styles = StyleSheet.create({
 	container: {
 		paddingVertical: 5,
 		flexDirection: 'row',
-		backgroundColor: '#272829',
-		marginBottom: 2,
+		backgroundColor: '#26282b',
+		borderRadius: 10
+		// marginBottom: 2,
 	},
 	mainContainer: {
 		flex: 1,
@@ -57,10 +58,12 @@ const MiniPlayer = ({nav}) => {
 				onPress={openMiniPlayer}>
 				<Image
 					style={{
-						width: 60,
+						width: 50,
 						height: 50,
-						borderColor: 'white',
-						borderWidth: 2,
+						borderRadius: 8,
+						marginLeft: 8
+						// borderColor: 'white',
+						// borderWidth: 2,
 					}}
 					source={{
 						uri: queue[0].albumArtUrl,
@@ -68,7 +71,7 @@ const MiniPlayer = ({nav}) => {
 				/>
 				<View
 					style={{
-						marginLeft: 20,
+						marginLeft: 15,
 						alignItems: 'space-around',
 					}}>
 					<Text
