@@ -30,18 +30,10 @@ const SongCards = ({item, navigation}) => {
 				<Text
 					style={{
 						...styles.text,
-						fontWeight: 'bold',
 						fontSize: 15,
-					}}
-					// onPress={() => {
-					// 	console.log('lol');
-					// 	navigation.navigate('PlayerScreen', {
-					// 		album_image,
-					// 		track_name,
-					// 		artist_name,
-					// 	});
-					// }}
-				>
+						fontFamily: 'NotoSans',
+						fontWeight: 'bold',
+					}}>
 					{track_name}
 				</Text>
 				<Text style={styles.text}>{artist_name} </Text>
@@ -64,10 +56,9 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 		top: '52%',
 		color: 'white',
-		fontFamily: 'sans-serif',
-		fontWeight: '600',
-		marginVertical: 2,
+		fontFamily: 'NotoSans-Regular',
 		marginHorizontal: 8,
+		marginTop: 2,
 	},
 });
 

@@ -8,7 +8,7 @@ import LinearGradient from './LinearGradient';
 const ChatModal = ({modalVisible, toggleVisibility}) => {
 	const [searchQuery, setSearchQuery] = useState('');
 	const search = () => {
-		console.log('in seearch frands');
+		console.log('in search frands');
 	};
 	return (
 		<Modal
@@ -25,18 +25,19 @@ const ChatModal = ({modalVisible, toggleVisibility}) => {
 				}}>
 				<View>
 					<View style={styles.modalView}>
+						<SearchBox
+							placeholder="Search Friends"
+							searchQuery={searchQuery}
+							setSearchQuery={search}
+						/>
 						<ScrollView
 							showsVerticalScrollIndicator={true}
 							style={{
 								color: 'white',
 							}}>
-							<SearchBox
-								placeholder="Search Friends"
-								searchQuery={searchQuery}
-								setSearchQuery={search}
-							/>
 							{userData.map((user, i) => (
 								<View
+									key={i}
 									style={{
 										flexDirection: 'column',
 										alignContent: 'space-between',

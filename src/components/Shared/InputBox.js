@@ -2,7 +2,6 @@ import React, {useState, useRef} from 'react';
 import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import {ACCENT, GRAY, PRIMARY} from '../../constants/colors';
 import Icon from 'react-native-vector-icons/Ionicons';
-// import Touchab from "react-native-gesture-handler"
 
 const InputBox = (props) => {
 	const [isFocused, setIsFocused] = useState(false);
@@ -51,10 +50,11 @@ const InputBox = (props) => {
 					color: 'white',
 					borderRadius: 5,
 					height: 50,
+					paddingLeft: 20,
 					...props.style,
 				}}
 				placeholder={props.placeholder}
-				placeholderTextColor={GRAY.T5}
+				placeholderTextColor="white"
 				onBlur={handleBlur}
 				onFocus={handleFocus}
 				onChangeText={(text) => handleType(text)}
@@ -70,12 +70,12 @@ const InputBox = (props) => {
 						// name="search-outline"
 						style={{
 							// position: 'absolute',
+							opacity: 0.6,
 							right: 20,
-							top: 8,
-							fontSize: 24,
+							top: 10,
+							fontSize: 20,
 							color: 'white',
-						}}
-						color="red">
+						}}>
 						{props.icon}
 					</Text>
 				</TouchableOpacity>
@@ -83,7 +83,7 @@ const InputBox = (props) => {
 				<Text>{''}</Text>
 			)}
 
-			{/* <Text
+			<Text
 				style={{
 					position: 'absolute',
 					left: 2,
@@ -94,7 +94,7 @@ const InputBox = (props) => {
 					inputRef.current.focus();
 				}}>
 				{props.label ? props.label : null}
-			</Text> */}
+			</Text>
 		</View>
 	);
 };

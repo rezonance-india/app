@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 		paddingVertical: 5,
 		flexDirection: 'row',
 		backgroundColor: '#26282b',
-		borderRadius: 10
+		borderRadius: 10,
 		// marginBottom: 2,
 	},
 	mainContainer: {
@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
 		color: 'white',
 		fontSize: 12,
 		letterSpacing: 1,
+		fontFamily: 'NotoSans-Regular',
 	},
 });
 
@@ -61,7 +62,7 @@ const MiniPlayer = ({nav}) => {
 						width: 50,
 						height: 50,
 						borderRadius: 8,
-						marginLeft: 8
+						marginLeft: 8,
 						// borderColor: 'white',
 						// borderWidth: 2,
 					}}

@@ -24,7 +24,9 @@ const TrackDetails = (props) => {
 					textAlign: 'center',
 					paddingTop: '5%',
 					fontWeight: 'bold',
-					fontSize: 20,
+					fontSize: 22,
+					fontFamily: 'NotoSans-Bold',
+					letterSpacing: 1,
 				}}>
 				{track_name}
 			</Text>
@@ -37,6 +39,7 @@ const styles = StyleSheet.create({
 	text: {
 		color: 'white',
 		paddingTop: '3%',
+		fontFamily: 'NotoSans-Regular',
 	},
 });
 
