@@ -68,7 +68,10 @@ const SearchScreen = ({navigation}) => {
 	);
 
 	const search = _.debounce((value) => {
+		console.log(value, 'value');
+
 		if (value.length === 0) {
+			console.log('empty');
 			setResult([]);
 		}
 		if (value.length !== 0) {
@@ -98,6 +101,7 @@ const SearchScreen = ({navigation}) => {
 	return (
 		<ScreenBuilder>
 			<SearchBox
+				placeholder="Search Artists/Songs"
 				searchQuery={searchQuery}
 				setSearchQuery={search}
 				navigation={navigation}

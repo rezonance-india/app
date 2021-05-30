@@ -1,1 +1,1 @@
-export const apiUrl = 'http://rezo-app.herokuapp.com/';
+export const apiUrl = 'http://rezo-api.herokuapp.com/';

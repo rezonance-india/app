@@ -52,13 +52,13 @@ const BottomNavigator = ({navigation}) => {
 						// borderTopColor: 'transparent',
 						// opacity: 0.5,
 						// borderRadius: 5,
-						height: height / 18,
+						height: height / 15,
 						borderTopWidth: 0,
 					},
 				}}>
 				<Tab.Screen name="HomeScreen" component={HomeScreen} />
 				<Tab.Screen name="SearchScreen" component={SearchScreen} />
-				<Tab.Screen name="ChatScreen" component={PlayerScreen} />
+				<Tab.Screen name="ChatScreen" component={ChatScreen} />
 			</Tab.Navigator>
 		</>
 	);

@@ -51,6 +51,7 @@ const HomeScreen = ({navigation}) => {
 							style={{
 								...styles.greeting,
 								fontSize: 32,
+								fontFamily: 'NotoSans-Bold',
 							}}>
 							radioactive
 						</Text>
@@ -73,9 +74,10 @@ const styles = StyleSheet.create({
 	},
 	greeting: {
 		color: '#ffffff',
-		fontFamily: 'sans-serif',
+		fontFamily: 'NotoSans-Regular',
+		letterSpacing: 0.1,
 		width: width / 1.5,
-		fontSize: 18,
+		fontSize: 20,
 	},
 });
 
