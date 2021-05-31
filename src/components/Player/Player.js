@@ -17,6 +17,9 @@ import {GlobalContext} from '../../context/GlobalState';
 const Player = (props) => {
 	// const {album_image, artist_name, track_name} = props.route.params;
 
+	//Context
+	const {updateColor} = useContext(GlobalContext);
+
 	const [paused, setPaused] = useState(true);
 	const [totalLength, setTotalLength] = useState(1);
 	const [currentPosition, setCurrentPosition] = useState(0);
@@ -99,9 +102,11 @@ const Player = (props) => {
 			if (colors.platform === 'android') {
 				averageColor = colors.average;
 				setColor(averageColor);
+				updateColor(averageColor);
 			} else {
 				const backgroundColor = colors.background;
 				setColor(backgroundColor);
+				updateColor(backgroundColor);
 			}
 			return averageColor;
 		};

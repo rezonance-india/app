@@ -73,7 +73,6 @@ const MiniPlayer = ({nav}) => {
 				<View
 					style={{
 						marginLeft: 15,
-						alignItems: 'space-around',
 					}}>
 					<Text
 						style={{
@@ -82,9 +81,15 @@ const MiniPlayer = ({nav}) => {
 							paddingBottom: 2,
 							fontWeight: 'bold',
 						}}>
-						{queue[0].title}
+						{queue[0].title.length > 20
+							? queue[0].title.substring(0, 20) + '...'
+							: queue[0].title}
 					</Text>
-					<Text style={styles.text}>{queue[0].artist}</Text>
+					<Text style={styles.text}>
+						{queue[0].artist.length > 20
+							? queue[0].artist.substring(0, 20) + '...'
+							: queue[0].artist}
+					</Text>
 				</View>
 			</TouchableOpacity>
 

@@ -103,11 +103,12 @@ const styles = StyleSheet.create({
 		backgroundColor: '#7200ca',
 		height: 35,
 		width: 70,
+		opacity: 0.8,
 		borderRadius: 5,
 		paddingVertical: 7.5,
-		alignContent: "center",
-		textAlign: "center",
-		textAlignVertical: "center"
+		alignContent: 'center',
+		textAlign: 'center',
+		textAlignVertical: 'center',
 	},
 	textButton: {
 		textAlign: 'center',

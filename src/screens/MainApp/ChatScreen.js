@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
 import {Text, View, ScrollView, Image, StyleSheet} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import SearchBox from '../../components/Search/SearchBox';
 import LinearGradientComp from '../../components/Shared/LinearGradient';
-import {ACCENT} from '../../constants/colors';
+import {ACCENT, PRIMARY} from '../../constants/colors';
 import {userData} from '../../constants/store';
 
 const ChatScreen = () => {
@@ -14,7 +13,7 @@ const ChatScreen = () => {
 	return (
 		<LinearGradientComp
 			bgcolors={{
-				colorOne: '#7f8c8d',
+				colorOne: PRIMARY,
 				colorTwo: ACCENT,
 			}}>
 			<View
@@ -77,20 +76,11 @@ const ChatScreen = () => {
 											flexDirection: 'row',
 										}}>
 										<Text style={styles.options}>
-											{user.name}
+											{user.name.length > 30
+												? user.name.substring(0, 30) +
+												  '...'
+												: user.name}
 										</Text>
-										{/* 
-										<View
-											style={{
-												marginLeft: '40%',
-											}}>
-											<Text
-												style={{
-													...styles.options,
-												}}>
-												3hr
-											</Text>
-										</View> */}
 									</View>
 									<View
 										style={{
@@ -104,8 +94,7 @@ const ChatScreen = () => {
 												fontFamily: 'NotoSans-Regular',
 											}}>
 											Hello Fam! How do you doing? Long
-											time no see, probably developing
-											music app, rezonance...
+											time no see..
 										</Text>
 									</View>
 								</View>

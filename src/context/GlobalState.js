@@ -15,6 +15,7 @@ const retrieveItem = async (key) => {
 const initialState = {
 	queue: [],
 	isPlaying: false,
+	color: '',
 };
 
 export const GlobalContext = createContext(initialState);
@@ -37,11 +38,20 @@ export const GlobalProvider = ({children}) => {
 		});
 	};
 
+	const updateColor = (color) => {
+		dispatch({
+			type: Actions.UPDATE_COLOR,
+			payload: color,
+		});
+	};
+
 	return (
 		<GlobalContext.Provider
 			value={{
 				queue: state.queue,
+				color: state.color,
 				updateQueue,
+				updateColor,
 			}}>
 			{children}
 		</GlobalContext.Provider>

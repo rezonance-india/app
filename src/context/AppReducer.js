@@ -8,6 +8,11 @@ export default (state, action) => {
 				isPlaying: true,
 				queue: action.payload,
 			};
+		case Actions.UPDATE_COLOR:
+			return {
+				...state,
+				color: action.payload,
+			};
 		default:
 			return state;
 	}
