@@ -14,6 +14,7 @@ export const ACCENT = '#000000';
 // export const PRIMARY = '#B82E1F';
 // export const ACCENT = '#000000';
 
+
 export const GRAY = {
 	T1: '#f8f9fa',
 	T2: '#f6f7f8',

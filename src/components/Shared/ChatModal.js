@@ -20,8 +20,8 @@ const ChatModal = ({modalVisible, toggleVisibility}) => {
 			}}>
 			<LinearGradient
 				bgcolors={{
-					colorOne: '#2d3436AF',
-					colorTwo: '#272829',
+					colorOne: 'rgba(127, 140, 141, 0.2)',
+					colorTwo: 'rgba(0, 0, 0, 1)',
 				}}>
 				<View>
 					<View style={styles.modalView}>
@@ -65,7 +65,7 @@ const ChatModal = ({modalVisible, toggleVisibility}) => {
 												flex: 1,
 												flexDirection: 'row',
 												justifyContent: 'flex-end',
-												marginRight: 10,
+												marginRight: 20,
 											}}>
 											<View style={styles.button}>
 												<Text style={styles.textButton}>
