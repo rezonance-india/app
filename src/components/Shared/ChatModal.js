@@ -20,7 +20,7 @@ const ChatModal = ({modalVisible, toggleVisibility}) => {
 			}}>
 			<LinearGradient
 				bgcolors={{
-					colorOne: 'rgba(127, 140, 141, 0.2)',
+					colorOne: 'rgba(0, 0, 0, 0.45)',
 					colorTwo: 'rgba(0, 0, 0, 1)',
 				}}>
 				<View>
@@ -95,15 +95,19 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		fontFamily: 'Open Sans',
 		fontSize: 16,
-		marginTop: 2,
+		marginTop: 7.5,
 		marginLeft: -10,
 	},
 	button: {
-		backgroundColor: '#09a0eb',
+		// backgroundColor: '#09a0eb',
+		backgroundColor: '#7200ca',
 		height: 35,
 		width: 70,
 		borderRadius: 5,
-		paddingVertical: 6,
+		paddingVertical: 7.5,
+		alignContent: "center",
+		textAlign: "center",
+		textAlignVertical: "center"
 	},
 	textButton: {
 		textAlign: 'center',
