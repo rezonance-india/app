@@ -9,9 +9,8 @@ import {colors, GRAY, PRIMARY} from '../../constants/colors';
 
 //Screens
 import HomeScreen from '../../screens/MainApp/HomeScreen';
-import SearchScreen from '../../screens/MainApp/SearchScreen';
 import ChatScreen from '../../screens/MainApp/ChatScreen';
-import PlayerScreen from '../../screens/MainApp/PlayerScreen';
+import Switcher from '../../components/Search/Switcher';
 
 const Tab = createBottomTabNavigator();
 
@@ -27,7 +26,7 @@ const BottomNavigator = ({navigation}) => {
 						let iconName;
 						if (route.name === 'HomeScreen') {
 							iconName = 'home-outline';
-						} else if (route.name === 'SearchScreen') {
+						} else if (route.name === 'Switcher') {
 							iconName = 'search-outline';
 						} else if (route.name === 'ChatScreen') {
 							iconName = 'chatbox-outline';
@@ -44,20 +43,12 @@ const BottomNavigator = ({navigation}) => {
 					showLabel: false,
 					style: {
 						backgroundColor: '#353941',
-						// position: 'absolute',
-						// left: 0,
-						// right: 0,
-						// bottom: 0,
-						// elevation: 0,
-						// borderTopColor: 'transparent',
-						// opacity: 0.5,
-						// borderRadius: 5,
 						height: height / 15,
 						borderTopWidth: 0,
 					},
 				}}>
 				<Tab.Screen name="HomeScreen" component={HomeScreen} />
-				<Tab.Screen name="SearchScreen" component={SearchScreen} />
+				<Tab.Screen name="Switcher" component={Switcher} />
 				<Tab.Screen name="ChatScreen" component={ChatScreen} />
 			</Tab.Navigator>
 		</>

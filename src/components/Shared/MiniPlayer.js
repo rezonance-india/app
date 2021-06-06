@@ -5,11 +5,9 @@ import {
 	View,
 	TouchableOpacity,
 	Dimensions,
-	TouchableWithoutFeedback,
 	Image,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {miniPlayerTrack} from '../../constants/store';
 import {GlobalContext} from '../../context/GlobalState';
 import {defaultString} from '../Player/config';
 
@@ -31,7 +29,7 @@ const styles = StyleSheet.create({
 	text: {
 		color: 'white',
 		fontSize: 12,
-		letterSpacing: 1,
+		letterSpacing: 0.5,
 		fontFamily: 'NotoSans-Regular',
 	},
 });

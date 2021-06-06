@@ -53,6 +53,8 @@ const ChatScreen = () => {
 								flexDirection: 'column',
 								margin: '2%',
 								height: '10%',
+								// borderTopWidth: 1,
+								// borderTopColor: 'rgba(255, 255, 2555, 0.5)',
 							}}>
 							<View
 								style={{
@@ -84,7 +86,8 @@ const ChatScreen = () => {
 									</View>
 									<View
 										style={{
-											maxWidth: '85%',
+											maxWidth: '80%',
+											flexDirection: 'row',
 										}}>
 										<Text
 											style={{
@@ -93,8 +96,14 @@ const ChatScreen = () => {
 												marginTop: 2,
 												fontFamily: 'NotoSans-Regular',
 											}}>
-											Hello Fam! How do you doing? Long
-											time no see..
+											You shared song, Vertigo By Khalid.
+										</Text>
+										<Text
+											style={{
+												...styles.options,
+												marginTop: -25,
+											}}>
+											3hr
 										</Text>
 									</View>
 								</View>
