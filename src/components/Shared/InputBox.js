@@ -51,6 +51,7 @@ const InputBox = (props) => {
 					borderRadius: 5,
 					height: 50,
 					paddingLeft: 20,
+					marginRight: -20,
 					...props.style,
 				}}
 				placeholder={props.placeholder}

@@ -50,7 +50,7 @@ const ListItem = ({navigation, data, selectedSong, toggleDisability}) => {
 					width: width / 7,
 					height: width / 7,
 					borderRadius: 1,
-					marginVertical: 5,
+					marginVertical: 7,
 					marginHorizontal: 10,
 					justifyContent: 'center',
 					alignItems: 'center',
@@ -100,6 +100,7 @@ const ListItem = ({navigation, data, selectedSong, toggleDisability}) => {
 							name="ellipsis-vertical-outline"
 							size={20}
 							style={{
+								left: 5,
 								color: 'white',
 							}}
 						/>

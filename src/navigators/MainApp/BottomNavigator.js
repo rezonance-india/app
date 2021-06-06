@@ -10,7 +10,7 @@ import {colors, GRAY, PRIMARY} from '../../constants/colors';
 //Screens
 import HomeScreen from '../../screens/MainApp/HomeScreen';
 import ChatScreen from '../../screens/MainApp/ChatScreen';
-import Switcher from '../../components/Search/Switcher';
+import SearchScreen from '../../screens/MainApp/SearchScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -26,7 +26,7 @@ const BottomNavigator = ({navigation}) => {
 						let iconName;
 						if (route.name === 'HomeScreen') {
 							iconName = 'home-outline';
-						} else if (route.name === 'Switcher') {
+						} else if (route.name === 'SearchScreen') {
 							iconName = 'search-outline';
 						} else if (route.name === 'ChatScreen') {
 							iconName = 'chatbox-outline';
@@ -48,7 +48,7 @@ const BottomNavigator = ({navigation}) => {
 					},
 				}}>
 				<Tab.Screen name="HomeScreen" component={HomeScreen} />
-				<Tab.Screen name="Switcher" component={Switcher} />
+				<Tab.Screen name="SearchScreen" component={SearchScreen} />
 				<Tab.Screen name="ChatScreen" component={ChatScreen} />
 			</Tab.Navigator>
 		</>

@@ -8,7 +8,8 @@ const SearchBox = ({setSearchQuery, searchQuery, navigation, placeholder}) => {
 	return (
 		<View
 			style={{
-				paddingHorizontal: 10,
+				paddingLeft: 10,
+				marginRight: 20,
 				flexDirection: 'row',
 			}}>
 			<InputBox
