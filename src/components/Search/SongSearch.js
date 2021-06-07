@@ -12,7 +12,6 @@ import LinearGradientComp from '../Shared/LinearGradient';
 import {colors} from '../../constants/colors';
 
 const SongSearch = ({navigation}) => {
-	const [value, setValue] = useState('');
 	const [result, setResult] = useState([]);
 	const [searchQuery, setSearchQuery] = useState('');
 	const [selectedSong, setSelectedSong] = useState({});

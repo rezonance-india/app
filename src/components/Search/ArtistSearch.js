@@ -15,8 +15,11 @@ const ArtistSearch = ({navigation}) => {
 	//Renderer function
 	const renderer = ({item}) => {
 		const viewArtist = () => {
-			// navigation.navigate('ViewArtistScreen');
-			console.log('ok');
+			navigation.navigate('ViewArtistScreen', {
+				artist_image: item.artist_image,
+				artist_name: item.artist_name,
+			});
+			// console.log('ok');
 		};
 		return (
 			<TouchableOpacity onPress={viewArtist}>
