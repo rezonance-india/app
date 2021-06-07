@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Dimensions} from 'react-native';
+import {Dimensions, View} from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import SongSearch from '../../components/Search/SongSearch';
 import ArtistSearch from '../../components/Search/ArtistSearch';
