@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import {ScrollView, FlatList, Text, View, TextInput, Image} from 'react-native';
 import axios from 'axios';
 import {apiUrl} from '../../constants/config';
@@ -15,10 +15,31 @@ const ArtistSearch = ({navigation}) => {
 	//Renderer function
 	const renderer = ({item}) => {
 		const viewArtist = () => {
-			navigation.navigate('ViewArtistScreen', {
-				artist_image: item.artist_image,
-				artist_name: item.artist_name,
-			});
+			//Fetching all albums of the particular artist
+			//Parameter as artist_id
+			axios
+				.post(
+					`${apiUrl}fetch/albums`,
+					{
+						artist_id: item.artist_id,
+					},
+					{
+						headers: {
+							'Content-Type': 'application/json',
+						},
+					},
+				)
+				.then((res) => {
+					navigation.navigate('ViewArtistScreen', {
+						albumData: res.data,
+						artist_id: item.artist_id,
+						artist_image: item.artist_image,
+						artist_name: item.artist_name,
+					});
+				})
+				.catch((err) => {
+					console.log(err);
+				});
 			// console.log('ok');
 		};
 		return (
@@ -33,7 +54,7 @@ const ArtistSearch = ({navigation}) => {
 						source={{uri: item.artist_image}}
 						style={{
 							borderRadius: 100,
-							borderColor: 'white',
+							borderColor: 'rgba(0,0,0,0.3)',
 							borderWidth: 3,
 							width: 150,
 							height: 150,
@@ -88,6 +109,7 @@ const ArtistSearch = ({navigation}) => {
 				});
 		}
 	}, 500);
+
 	return (
 		<LinearGradientComp
 			bgcolors={{

@@ -17,6 +17,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 const {width, height} = Dimensions.get('screen');
 
 const ArtistHero = ({
+	name,
 	details,
 	yOffset,
 	onParallaxImageScrolled,
@@ -46,13 +47,13 @@ const ArtistHero = ({
 		}
 
 		if (yOffset + 30 > height / (HEIGHT_FACTOR * parallaxMultiplier)) {
-			setStatusColor(GRAY.T2);
+			// setStatusColor(GRAY.T2);
 			setStatusStyle('dark-content');
 			if (onParallaxImageScrolled) {
 				onParallaxImageScrolled(true);
 			}
 		} else {
-			setStatusColor('#0005');
+			// setStatusColor('#0005');
 			setStatusStyle('light-content');
 			if (onParallaxImageScrolled) {
 				onParallaxImageScrolled(false);
@@ -64,7 +65,7 @@ const ArtistHero = ({
 		<>
 			<StatusBar
 				translucent={true}
-				backgroundColor={statusColor}
+				backgroundColor={'transparent'}
 				barStyle={statusStyle}
 			/>
 
@@ -81,7 +82,7 @@ const ArtistHero = ({
 					}}>
 					<View style={{backgroundColor: '#000'}}>
 						<Image
-							source={{uri: details.artist_image}}
+							source={{uri: details}}
 							style={{
 								width,
 								height,
@@ -97,13 +98,11 @@ const ArtistHero = ({
 					activeOpacity={0.75}
 					onPress={() => setEnlargeImage(true)}>
 					<Image
-						source={{uri: details.artist_image}}
+						source={{uri: details}}
 						style={{
 							width,
 							height:
-								height / (HEIGHT_FACTOR * parallaxMultiplier) +
-								50,
-
+								height / (HEIGHT_FACTOR * parallaxMultiplier),
 							opacity: parallaxOpacity,
 						}}
 						resizeMode="cover"
@@ -126,7 +125,7 @@ const ArtistHero = ({
 								textAlign: 'center',
 							}}
 							viewStyle={{margin: 10}}>
-							{details.artis_name}
+							{name}
 						</Text>
 					</View>
 				</View>
