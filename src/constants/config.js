@@ -1,1 +1,1 @@
-export const apiUrl = 'http://rezo-api.herokuapp.com/';
+export const apiUrl = 'https://rezonance.centralindia.cloudapp.azure.com/';
