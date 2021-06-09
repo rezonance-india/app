@@ -1,25 +1,19 @@
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import {FlatList, View, Image, Dimensions} from 'react-native';
 import axios from 'axios';
 import {apiUrl} from '../../constants/config';
 import _ from 'lodash';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import SearchBox from '../../components/Search/SearchBox';
-import {GlobalContext} from '../../context/GlobalState';
 import LinearGradientComp from '../Shared/LinearGradient';
 import {colors} from '../../constants/colors';
-import Icon from 'react-native-vector-icons/Ionicons';
 import Type from '../Shared/Type';
-import SimpleList from '../Shared/SimpleList';
 
 const {width, height} = Dimensions.get('screen');
 
 const AlbumSearch = ({navigation}) => {
 	const [result, setResult] = useState([]);
 	const [searchQuery, setSearchQuery] = useState('');
-	const [selectedSong, setSelectedSong] = useState({});
-	const [disable, setDisable] = useState(false);
-	const {queue, updateQueue} = useContext(GlobalContext);
 	const renderer = ({item}) => {
 		return (
 			<TouchableOpacity

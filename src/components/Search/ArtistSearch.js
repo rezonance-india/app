@@ -1,5 +1,5 @@
-import React, {useContext, useState, useEffect} from 'react';
-import {ScrollView, FlatList, Text, View, TextInput, Image} from 'react-native';
+import React, {useState} from 'react';
+import {FlatList, Text, View, Image} from 'react-native';
 import axios from 'axios';
 import {apiUrl} from '../../constants/config';
 import _ from 'lodash';

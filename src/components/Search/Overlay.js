@@ -9,9 +9,7 @@ import {
 } from 'react-native';
 import LinearGradient from '../Shared/LinearGradient';
 import Icon from 'react-native-vector-icons/Ionicons';
-import OctIcon from 'react-native-vector-icons/Octicons';
 import {useState} from 'react';
-import {TRACKS} from '../Player/tracksData';
 import {GlobalContext} from '../../context/GlobalState';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 

@@ -31,6 +31,7 @@ const SongSearch = ({navigation}) => {
 						artist: item.artist_name,
 						albumArtUrl: item.album_image,
 						audioUrl: item.track_url,
+						ref_id: item.ref_id,
 					};
 					updateQueue(trackDetails);
 					const persistingData = async () => {

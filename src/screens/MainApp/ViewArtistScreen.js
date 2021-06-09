@@ -1,16 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-	View,
-	Text,
-	Image,
-	Modal,
-	Dimensions,
-	StatusBar,
-	Platform,
-	ScrollView,
-	TouchableOpacity,
-	FlatList,
-} from 'react-native';
+import {View, Dimensions, ScrollView, FlatList} from 'react-native';
 import LinearGradientComp from '../../components/Shared/LinearGradient';
 import {ACCENT, GRAY, PRIMARY} from '../../constants/colors';
 import Icon from 'react-native-vector-icons/Ionicons';
