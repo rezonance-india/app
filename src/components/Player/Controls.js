@@ -5,6 +5,7 @@ import OctIcon from 'react-native-vector-icons/Octicons';
 
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import ChatModal from '../Shared/ChatModal';
+import Recommend from '../Shared/Recommend';
 
 const Controls = ({
 	liked,
@@ -22,12 +23,18 @@ const Controls = ({
 	forwardDisabled,
 }) => {
 	const [chatModalVisible, setChatModalVisible] = useState(false);
+	const [recommendModalVisible, setRecommendModalVisible] = useState(false);
+
 	return (
 		<View style={styles.container}>
 			<View>
 				<ChatModal
 					toggleVisibility={setChatModalVisible}
 					modalVisible={chatModalVisible}
+				/>
+				<Recommend
+					toggleVisibility={setRecommendModalVisible}
+					modalVisible={recommendModalVisible}
 				/>
 				<View
 					style={{
@@ -79,7 +86,7 @@ const Controls = ({
 
 					<TouchableOpacity
 						onPress={() => {
-							console.log('lol');
+							setRecommendModalVisible(true);
 						}}>
 						<OctIcon
 							size={30}
