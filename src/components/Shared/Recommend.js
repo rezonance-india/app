@@ -44,13 +44,19 @@ const Recommend = ({modalVisible, toggleVisibility}) => {
 					<Text
 						style={{
 							...styles.text,
-							fontSize: 20,
+							fontSize: 18,
 							fontFamily: 'NotoSans',
 							fontWeight: 'bold',
 						}}>
-						{item.track_name}
+						{item.track_name.length > 20
+							? `${item.track_name.substring(0, 20)}...`
+							: item.track_name}
 					</Text>
-					<Text style={{...styles.text, fontSize: 14}}>{item.artist_name} </Text>
+					<Text style={{...styles.text, fontSize: 14}}>
+						{item.artist_name.length > 30
+							? `${item.artist_name.substring(0, 20)}...`
+							: item.artist_name}
+					</Text>
 				</ImageBackground>
 			</View>
 		);
@@ -88,9 +94,11 @@ const Recommend = ({modalVisible, toggleVisibility}) => {
 			}}>
 			<LinearGradientComp
 				bgcolors={{
-					colorOne: "rgba(44,62,80, 1)",
-					colorTwo: "rgb(0,0,0)",
+					colorOne: 'rgba(44,62,80, 1)',
+					colorTwo: 'rgb(0,0,0)',
 				}}>
+					<View style={styles.modalView}>
+
 				<FlatList
 					keyExtractor={(item) => item.track_id}
 					data={result}
@@ -98,6 +106,7 @@ const Recommend = ({modalVisible, toggleVisibility}) => {
 					numColumns={1}
 					showsVerticalScrollIndicator={false}
 				/>
+				</View>
 			</LinearGradientComp>
 		</Modal>
 	);
@@ -105,19 +114,23 @@ const Recommend = ({modalVisible, toggleVisibility}) => {
 
 const styles = StyleSheet.create({
 	container: {
-		marginVertical: '7.5%',
-		marginHorizontal: '19.5%',
+		display:"flex",
+		flexDirection:"row",
+		justifyContent:"center",
+		marginVertical:"6%"
 	},
-
+	modalView:{
+		marginTop:"30%",
+	},
 	album: {
 		width: (width * 4) / 6.5,
 		height: (width * 4) / 6.5,
 	},
 	text: {
 		fontSize: 12,
-		top: '52%',
+		top: '50%',
 		color: 'white',
-		fontFamily: 'NotoSans-Regular',
+		fontFamily: 'IBMPlexSans-Regular',
 		marginHorizontal: 8,
 		marginTop: 2,
 	},
