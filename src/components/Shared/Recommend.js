@@ -32,11 +32,11 @@ const Recommend = ({modalVisible, toggleVisibility}) => {
 					imageStyle={{borderRadius: 10}}>
 					<View
 						style={{
-							height: '25%',
+							height: '27.5%',
 							top: '75%',
 							width: '100%',
 							backgroundColor: '#000',
-							opacity: 0.65,
+							opacity: 0.75,
 							borderBottomLeftRadius: 10,
 							borderBottomRightRadius: 10,
 						}}></View>
@@ -44,18 +44,18 @@ const Recommend = ({modalVisible, toggleVisibility}) => {
 					<Text
 						style={{
 							...styles.text,
-							fontSize: 15,
+							fontSize: 20,
 							fontFamily: 'NotoSans',
 							fontWeight: 'bold',
 						}}>
 						{item.track_name}
 					</Text>
-					<Text style={styles.text}>{item.artist_name} </Text>
+					<Text style={{...styles.text, fontSize: 14}}>{item.artist_name} </Text>
 				</ImageBackground>
 			</View>
 		);
 	};
-
+	// console.log("This should print queue 0", queue[0]);
 	useEffect(() => {
 		axios
 			.post(
@@ -88,14 +88,14 @@ const Recommend = ({modalVisible, toggleVisibility}) => {
 			}}>
 			<LinearGradientComp
 				bgcolors={{
-					colorOne: PRIMARY,
-					colorTwo: ACCENT,
+					colorOne: "rgba(44,62,80, 1)",
+					colorTwo: "rgb(0,0,0)",
 				}}>
 				<FlatList
 					keyExtractor={(item) => item.track_id}
 					data={result}
 					renderItem={renderer}
-					numColumns={2}
+					numColumns={1}
 					showsVerticalScrollIndicator={false}
 				/>
 			</LinearGradientComp>
@@ -105,13 +105,13 @@ const Recommend = ({modalVisible, toggleVisibility}) => {
 
 const styles = StyleSheet.create({
 	container: {
-		marginVertical: 16,
-		marginHorizontal: 16,
+		marginVertical: '7.5%',
+		marginHorizontal: '19.5%',
 	},
 
 	album: {
-		width: (width * 4) / 10,
-		height: (width * 4) / 10,
+		width: (width * 4) / 6.5,
+		height: (width * 4) / 6.5,
 	},
 	text: {
 		fontSize: 12,
