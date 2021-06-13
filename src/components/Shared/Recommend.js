@@ -16,8 +16,8 @@ import LinearGradientComp from './LinearGradient';
 import {useContext} from 'react';
 import {GlobalContext} from '../../context/GlobalState';
 import {apiUrl} from '../../constants/config';
-
 const {width, height} = Dimensions.get('window');
+import { BlurView, VibrancyView } from "@react-native-community/blur";
 
 const Recommend = ({modalVisible, toggleVisibility}) => {
 	const [result, setResult] = useState([]);
@@ -30,6 +30,7 @@ const Recommend = ({modalVisible, toggleVisibility}) => {
 					source={{uri: item.album_image}}
 					style={styles.album}
 					imageStyle={{borderRadius: 10}}>
+        
 					<View
 						style={{
 							height: '27.5%',
@@ -44,10 +45,16 @@ const Recommend = ({modalVisible, toggleVisibility}) => {
 					<Text
 						style={{
 							...styles.text,
+							 
 							fontSize: 18,
 							fontFamily: 'NotoSans',
 							fontWeight: 'bold',
 						}}>
+							{/* <BlurView
+								style={styles.absolute}
+								blurType="regular"
+								blurAmount={60}
+							/> */}
 						{item.track_name.length > 20
 							? `${item.track_name.substring(0, 20)}...`
 							: item.track_name}
@@ -76,7 +83,6 @@ const Recommend = ({modalVisible, toggleVisibility}) => {
 				},
 			)
 			.then((res) => {
-				console.log(res.data, 'data');
 				setResult(res.data);
 			})
 			.catch((err) => {
@@ -119,6 +125,13 @@ const styles = StyleSheet.create({
 		justifyContent:"center",
 		marginVertical:"6%"
 	},
+	absolute: {
+		position: "absolute",
+		top: 200,
+		left: 0,
+		bottom: 0,
+		right: 0
+  },
 	modalView:{
 		marginTop:"30%",
 	},

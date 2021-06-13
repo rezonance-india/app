@@ -1,8 +1,10 @@
 import React, {useState, useRef, useEffect, useContext} from 'react';
 import ScreenBuilder from '../../components/Shared/ScreenBuilder';
-import {Text, View, Image, StyleSheet} from 'react-native';
+import {Text, View, Image, StyleSheet, BackHandler} from 'react-native';
 import Video from 'react-native-video';
 import ImageColors from 'react-native-image-colors';
+import MusicControl from 'react-native-music-control'
+
 
 //Colors
 import {ACCENT, PRIMARY} from '../../constants/colors';
@@ -33,8 +35,42 @@ const Player = (props) => {
 	const audioElement = useRef(null);
 
 	const setDuration = (data) => {
+		// console.log(data.duration,"dur");
 		setTotalLength(Math.floor(data.duration));
 	};
+
+	// BackHandler.addEventListener("hardwareBackPress",() => {
+	// 	console.log(currentPosition,"dur");
+	//  	setIsChanging(false);
+	//  })
+
+	MusicControl.setNowPlaying({
+		title:queue[0].title,
+		artwork:queue[0].albumArtUrl,
+		artist:queue[0].artist,
+		description:"rezonance",
+		color:0xffffff,
+		rating: 84,
+		duration:totalLength,
+  		notificationIcon: 'my_custom_icon', 
+	})
+
+	MusicControl.enableControl('play', true)
+	MusicControl.enableControl('pause', true)
+	MusicControl.enableControl('stop', false)
+	MusicControl.enableControl('nextTrack', true)
+	MusicControl.enableControl('previousTrack', false)
+
+	MusicControl.enableControl('changePlaybackPosition', true)
+
+	MusicControl.enableControl('seekForward', false) // iOS only
+	MusicControl.enableControl('seekBackward', false) // iOS only
+	MusicControl.enableControl('seek', false) // Android only
+
+	MusicControl.enableControl('setRating', false)
+	MusicControl.enableControl('volume', true) // Only affected when remoteVolume is enabled
+	MusicControl.enableControl('remoteVolume', false)
+	MusicControl.enableControl('closeNotification', true, { when: 'always' })
 
 	const setTime = (data) => {
 		setCurrentPosition(Math.floor(data.currentTime));
