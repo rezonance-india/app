@@ -54,24 +54,28 @@ const Player = (props) => {
   		notificationIcon: 'my_custom_icon', 
 	})
 
-	useEffect(() => {
-		MusicControl.on(Command.pause,() => {
-			setPaused(true);
+	MusicControl.on(Command.pause,() => {
+		MusicControl.updatePlayback({
+			state: MusicControl.STATE_PAUSED,
 		})
+		setPaused(true);
+	})
 
-		MusicControl.on(Command.closeNotification, ()=> {
-		  console.log("true");
-		})
+	MusicControl.on(Command.closeNotification, ()=> {
+		console.log("true");
+	})
 	
-		MusicControl.on(Command.play,() => {
-			setPaused(false);		
+	MusicControl.on(Command.play,() => {
+		MusicControl.updatePlayback({
+			state: MusicControl.STATE_PLAYING,
 		})
+		setPaused(false);		
+	})
 
-	},[])
-
+	MusicControl.enableBackgroundMode(true);
 	MusicControl.enableControl('play', true);
 	MusicControl.enableControl('pause', true);
-	MusicControl.enableControl('stop', true);
+	// MusicControl.enableControl('stop', true);
 	MusicControl.enableControl('nextTrack', true);
 	MusicControl.enableControl('previousTrack', false);
 
@@ -211,8 +215,16 @@ const Player = (props) => {
 				onPressShuffle={() => setShuffleOn((shuffleOn) => !shuffleOn)}
 				onPressPlay={() => {
 					setPaused(false);
+					MusicControl.updatePlayback({
+						state: MusicControl.STATE_PLAYING,
+					})		
 				}}
-				onPressPause={() => setPaused(true)}
+				onPressPause={() => {
+					setPaused(true);
+					MusicControl.updatePlayback({
+  						state: MusicControl.STATE_PAUSED,
+					})
+				}}
 				onBack={onBack}
 				onForward={onForward}
 				paused={paused}
