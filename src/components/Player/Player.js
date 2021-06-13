@@ -3,8 +3,7 @@ import ScreenBuilder from '../../components/Shared/ScreenBuilder';
 import {Text, View, Image, StyleSheet, BackHandler} from 'react-native';
 import Video from 'react-native-video';
 import ImageColors from 'react-native-image-colors';
-import MusicControl from 'react-native-music-control'
-
+import MusicControl, { Command } from 'react-native-music-control'
 
 //Colors
 import {ACCENT, PRIMARY} from '../../constants/colors';
@@ -55,11 +54,26 @@ const Player = (props) => {
   		notificationIcon: 'my_custom_icon', 
 	})
 
-	MusicControl.enableControl('play', true)
-	MusicControl.enableControl('pause', true)
-	MusicControl.enableControl('stop', false)
-	MusicControl.enableControl('nextTrack', true)
-	MusicControl.enableControl('previousTrack', false)
+	useEffect(() => {
+		MusicControl.on(Command.pause,() => {
+			setPaused(true);
+		})
+
+		MusicControl.on(Command.closeNotification, ()=> {
+		  console.log("true");
+		})
+	
+		MusicControl.on(Command.play,() => {
+			setPaused(false);		
+		})
+
+	},[])
+
+	MusicControl.enableControl('play', true);
+	MusicControl.enableControl('pause', true);
+	MusicControl.enableControl('stop', true);
+	MusicControl.enableControl('nextTrack', true);
+	MusicControl.enableControl('previousTrack', false);
 
 	MusicControl.enableControl('changePlaybackPosition', true)
 
@@ -71,6 +85,8 @@ const Player = (props) => {
 	MusicControl.enableControl('volume', true) // Only affected when remoteVolume is enabled
 	MusicControl.enableControl('remoteVolume', false)
 	MusicControl.enableControl('closeNotification', true, { when: 'always' })
+
+	MusicControl.setNotificationId(10, 'channel');
 
 	const setTime = (data) => {
 		setCurrentPosition(Math.floor(data.currentTime));
