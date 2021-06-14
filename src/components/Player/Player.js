@@ -4,6 +4,7 @@ import {Text, View, Image, StyleSheet, BackHandler} from 'react-native';
 import Video from 'react-native-video';
 import ImageColors from 'react-native-image-colors';
 import MusicControl, { Command } from 'react-native-music-control'
+import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 //Colors
 import {ACCENT, PRIMARY} from '../../constants/colors';
@@ -43,47 +44,53 @@ const Player = (props) => {
 	//  	setIsChanging(false);
 	//  })
 
-	MusicControl.setNowPlaying({
-		title:queue[0].title,
-		artwork:queue[0].albumArtUrl,
-		artist:queue[0].artist,
-		description:"rezonance",
-		color:0xffffff,
-		rating: 84,
-		duration:totalLength,
-  		notificationIcon: 'my_custom_icon', 
-	})
-
-	MusicControl.on(Command.pause,() => {
-		MusicControl.updatePlayback({
-			state: MusicControl.STATE_PAUSED,
+	// const notif = () => {
+		MusicControl.setNowPlaying({
+			title:queue[0].title,
+			artwork:queue[0].albumArtUrl,
+			artist:queue[0].artist,
+			description:"rezonance",
+			color:0xffffff,
+			rating: 84,
+			duration:totalLength,
+			  notificationIcon: 'my_custom_icon', 
 		})
-		setPaused(true);
-	})
 
-	MusicControl.on(Command.closeNotification, ()=> {
-		console.log("true");
-	})
+	// }
+
+	useEffect(() => {
+		MusicControl.on(Command.pause,() => {
+			MusicControl.updatePlayback({
+				state: MusicControl.STATE_PAUSED,
+			})
+			setPaused(true);
+		})
 	
-	MusicControl.on(Command.play,() => {
-		MusicControl.updatePlayback({
-			state: MusicControl.STATE_PLAYING,
+		MusicControl.on(Command.closeNotification, ()=> {
+			console.log("true closed");
 		})
-		setPaused(false);		
-	})
+		
+		MusicControl.on(Command.play,() => {
+			MusicControl.updatePlayback({
+				state: MusicControl.STATE_PLAYING,
+			})
+			setPaused(false);		
+		})
+		MusicControl.enableBackgroundMode(true);
 
-	MusicControl.enableBackgroundMode(true);
+	},[])
+
+	MusicControl.enableControl('previousTrack', true);
 	MusicControl.enableControl('play', true);
 	MusicControl.enableControl('pause', true);
-	// MusicControl.enableControl('stop', true);
 	MusicControl.enableControl('nextTrack', true);
-	MusicControl.enableControl('previousTrack', false);
+	// MusicControl.enableControl('stop', true);
 
 	MusicControl.enableControl('changePlaybackPosition', true)
 
-	MusicControl.enableControl('seekForward', false) // iOS only
-	MusicControl.enableControl('seekBackward', false) // iOS only
-	MusicControl.enableControl('seek', false) // Android only
+	MusicControl.enableControl('seekForward', true) // iOS only
+	MusicControl.enableControl('seekBackward', true); // iOS only
+	MusicControl.enableControl('seek', true); // Android only
 
 	MusicControl.enableControl('setRating', false)
 	MusicControl.enableControl('volume', true) // Only affected when remoteVolume is enabled
