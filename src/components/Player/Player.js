@@ -1,6 +1,6 @@
 import React, {useState, useRef, useEffect, useContext} from 'react';
 import ScreenBuilder from '../../components/Shared/ScreenBuilder';
-import {Text, View, Image, StyleSheet, BackHandler} from 'react-native';
+import {Text, View, Image, StyleSheet, BackHandler, TouchableOpacity, Alert} from 'react-native';
 import Video from 'react-native-video';
 import ImageColors from 'react-native-image-colors';
 import MusicControl, { Command } from 'react-native-music-control'
@@ -39,10 +39,6 @@ const Player = (props) => {
 		setTotalLength(Math.floor(data.duration));
 	};
 
-	// BackHandler.addEventListener("hardwareBackPress",() => {
-	// 	console.log(currentPosition,"dur");
-	//  	setIsChanging(false);
-	//  })
 
 	// const notif = () => {
 		MusicControl.setNowPlaying({
@@ -57,6 +53,7 @@ const Player = (props) => {
 		})
 
 	// }
+
 
 	useEffect(() => {
 		MusicControl.on(Command.pause,() => {
@@ -80,6 +77,19 @@ const Player = (props) => {
 
 	},[])
 
+	// useEffect(() => {
+	// 	const didBlurSubs = props.navig.addListener("willBlur",() => {
+	// 		setPaused(true);
+	// 	})
+	// 	const didFocusSubs = props.navig.addListener("didFocus",() => {
+	// 		setPaused(false);
+	// 	})
+	// 	return () => {
+	// 		didBlurSubs.remove();
+	// 		didFocusSubs.remove();
+	// 	}
+	// },[])
+	
 	MusicControl.enableControl('previousTrack', true);
 	MusicControl.enableControl('play', true);
 	MusicControl.enableControl('pause', true);
@@ -159,7 +169,7 @@ const Player = (props) => {
 
 	useEffect(() => {
 		const getDominantColors = async () => {
-			const colors = await ImageColors.getColors(track.albumArtUrl, {
+			const colors = await ImageColors.getColors(track.album, {
 				fallback: '#7f8c8d',
 			});
 			if (colors.platform === 'android') {
@@ -178,7 +188,7 @@ const Player = (props) => {
 
 	const video = isChanging ? null : (
 		<Video
-			source={{uri: track.audioUrl}} // Can be a URL or a local file.
+			source={{uri: track.url}} // Can be a URL or a local file.
 			ref={audioElement}
 			playInBackground={true}
 			playWhenInactive={true}
@@ -200,11 +210,19 @@ const Player = (props) => {
 				colorOne: color ? color : '#7f8c8d',
 				colorTwo: ACCENT,
 			}}>
+
 			<TrackDetails
 				track_name={track.title}
 				artist_name={track.artist}
-				album_image={track.albumArtUrl}
+				album_image={track.album}
 			/>
+			<TouchableOpacity onPress={() => props.navig.navigate("HomeScreen")}>
+				<Text style={{
+					color:"white",
+					fontSize:20
+				}}>Test</Text>
+			</TouchableOpacity>
+
 			<SeekBar
 				onSeek={seek}
 				trackLength={totalLength}

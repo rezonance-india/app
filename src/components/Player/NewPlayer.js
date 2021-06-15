@@ -44,7 +44,7 @@ const NewPlayer = (props) => {
             await TrackPlayer.add(props.tracks);
         }
         catch(e) {
-            console.log(e);
+            console.log(e,"error");
         }
     }
 
@@ -105,6 +105,7 @@ const NewPlayer = (props) => {
 			}, 0);
 		}
 	};
+
 
     return (
         <LinearGradientComp

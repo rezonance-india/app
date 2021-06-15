@@ -10,6 +10,7 @@ import SearchBox from '../../components/Search/SearchBox';
 import {GlobalContext} from '../../context/GlobalState';
 import LinearGradientComp from '../Shared/LinearGradient';
 import {colors} from '../../constants/colors';
+import PlayerModal from './PlayerModal';
 
 const SongSearch = ({navigation}) => {
 	const [result, setResult] = useState([]);
@@ -17,6 +18,8 @@ const SongSearch = ({navigation}) => {
 	const [selectedSong, setSelectedSong] = useState({});
 	const [disable, setDisable] = useState(false);
 	const {queue, updateQueue} = useContext(GlobalContext);
+	const [playerModalVisible, setPlayerModalVisible] = useState(false);
+
 	const renderer = ({item}) => (
 		<TouchableOpacity
 			activeOpacity={0.75}
@@ -41,8 +44,8 @@ const SongSearch = ({navigation}) => {
 						);
 					};
 					persistingData();
-					navigation.navigate('PlayerScreen');
-				}
+					setPlayerModalVisible(true);
+				}	
 			}}>
 			<ListItem
 				toggleDisability={setDisable}
@@ -85,7 +88,12 @@ const SongSearch = ({navigation}) => {
 			bgcolors={{
 				colorOne: colors.search,
 				colorTwo: colors.search,
-			}}>
+			}}> 
+
+			<PlayerModal
+				toggleVisibility={setPlayerModalVisible}
+				modalVisible={playerModalVisible} 
+			/>
 			<View
 				style={{
 					marginTop: 20,
