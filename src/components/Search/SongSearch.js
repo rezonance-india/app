@@ -32,7 +32,7 @@ const SongSearch = ({navigation}) => {
 					trackDetails[0] = {
 						title: item.track_name,
 						artist: item.artist_name,
-						album: item.album_image,
+						artwork: item.album_image,
 						url: item.track_url,
 						id: item.ref_id,
 					};

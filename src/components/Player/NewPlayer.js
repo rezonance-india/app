@@ -57,7 +57,7 @@ const NewPlayer = (props) => {
     
 	useEffect(() => {
 		const getDominantColors = async () => {
-			const colors = await ImageColors.getColors(track.album, {
+			const colors = await ImageColors.getColors(track.artwork, {
 				fallback: '#7f8c8d',
 			});
 			if (colors.platform === 'android') {
@@ -106,7 +106,6 @@ const NewPlayer = (props) => {
 		}
 	};
 
-
     return (
         <LinearGradientComp
 			bgcolors={{
@@ -116,7 +115,7 @@ const NewPlayer = (props) => {
 			<TrackDetails
 				track_name={track.title}
 				artist_name={track.artist}
-				album_image={track.album}
+				album_image={track.artwork}
 			/>
 			{/* <SeekBar
 				onSeek={seek}

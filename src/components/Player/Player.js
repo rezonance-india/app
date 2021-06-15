@@ -43,7 +43,7 @@ const Player = (props) => {
 	// const notif = () => {
 		MusicControl.setNowPlaying({
 			title:queue[0].title,
-			artwork:queue[0].albumArtUrl,
+			artwork:queue[0].artwork,
 			artist:queue[0].artist,
 			description:"rezonance",
 			color:0xffffff,
@@ -102,7 +102,6 @@ const Player = (props) => {
 	MusicControl.enableControl('remoteVolume', false)
 	MusicControl.enableControl('closeNotification', true, { when: 'always' })
 
-	MusicControl.setNotificationId(10, 'channel');
 
 	const setTime = (data) => {
 		setCurrentPosition(Math.floor(data.currentTime));
@@ -164,7 +163,7 @@ const Player = (props) => {
 
 	useEffect(() => {
 		const getDominantColors = async () => {
-			const colors = await ImageColors.getColors(track.album, {
+			const colors = await ImageColors.getColors(track.artwork, {
 				fallback: '#7f8c8d',
 			});
 			if (colors.platform === 'android') {
@@ -209,7 +208,7 @@ const Player = (props) => {
 			<TrackDetails
 				track_name={track.title}
 				artist_name={track.artist}
-				album_image={track.album}
+				album_image={track.artwork}
 			/>
 			<TouchableOpacity onPress={() => props.navig.navigate("HomeScreen")}>
 				<Text style={{

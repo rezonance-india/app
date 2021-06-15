@@ -6,7 +6,7 @@ import {GlobalContext} from '../../context/GlobalState';
 
 const PlayerScreen = ({navigation}) => {
 	const {queue} = useContext(GlobalContext);
-	return <Player tracks={queue} navig={navigation}/>;
+	return <NewPlayer tracks={queue} navig={navigation}/>;
 };
 
 export default PlayerScreen;
