@@ -5,7 +5,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 import BottomNavigator from './BottomNavigator';
 import ProfileScreen from '../../screens/MainApp/ProfileScreen';
 import EditProfileScreen from '../../screens/MainApp/EditProfileScreen';
-import PlayerScreen from '../../screens/MainApp/PlayerScreen';
 import ViewArtistScreen from '../../screens/MainApp/ViewArtistScreen';
 
 const Stack = createStackNavigator();
@@ -32,11 +31,6 @@ const MainAppNavigator = () => {
 				<Stack.Screen
 					name="ViewArtistScreen"
 					component={ViewArtistScreen}
-					options={{headerShown: false}}
-				/>
-				<Stack.Screen
-					name="PlayerScreen"
-					component={PlayerScreen}
 					options={{headerShown: false}}
 				/>
 			</Stack.Navigator>

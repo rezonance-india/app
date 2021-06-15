@@ -78,18 +78,13 @@ const Player = (props) => {
 	},[])
 
 	// useEffect(() => {
-	// 	const didBlurSubs = props.navig.addListener("willBlur",() => {
-	// 		setPaused(true);
-	// 	})
-	// 	const didFocusSubs = props.navig.addListener("didFocus",() => {
+    // 	const unsubscribe = props.navig.addListener('focus', () => {
 	// 		setPaused(false);
-	// 	})
-	// 	return () => {
-	// 		didBlurSubs.remove();
-	// 		didFocusSubs.remove();
-	// 	}
-	// },[])
-	
+    // 	});
+
+    // 	return unsubscribe;
+  	// }, [props.navig]);
+
 	MusicControl.enableControl('previousTrack', true);
 	MusicControl.enableControl('play', true);
 	MusicControl.enableControl('pause', true);

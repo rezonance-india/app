@@ -44,7 +44,8 @@ const SongSearch = ({navigation}) => {
 						);
 					};
 					persistingData();
-					setPlayerModalVisible(true);
+					// setPlayerModalVisible(true);
+					navigation.navigate('PlayerScreen');
 				}	
 			}}>
 			<ListItem
@@ -90,10 +91,10 @@ const SongSearch = ({navigation}) => {
 				colorTwo: colors.search,
 			}}> 
 
-			<PlayerModal
+			{/* <PlayerModal
 				toggleVisibility={setPlayerModalVisible}
 				modalVisible={playerModalVisible} 
-			/>
+			/> */}
 			<View
 				style={{
 					marginTop: 20,
