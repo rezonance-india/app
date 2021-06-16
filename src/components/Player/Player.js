@@ -39,18 +39,20 @@ const Player = (props) => {
 		setTotalLength(Math.floor(data.duration));
 	};
 
-
 	// const notif = () => {
-		MusicControl.setNowPlaying({
-			title:queue[0].title,
-			artwork:queue[0].artwork,
-			artist:queue[0].artist,
-			description:"rezonance",
-			color:0xffffff,
-			rating: 84,
-			duration:totalLength,
-			  notificationIcon: 'my_custom_icon', 
-		})
+		useEffect(() => {
+			console.log(totalLength,"totalLength");
+			MusicControl.setNowPlaying({
+				title:queue[0].title,
+				artwork:queue[0].artwork,
+				artist:queue[0].artist,
+				description:"rezonance",
+				color:0xffffff,
+				rating: 84,
+				duration:totalLength,
+				notificationIcon: 'my_custom_icon', 
+			})
+		},[props,totalLength])
 
 	// }
 
@@ -77,13 +79,6 @@ const Player = (props) => {
 
 	},[])
 
-	// useEffect(() => {
-    // 	const unsubscribe = props.navig.addListener('focus', () => {
-	// 		setPaused(false);
-    // 	});
-
-    // 	return unsubscribe;
-  	// }, [props.navig]);
 
 	MusicControl.enableControl('previousTrack', true);
 	MusicControl.enableControl('play', true);

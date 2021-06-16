@@ -16,7 +16,8 @@ import { useTrackPlayerEvents, TrackPlayerEvents, STATE_PLAYING } from 'react-na
             TrackPlayer.CAPABILITY_PAUSE,
             TrackPlayer.CAPABILITY_STOP,
             TrackPlayer.CAPABILITY_SKIP_TO_PREVIOUS,
-            TrackPlayer.CAPABILITY_SKIP_TO_NEXT
+            TrackPlayer.CAPABILITY_SKIP_TO_NEXT,
+			TrackPlayer.CAPABILITY_SEEK_TO
         ],
         compactCapabilities: [
             TrackPlayer.CAPABILITY_PLAY,
@@ -38,11 +39,11 @@ const NewPlayer = (props) => {
 	const [liked, setLiked] = useState(false);
 
     const setUpTrackPlayer = async () => {
-        console.log(props.tracks,"tracks");
+        console.log("This is the global queue", props.tracks);
         try{
-            console.log("lol");
+            console.log("this is where tracks should be added");
             await TrackPlayer.setupPlayer();
-            await TrackPlayer.add(props.tracks);
+            await TrackPlayer.add(props.tracks[0]);
         }
         catch(e) {
             console.log(e,"error");
@@ -50,9 +51,11 @@ const NewPlayer = (props) => {
     }
 
     useEffect(() => {
+		console.log("The player screen is being rendered")
         setUpTrackPlayer();
+		TrackPlayer.play();
         return () => TrackPlayer.destroy();
-    },[])
+    },[props])
 
     const track = props.tracks[selectedTrack];
     
@@ -122,9 +125,6 @@ const NewPlayer = (props) => {
 			}
 			else if(event.state === 3) {
 				setPaused(false);
-			}
-			else {
-				console.log("else");
 			}
 		}
 	});

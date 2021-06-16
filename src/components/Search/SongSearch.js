@@ -20,6 +20,7 @@ const SongSearch = ({navigation}) => {
 	const {queue, updateQueue} = useContext(GlobalContext);
 	const [playerModalVisible, setPlayerModalVisible] = useState(false);
 
+
 	const renderer = ({item}) => (
 		<TouchableOpacity
 			activeOpacity={0.75}
