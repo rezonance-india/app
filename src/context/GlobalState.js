@@ -16,6 +16,7 @@ const initialState = {
 	queue: [],
 	isPlaying: false,
 	color: '',
+	pausedState:true
 };
 
 export const GlobalContext = createContext(initialState);
@@ -28,7 +29,16 @@ export const GlobalProvider = ({children}) => {
 			const queue = await retrieveItem('queue');
 			dispatch({type: Actions.UPDATE_QUEUE, payload: queue});
 		};
+
+		const fetchPausedState = async () => {
+			const pausedState = await retrieveItem("pausedState");
+			dispatch({
+				type:Actions.UPDATE_PAUSEDSTATE,
+				payload:pausedState
+			})
+		}
 		fetchQueue();
+		fetchPausedState();
 	}, []);
 
 	const updateQueue = (trackDetails) => {
@@ -45,13 +55,22 @@ export const GlobalProvider = ({children}) => {
 		});
 	};
 
+	const updatePausedState = (currentState) => {
+		dispatch({
+			type: Actions.UPDATE_PAUSEDSTATE,
+			payload:currentState
+		})
+	}
+
 	return (
 		<GlobalContext.Provider
 			value={{
 				queue: state.queue,
 				color: state.color,
+				pausedState:state.pausedState,
 				updateQueue,
 				updateColor,
+				updatePausedState
 			}}>
 			{children}
 		</GlobalContext.Provider>

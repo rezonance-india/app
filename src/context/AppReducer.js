@@ -13,6 +13,11 @@ export default (state, action) => {
 				...state,
 				color: action.payload,
 			};
+		case Actions.UPDATE_PAUSEDSTATE:
+			return{
+				...state,
+				pausedState:action.payload
+			}
 		default:
 			return state;
 	}
