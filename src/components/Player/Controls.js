@@ -25,6 +25,7 @@ const Controls = ({
 	const [chatModalVisible, setChatModalVisible] = useState(false);
 	const [recommendModalVisible, setRecommendModalVisible] = useState(false);
 
+	
 	return (
 		<View style={styles.container}>
 			<View>

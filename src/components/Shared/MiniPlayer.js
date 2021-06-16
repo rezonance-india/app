@@ -65,7 +65,7 @@ const MiniPlayer = ({nav}) => {
 						// borderWidth: 2,
 					}}
 					source={{
-						uri: queue[0].album,
+						uri: queue[0].artwork,
 					}}
 				/>
 				<View

@@ -6,6 +6,7 @@ import Controls from "./Controls";
 import ImageColors from 'react-native-image-colors';
 import TrackDetails from "./TrackDetails";
 import { GlobalContext } from "../../context/GlobalState";
+import { useTrackPlayerEvents, TrackPlayerEvents, STATE_PLAYING } from 'react-native-track-player';
 
 	// const {queue, updateQueue} = useContext(GlobalContext);
 
@@ -105,6 +106,28 @@ const NewPlayer = (props) => {
 			}, 0);
 		}
 	};
+
+	const events = [
+		TrackPlayerEvents.PLAYBACK_STATE,
+		TrackPlayerEvents.PLAYBACK_ERROR
+	];
+
+	useTrackPlayerEvents(events, (event) => {
+		if (event.type === TrackPlayerEvents.PLAYBACK_ERROR) {
+			console.warn('An error occured while playing the current track.');
+		}
+		if (event.type === TrackPlayerEvents.PLAYBACK_STATE) {
+			if(event.state === 2){
+				setPaused(true);
+			}
+			else if(event.state === 3) {
+				setPaused(false);
+			}
+			else {
+				console.log("else");
+			}
+		}
+	});
 
     return (
         <LinearGradientComp
