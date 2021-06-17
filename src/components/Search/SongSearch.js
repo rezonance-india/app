@@ -28,7 +28,6 @@ const SongSearch = ({navigation}) => {
 				setSelectedSong(item);
 				if (disable) {
 				} else {
-					console.log('lol in queue');
 					const trackDetails = queue;
 					trackDetails[0] = {
 						title: item.track_name,

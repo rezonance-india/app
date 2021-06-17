@@ -1,4 +1,5 @@
 import React, { useEffect,useState,useContext} from "react";
+import Slider from '@react-native-community/slider';
 import TrackPlayer from "react-native-track-player";
 import { ACCENT } from "../../constants/colors";
 import LinearGradientComp from "../Shared/LinearGradient";
@@ -6,7 +7,8 @@ import Controls from "./Controls";
 import ImageColors from 'react-native-image-colors';
 import TrackDetails from "./TrackDetails";
 import { GlobalContext } from "../../context/GlobalState";
-import { useTrackPlayerEvents, TrackPlayerEvents, STATE_PLAYING } from 'react-native-track-player';
+import { useTrackPlayerEvents, TrackPlayerEvents, STATE_PLAYING,useTrackPlayerProgress } from 'react-native-track-player';
+import NewSeekBar from "./NewSeekBar";
 
 	// const {queue, updateQueue} = useContext(GlobalContext);
 
@@ -37,13 +39,17 @@ const NewPlayer = (props) => {
 	const [shuffleOn, setShuffleOn] = useState(false);
 	const [color, setColor] = useState('');
 	const [liked, setLiked] = useState(false);
+ 	
+	const [sliderValue, setSliderValue] = useState(0);
+	const [isSeeking, setIsSeeking] = useState(false); 
+	const {position, duration} = useTrackPlayerProgress(250);
+
+	console.log(position," position",duration," duration");
 
     const setUpTrackPlayer = async () => {
-        console.log("This is the global queue", props.tracks);
         try{
-            console.log("this is where tracks should be added");
             await TrackPlayer.setupPlayer();
-            await TrackPlayer.add(props.tracks[0]);
+            await TrackPlayer.add(props.tracks[selectedTrack]);
         }
         catch(e) {
             console.log(e,"error");
@@ -51,14 +57,18 @@ const NewPlayer = (props) => {
     }
 
     useEffect(() => {
-		console.log("The player screen is being rendered")
         setUpTrackPlayer();
-		TrackPlayer.play();
         return () => TrackPlayer.destroy();
     },[props])
 
     const track = props.tracks[selectedTrack];
     
+	useEffect(() => {
+		if (!isSeeking && position && duration) {
+			setSliderValue(position / duration);
+		}
+	},[position, duration]);
+
 	useEffect(() => {
 		const getDominantColors = async () => {
 			const colors = await ImageColors.getColors(track.artwork, {
@@ -129,6 +139,17 @@ const NewPlayer = (props) => {
 		}
 	});
 
+	const slidingStarted = () => {
+   		setIsSeeking(true);
+ 	};
+
+ 	//this function is called when the user stops sliding the seekbar
+	const slidingCompleted = async value => {
+		await TrackPlayer.seekTo(value * duration);
+		setSliderValue(value);
+		setIsSeeking(false);
+	};
+
     return (
         <LinearGradientComp
 			bgcolors={{
@@ -140,12 +161,13 @@ const NewPlayer = (props) => {
 				artist_name={track.artist}
 				album_image={track.artwork}
 			/>
-			{/* <SeekBar
-				onSeek={seek}
-				trackLength={totalLength}
-				onSlidingStart={() => setPaused(true)}
-				currentPosition={currentPosition}
-			/> */}
+			 <NewSeekBar
+				onSlidingComplete={slidingCompleted}
+				trackLength={duration}
+				sliderValue={sliderValue}
+				onSlidingStart={slidingStarted}
+				currentPosition={position}
+			/>
 			<Controls
 				onPressLike={() => setLiked((liked) => !liked)}
 				liked={liked}

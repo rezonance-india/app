@@ -31,4 +31,6 @@ const SearchBox = ({setSearchQuery, searchQuery, navigation, placeholder}) => {
 	);
 };
 
+// hello() result -> "hello"
+
 export default SearchBox;
