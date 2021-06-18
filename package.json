@@ -21,6 +21,7 @@
 		"lodash": "^4.17.21",
 		"react": "16.13.1",
 		"react-native": "0.63.4",
+		"react-native-app-intro-slider": "^4.0.4",
 		"react-native-gesture-handler": "^1.10.3",
 		"react-native-image-colors": "^1.2.5",
 		"react-native-linear-gradient": "^2.5.6",
