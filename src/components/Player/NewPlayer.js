@@ -10,11 +10,9 @@ import { GlobalContext } from "../../context/GlobalState";
 import { useTrackPlayerEvents, TrackPlayerEvents, STATE_PLAYING,useTrackPlayerProgress } from 'react-native-track-player';
 import NewSeekBar from "./NewSeekBar";
 
-	// const {queue, updateQueue} = useContext(GlobalContext);
-
-    TrackPlayer.updateOptions({
-        capabilities: [
-            TrackPlayer.CAPABILITY_PLAY,
+TrackPlayer.updateOptions({
+	capabilities: [
+		TrackPlayer.CAPABILITY_PLAY,
             TrackPlayer.CAPABILITY_PAUSE,
             TrackPlayer.CAPABILITY_STOP,
             TrackPlayer.CAPABILITY_SKIP_TO_PREVIOUS,
@@ -22,38 +20,56 @@ import NewSeekBar from "./NewSeekBar";
 			TrackPlayer.CAPABILITY_SEEK_TO
         ],
         compactCapabilities: [
-            TrackPlayer.CAPABILITY_PLAY,
+			TrackPlayer.CAPABILITY_PLAY,
             TrackPlayer.CAPABILITY_PAUSE
         ],
     });
-
-const NewPlayer = (props) => {
- 
-	const {updateColor} = useContext(GlobalContext);
-
-    const [paused, setPaused] = useState(true);
-	const [totalLength, setTotalLength] = useState(1);
+	
+	const NewPlayer = (props) => {
+		
+		const {queue, updateQueue} = useContext(GlobalContext);
+		
+		// console.log(queue,"global queue");
+		const {updateColor} = useContext(GlobalContext);
+		
+	const [paused, setPaused] = useState(true);
 	const [currentPosition, setCurrentPosition] = useState(0);
 	const [selectedTrack, setSelectedTrack] = useState(0);
 	const [repeatOn, setRepeatOn] = useState(false);
 	const [shuffleOn, setShuffleOn] = useState(false);
 	const [color, setColor] = useState('');
 	const [liked, setLiked] = useState(false);
- 	
+ 	const [skipping,setSkipping] = useState(false);
 	const [sliderValue, setSliderValue] = useState(0);
 	const [isSeeking, setIsSeeking] = useState(false); 
 	const {position, duration} = useTrackPlayerProgress(250);
 
-	console.log(position," position",duration," duration");
+	// console.log(position," position",duration," duration");
 
-    const setUpTrackPlayer = async () => {
-        try{
-            await TrackPlayer.setupPlayer();
-            await TrackPlayer.add(props.tracks[selectedTrack]);
-        }
-        catch(e) {
-            console.log(e,"error");
-        }
+    const setUpTrackPlayer =  () => {
+		TrackPlayer.setupPlayer()
+		.then((res) => {
+		}).catch((err) => {
+			console.log(err);
+		})
+
+		if(skipping){
+			console.log("skipping");
+			TrackPlayer.add(props.tracks[selectedTrack],null).then((res) => {
+			}).catch((err) => {
+				console.log(err);
+			})
+		}
+		else {
+			console.log("not skipping");
+			TrackPlayer.add(props.tracks[selectedTrack]).then((res) => {
+				console.log(res,"track curr");
+			}).catch((err) => {
+				console.log(err);
+			})
+		}
+		// console.log("currentTrack added",track);
+        
     }
 
     useEffect(() => {
@@ -88,35 +104,45 @@ const NewPlayer = (props) => {
 		getDominantColors();
 	}, [track]);
 
-    const setTime = (data) => {
-		setCurrentPosition(Math.floor(data.currentTime));
-	};
+	useEffect(() => {
+		const getTrack = 
+		() => {
+			TrackPlayer.getQueue()
+			.then((res) => {
+				console.log(res,"queue from new");
+			}).catch((err) => {
+				console.log("error",err);
+			})
+			TrackPlayer.getCurrentTrack()
+			.then((curr) => {
+				console.log(curr,"current Track")
+			}).catch((err) => {
+				console.log(err);
+			});
+			// console.log(queue,"queue from new",getCurr,"get Curr");
+		}
+		getTrack();
+	},[props,selectedTrack])
 
-	const seek = (time) => {
-		time = Math.round(time);
-		audioElement.current && audioElement.current.seek(time);
-		setCurrentPosition(time);
-		setPaused(false);
-	};
-
-	const onBack = () => {
+	const onBack = async () => {
 		if (currentPosition < 10 && selectedTrack > 0) {
-			audioElement.current && audioElement.current.seek(0);
-			setIsChanging(true);
-
 			setTimeout(() => {
 				setPaused(false);
+				setSkipping(true);
 				setSelectedTrack((track) => track - 1);
 			}, 0);
+			await TrackPlayer.skipToPrevious();
 		}
 	};
 
-	const onForward = () => {
+	const onForward = async () => {
 		if (selectedTrack < props.tracks.length - 1) {
 			setTimeout(() => {
 				setPaused(false);
+				setSkipping(true);
 				setSelectedTrack((track) => track + 1);
 			}, 0);
+			await TrackPlayer.skipToNext();
 		}
 	};
 

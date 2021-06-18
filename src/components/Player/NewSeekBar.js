@@ -9,10 +9,11 @@ const pad = (n, width, z = 0) => {
 
 const minutesAndSeconds = (position) => [
 	pad(Math.floor(position / 60), 2),
-	pad(position % 60, 2),
+	pad((position % 60).toPrecision(2), 2),
 ];
 
 const NewSeekBar = ({onSlidingComplete,onSlidingStart,currentPosition,trackLength,sliderValue}) => {
+    
     const elapsed = minutesAndSeconds(currentPosition);
 	const remaining = minutesAndSeconds(trackLength - currentPosition);
     return(

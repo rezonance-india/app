@@ -22,6 +22,7 @@ const HomeScreen = ({navigation}) => {
 	const titles = ['Recently Played', 'Recommended For You', 'Trending'];
 	const {queue} = useContext(GlobalContext);
 
+	console.log(queue,"global queue");
 
 	const renderSongs = () => {
 		return titles.map((title, i) => (

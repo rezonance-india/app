@@ -11,7 +11,6 @@ import {ACCENT, PRIMARY} from '../../constants/colors';
 
 //Components
 import Controls from '../../components/Player/Controls';
-import SeekBar from '../../components/Player/SeekBar';
 import TrackDetails from '../../components/Player/TrackDetails';
 import LinearGradientComp from '../Shared/LinearGradient';
 import {GlobalContext} from '../../context/GlobalState';
@@ -212,12 +211,12 @@ const Player = (props) => {
 				}}>Test</Text>
 			</TouchableOpacity>
 
-			<SeekBar
+			{/* <SeekBar
 				onSeek={seek}
 				trackLength={totalLength}
 				onSlidingStart={() => setPaused(true)}
 				currentPosition={currentPosition}
-			/>
+			/> */}
 			<Controls
 				onPressLike={() => setLiked((liked) => !liked)}
 				liked={liked}
