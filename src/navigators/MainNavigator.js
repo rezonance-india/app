@@ -32,6 +32,7 @@ const MainNavigator = () => {
 	if (!isReady) {
 		return null;
 	}
+	console.log(initialScreen,"in");
 	return (
 		<GlobalProvider>
 			<NavigationContainer>

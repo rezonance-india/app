@@ -74,7 +74,7 @@ const Recommend = ({modalVisible, toggleVisibility}) => {
 			.post(
 				`${apiUrl}/recommend`,
 				{
-					ref_id: queue[0].ref_id,
+					ref_id: queue[0].id,
 				},
 				{
 					headers: {

@@ -6,13 +6,19 @@ import BottomNavigator from './BottomNavigator';
 import ProfileScreen from '../../screens/MainApp/ProfileScreen';
 import EditProfileScreen from '../../screens/MainApp/EditProfileScreen';
 import ViewArtistScreen from '../../screens/MainApp/ViewArtistScreen';
+import OnboardingScreen from '../../screens/Home/OnboardingScreen';
 
 const Stack = createStackNavigator();
 
 const MainAppNavigator = () => {
 	return (
 		<>
-			<Stack.Navigator initialRouteName="HomeScreen">
+			<Stack.Navigator initialRouteName="OnboardingScreen">
+				<Stack.Screen 
+					name ="OnboardingScreen"
+					component={OnboardingScreen}
+					options={{headerShown: false}}
+				/>
 				<Stack.Screen
 					name="HomeScreen"
 					component={BottomNavigator}
