@@ -32,9 +32,13 @@ const BottomNavigator = ({navigation}) => {
 						} else if (route.name === 'ChatScreen') {
 							iconName = 'chatbox-outline';
 						}
+						else if(route.name === "PlayerScreen"){
+							iconName = "disc-outline"
+						}
+						
 						return (
 							<Icon name={iconName} size={size} color={color} />
-						);
+						)
 					},
 				})}
 				tabBarOptions={{
@@ -53,7 +57,7 @@ const BottomNavigator = ({navigation}) => {
 				<Tab.Screen name="PlayerScreen" component={PlayerScreen} options={({navigation}) =>{
 						let tabBarVisible = false;
 						return {
-							tabBarVisible
+							tabBarVisible,
 						}
 					}}/>
 				<Tab.Screen name="ChatScreen" component={ChatScreen} />

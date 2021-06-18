@@ -12,7 +12,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {useState} from 'react';
 import {GlobalContext} from '../../context/GlobalState';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import TrackPlayer from "react-native-track-player";
 
 const Overlay = ({toggleVisibility, modalVisible, data, selectedSong}) => {
 	const [liked, setLiked] = useState(false);
@@ -47,18 +46,6 @@ const Overlay = ({toggleVisibility, modalVisible, data, selectedSong}) => {
 					id:selectedSong.ref_id
 				});
 				updateQueue(trackDetails);
-
-				// const updateTrackPlayerQueue = async () => {
-				// 	await TrackPlayer.add({
-				// 		title: selectedSong.track_name,
-				// 		artist: selectedSong.artist_name,
-				// 		artwork: selectedSong.album_image,
-				// 		url: selectedSong.track_url,
-				// 		id:selectedSong.ref_id
-				// 	},null)
-				// }
-
-				// updateTrackPlayerQueue();
 
 				const persistingData = async () => {
 					await AsyncStorage.setItem(

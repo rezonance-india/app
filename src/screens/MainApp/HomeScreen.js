@@ -14,7 +14,6 @@ import SongContainer from '../../components/Home/SongContainer';
 import {rp, rfu, trending} from '../../constants/dummydata';
 import MiniPlayer from '../../components/Shared/MiniPlayer';
 import {GlobalContext} from '../../context/GlobalState';
-import {isNull} from 'lodash';
 
 const {width, height} = Dimensions.get('window');
 

@@ -25,7 +25,6 @@ const Controls = ({
 	const [chatModalVisible, setChatModalVisible] = useState(false);
 	const [recommendModalVisible, setRecommendModalVisible] = useState(false);
 
-	
 	return (
 		<View style={styles.container}>
 			<View>
@@ -49,7 +48,7 @@ const Controls = ({
 						onPress={onPressShuffle}>
 						<Icon
 							size={30}
-							name="shuffle-outline"
+							name="download-outline"
 							style={[
 								{color: defaultString.darkColor},
 								shuffleOn ? [] : styles.off,
