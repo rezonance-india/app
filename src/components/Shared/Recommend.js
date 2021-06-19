@@ -18,10 +18,11 @@ import {GlobalContext} from '../../context/GlobalState';
 import {apiUrl} from '../../constants/config';
 const {width, height} = Dimensions.get('window');
 import { BlurView, VibrancyView } from "@react-native-community/blur";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Recommend = ({modalVisible, toggleVisibility}) => {
 	const [result, setResult] = useState([]);
-	const {queue} = useContext(GlobalContext);
+	const {queue,selectedTrack} = useContext(GlobalContext);
 
 	const renderer = ({item}) => {
 		return (
@@ -45,7 +46,6 @@ const Recommend = ({modalVisible, toggleVisibility}) => {
 					<Text
 						style={{
 							...styles.text,
-							 
 							fontSize: 18,
 							fontFamily: 'NotoSans',
 							fontWeight: 'bold',
@@ -70,11 +70,12 @@ const Recommend = ({modalVisible, toggleVisibility}) => {
 	};
 	// console.log("This should print queue 0", queue[0]);
 	useEffect(() => {
+		console.log(selectedTrack,"selectedTrack from recommend");
 		axios
 			.post(
 				`${apiUrl}/recommend`,
 				{
-					ref_id: queue[0].id,
+					ref_id: queue[selectedTrack].id,
 				},
 				{
 					headers: {
@@ -88,7 +89,8 @@ const Recommend = ({modalVisible, toggleVisibility}) => {
 			.catch((err) => {
 				console.log(err);
 			});
-	}, []);
+			console.log("in recommend");
+	}, [selectedTrack]);
 
 	return (
 		<Modal

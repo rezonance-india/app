@@ -9,6 +9,7 @@ import TrackDetails from "./TrackDetails";
 import { GlobalContext } from "../../context/GlobalState";
 import { useTrackPlayerEvents, TrackPlayerEvents, STATE_PLAYING,useTrackPlayerProgress } from 'react-native-track-player';
 import NewSeekBar from "./NewSeekBar";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 TrackPlayer.updateOptions({
 	capabilities: [
@@ -28,28 +29,23 @@ TrackPlayer.updateOptions({
         ],
     });
 	
-	const NewPlayer = (props) => {
-		
-		const {queue, updateQueue} = useContext(GlobalContext);
-		
-		// console.log(queue,"global queue");
-		const {updateColor} = useContext(GlobalContext);
-		
+const NewPlayer = (props) => {
+			
+	const {updateColor,selectedTrack,updateSelectedTrack} = useContext(GlobalContext);
+	
 	const [paused, setPaused] = useState(true);
 	const [currentPosition, setCurrentPosition] = useState(0);
-	const [selectedTrack, setSelectedTrack] = useState(0);
+	const [selectedTrackLocal, setSelectedTrackLocal] = useState(0);
 	const [repeatOn, setRepeatOn] = useState(false);
 	const [shuffleOn, setShuffleOn] = useState(false);
 	const [color, setColor] = useState('');
 	const [liked, setLiked] = useState(false);
- 	const [skipping,setSkipping] = useState(false);
+	const [skipping,setSkipping] = useState(false);
 	const [sliderValue, setSliderValue] = useState(0);
 	const [isSeeking, setIsSeeking] = useState(false); 
 	const {position, duration} = useTrackPlayerProgress(250);
 
-	// console.log(position," position",duration," duration");
-
-    const setUpTrackPlayer =  () => {
+	const setUpTrackPlayer =  () => {
 		TrackPlayer.setupPlayer()
 		.then((res) => {
 		}).catch((err) => {
@@ -58,30 +54,29 @@ TrackPlayer.updateOptions({
 
 		if(skipping){
 			console.log("skipping");
-			TrackPlayer.add({...props.tracks[selectedTrack],duration},null).then((res) => {
+			TrackPlayer.add({...props.tracks[selectedTrackLocal],duration},null).then((res) => {
 			}).catch((err) => {
 				console.log(err);
 			})
 		}
 		else {
 			console.log("not skipping");
-			TrackPlayer.add({...props.tracks[selectedTrack],duration}).then((res) => {
+			TrackPlayer.add({...props.tracks[selectedTrackLocal],duration}).then((res) => {
 				console.log(res,"track curr");
 			}).catch((err) => {
 				console.log(err);
 			})
 		}
-		// console.log("currentTrack added",track);
-        
-    }
+	}
 
-    useEffect(() => {
-        setUpTrackPlayer();
-        return () => TrackPlayer.destroy();
-    },[props])
+	useEffect(() => {
+		setUpTrackPlayer();
+		// TrackPlayer.play();
+		return () => TrackPlayer.destroy();
+	},[props])
 
-    const track = props.tracks[selectedTrack];
-    
+	const track = props.tracks[selectedTrackLocal];
+	
 	useEffect(() => {
 		if (!isSeeking && position && duration) {
 			setSliderValue(position / duration);
@@ -125,14 +120,21 @@ TrackPlayer.updateOptions({
 			// console.log(queue,"queue from new",getCurr,"get Curr");
 		}
 		getTrack();
-	},[props,selectedTrack])
+	},[props,selectedTrackLocal])
 
 	const onBack = async () => {
 		if (currentPosition < 10 && selectedTrack > 0) {
 			setTimeout(() => {
 				setPaused(false);
 				setSkipping(true);
-				setSelectedTrack((track) => track - 1);
+				setSelectedTrackLocal((track) => track - 1);
+				updateSelectedTrack(-1);
+				const persistingData = async () => {
+					const currentSelectedTrack = await AsyncStorage.getItem("selectedTrack");
+					const previous = JSON.parse(currentSelectedTrack)-1;
+					await AsyncStorage.setItem('selectedTrack', JSON.stringify(previous));
+				}
+				persistingData();
 			}, 0);
 			await TrackPlayer.skipToPrevious();
 		}
@@ -143,7 +145,14 @@ TrackPlayer.updateOptions({
 			setTimeout(() => {
 				setPaused(false);
 				setSkipping(true);
-				setSelectedTrack((track) => track + 1);
+				setSelectedTrackLocal((track) => track + 1);
+				updateSelectedTrack(1);
+				const persistingData = async () => {
+					const currentSelectedTrack = await AsyncStorage.getItem("selectedTrack");
+					const next = JSON.parse(currentSelectedTrack)+1;
+					await AsyncStorage.setItem('selectedTrack', JSON.stringify(next));
+				}
+				persistingData();
 			}, 0);
 			await TrackPlayer.skipToNext();
 		}
@@ -169,18 +178,18 @@ TrackPlayer.updateOptions({
 	});
 
 	const slidingStarted = () => {
-   		setIsSeeking(true);
- 	};
+		setIsSeeking(true);
+	};
 
- 	//this function is called when the user stops sliding the seekbar
+	//this function is called when the user stops sliding the seekbar
 	const slidingCompleted = async value => {
 		await TrackPlayer.seekTo(value * duration);
 		setSliderValue(value);
 		setIsSeeking(false);
 	};
 
-    return (
-        <LinearGradientComp
+	return (
+		<LinearGradientComp
 			bgcolors={{
 				colorOne: color ? color : '#7f8c8d',
 				colorTwo: ACCENT,
@@ -190,7 +199,7 @@ TrackPlayer.updateOptions({
 				artist_name={track.artist}
 				album_image={track.artwork}
 			/>
-			 <NewSeekBar
+			<NewSeekBar
 				onSlidingComplete={slidingCompleted}
 				trackLength={duration}
 				sliderValue={sliderValue}
@@ -203,23 +212,23 @@ TrackPlayer.updateOptions({
 				onPressRepeat={() => setRepeatOn((repeatOn) => !repeatOn)}
 				repeatOn={repeatOn}
 				shuffleOn={shuffleOn}
-				backwardDisabled={selectedTrack === 0}
-				forwardDisabled={selectedTrack === props.tracks.length - 1}
+				backwardDisabled={selectedTrackLocal === 0}
+				forwardDisabled={selectedTrackLocal === props.tracks.length - 1}
 				onPressShuffle={() => setShuffleOn((shuffleOn) => !shuffleOn)}
 				onPressPlay={async () => {
 					await TrackPlayer.play();
-                    setPaused(false);
+					setPaused(false);
 				}}
 				onPressPause={async () => {
-                    await TrackPlayer.pause();                    
-                    setPaused(true);
-                }}
+					await TrackPlayer.pause();                    
+					setPaused(true);
+				}}
 				onBack={onBack}
 				onForward={onForward}
 				paused={paused}
 			/>
 		</LinearGradientComp>
-    )
+	)
 }
 
 export default NewPlayer;

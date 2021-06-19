@@ -12,33 +12,13 @@ import {GlobalContext} from '../../context/GlobalState';
 import {defaultString} from '../Player/config';
 
 const {width, height} = Dimensions.get('window');
-
-const styles = StyleSheet.create({
-	container: {
-		paddingVertical: 5,
-		flexDirection: 'row',
-		backgroundColor: '#26282b',
-		borderRadius: 10,
-		// marginBottom: 2,
-	},
-	mainContainer: {
-		flex: 1,
-		flexDirection: 'row',
-		alignItems: 'center',
-	},
-	text: {
-		color: 'white',
-		fontSize: 12,
-		letterSpacing: 0.5,
-		fontFamily: 'NotoSans-Regular',
-	},
-});
-
+	
 const MiniPlayer = ({nav}) => {
 	const [paused, setPaused] = useState(false);
 	const [liked, setLiked] = useState(false);
-	const {queue} = useContext(GlobalContext);
-
+	const {queue,selectedTrack} = useContext(GlobalContext);
+	
+	
 	const onPressPlay = () => {
 		setPaused((paused) => !paused);
 	};
@@ -46,7 +26,7 @@ const MiniPlayer = ({nav}) => {
 	const onPressLike = () => {
 		setLiked((liked) => !liked);
 	};
-
+	
 	const openMiniPlayer = () => {
 		nav.navigate('PlayerScreen');
 	};
@@ -61,13 +41,11 @@ const MiniPlayer = ({nav}) => {
 						height: 50,
 						borderRadius: 8,
 						marginLeft: 8,
-						// borderColor: 'white',
-						// borderWidth: 2,
 					}}
 					source={{
-						uri: queue[0].artwork,
+						uri: queue[selectedTrack].artwork,
 					}}
-				/>
+					/>
 				<View
 					style={{
 						marginLeft: 15,
@@ -79,14 +57,14 @@ const MiniPlayer = ({nav}) => {
 							paddingBottom: 2,
 							fontWeight: 'bold',
 						}}>
-						{queue[0].title.length > 20
-							? queue[0].title.substring(0, 20) + '...'
-							: queue[0].title}
+						{queue[selectedTrack].title.length > 20
+							? queue[selectedTrack].title.substring(0, 20) + '...'
+							: queue[selectedTrack].title}
 					</Text>
 					<Text style={styles.text}>
-						{queue[0].artist.length > 20
-							? queue[0].artist.substring(0, 20) + '...'
-							: queue[0].artist}
+						{queue[selectedTrack].artist.length > 20
+							? queue[selectedTrack].artist.substring(0, 20) + '...'
+							: queue[selectedTrack].artist}
 					</Text>
 				</View>
 			</TouchableOpacity>
@@ -148,3 +126,24 @@ const MiniPlayer = ({nav}) => {
 };
 
 export default MiniPlayer;
+
+const styles = StyleSheet.create({
+	container: {
+		paddingVertical: 5,
+		flexDirection: 'row',
+		backgroundColor: '#26282b',
+		borderRadius: 10,
+		// marginBottom: 2,
+	},
+	mainContainer: {
+		flex: 1,
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	text: {
+		color: 'white',
+		fontSize: 12,
+		letterSpacing: 0.5,
+		fontFamily: 'NotoSans-Regular',
+	},
+});
