@@ -6,20 +6,20 @@ const OnboardingScreen = ({ navigation }) => {
     const slides = [
         {
             key: 's1',
-            title: 'Ad free music and Offline Downloads',
-            text: "Listen to the ad free music and download songs offline as many as you want",
+            title: 'Ad Free Music',
+            text: "Listen to ad free music and download songs without any hidden costs",
             image: require("../../../assets/slide1.png")
         }
         , {
             key: 's2',
             title: 'In App Sharing',
-            text: "Now share your favourite songs to your friends from within the app",
+            text: "Share your favourite songs with friends, within the app",
             image: require("../../../assets/slide2.png")
         },
         {
             key: 's3',
             title: 'Recommendations',
-            text: "Now get recommendations for any song you wish to for",
+            text: "Get recommendations for any song you wish for",
             image: require("../../../assets/slide2.png")
         }
     ];
@@ -56,7 +56,7 @@ const OnboardingScreen = ({ navigation }) => {
                     borderRadius: 10,
                 }}>
                     <Text style={{
-                        color: "black",
+                        color: "white",
                         fontSize: 16,
                         fontFamily: "ProductSans"
                     }}>
@@ -65,6 +65,7 @@ const OnboardingScreen = ({ navigation }) => {
                 </View>
             )}
             activeDotStyle={{ backgroundColor: "#BA68C8" }}
+            dotStyle={{ backgroundColor: "grey" }}
         />
     );
 }
@@ -73,7 +74,7 @@ export default OnboardingScreen;
 
 const styles = StyleSheet.create({
     slideContainer: {
-        backgroundColor: "#ffffff",
+        backgroundColor: "#000000",
         flex: 1,
         display: "flex",
         flexDirection: "column",
@@ -81,14 +82,16 @@ const styles = StyleSheet.create({
     },
     title: {
         fontFamily: "IBMPlexSans-Bold",
-        fontSize: 25,
+        fontSize: 35,
+        fontWeight: 'bold',
+        color: "white",
         marginTop: 150,
         paddingHorizontal: 70,
         textAlign: "center"
     },
     text: {
-        color: "black",
-        fontSize: 14,
+        color: "white",
+        fontSize: 18,
         opacity: 60,
         fontFamily: "IBMPlexSans-Regular",
         marginTop: 20,
