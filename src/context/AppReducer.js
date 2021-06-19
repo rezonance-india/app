@@ -5,7 +5,6 @@ export default (state, action) => {
 		case Actions.UPDATE_QUEUE:
 			return {
 				...state,
-				isPlaying: true,
 				queue: action.payload,
 			};
 		case Actions.UPDATE_COLOR:
@@ -17,6 +16,11 @@ export default (state, action) => {
 			return{
 				...state,
 				pausedState:action.payload
+			}
+		case Actions.UPDATE_SELECTEDTRACK:
+			return{
+				...state,
+				selectedTrack:state.selectedTrack+action.payload
 			}
 		default:
 			return state;

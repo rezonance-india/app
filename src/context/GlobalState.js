@@ -3,21 +3,22 @@ import AppReducer from './AppReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Actions} from './ActionsOverview';
 
+const initialState = {
+	queue: [],
+	color: '',
+	pausedState:true,
+	selectedTrack:0
+};
+
 const retrieveItem = async (key) => {
 	try {
 		const data = await AsyncStorage.getItem(key);
-		return data ? JSON.parse(data) : [];
+		return data ? JSON.parse(data) : initialState[key];
 	} catch (e) {
 		console.log('Failed to fetch the data from storage');
 	}
 };
 
-const initialState = {
-	queue: [],
-	isPlaying: false,
-	color: '',
-	pausedState:true
-};
 
 export const GlobalContext = createContext(initialState);
 
@@ -37,8 +38,19 @@ export const GlobalProvider = ({children}) => {
 				payload:pausedState
 			})
 		}
+
+		const fetchSelectedTrack = async () => {
+			const selectedTrack = await retrieveItem("selectedTrack");
+			dispatch({
+				type:Actions.UPDATE_SELECTEDTRACK,
+				payload:selectedTrack
+			})
+		}
+
 		fetchQueue();
 		fetchPausedState();
+		fetchSelectedTrack();
+
 	}, []);
 
 	const updateQueue = (trackDetails) => {
@@ -62,15 +74,25 @@ export const GlobalProvider = ({children}) => {
 		})
 	}
 
+	const updateSelectedTrack = (selectedIndex) => {
+		console.log(selectedIndex,"selected from dispatch fun");
+		dispatch({
+			type: Actions.UPDATE_SELECTEDTRACK,
+			payload: selectedIndex
+		})
+	}
+
 	return (
 		<GlobalContext.Provider
 			value={{
 				queue: state.queue,
 				color: state.color,
 				pausedState:state.pausedState,
+				selectedTrack:state.selectedTrack,
 				updateQueue,
 				updateColor,
-				updatePausedState
+				updatePausedState,
+				updateSelectedTrack
 			}}>
 			{children}
 		</GlobalContext.Provider>
