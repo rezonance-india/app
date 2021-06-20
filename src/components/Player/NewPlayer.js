@@ -99,9 +99,16 @@ const NewPlayer = (props) => {
 				fallback: '#7f8c8d',
 			});
 			if (colors.platform === 'android') {
-				averageColor = colors.average;
+				const {lightVibrant,average} = colors;
+
+				if(lightVibrant === "#000000"){
+					averageColor = average;
+				}
+				else {
+					averageColor = lightVibrant;
+				}
 				setColor(averageColor);
-				updateColor(averageColor);
+				updateColor(averageColor)
 			} else {
 				const backgroundColor = colors.background;
 				setColor(backgroundColor);

@@ -17,7 +17,6 @@ import {useContext} from 'react';
 import {GlobalContext} from '../../context/GlobalState';
 import {apiUrl} from '../../constants/config';
 const {width, height} = Dimensions.get('window');
-import { BlurView, VibrancyView } from "@react-native-community/blur";
 
 const Recommend = ({modalVisible, toggleVisibility}) => {
 	const [result, setResult] = useState([]);
@@ -105,7 +104,11 @@ const Recommend = ({modalVisible, toggleVisibility}) => {
 					colorTwo: 'rgb(0,0,0)',
 				}}>
 					<View style={styles.modalView}>
-
+					<Text style={{
+						color:"white",
+						fontSize:24,
+						marginHorizontal:"20%"
+					}}>Recommendations for {queue[selectedTrack].title}</Text>
 				<FlatList
 					keyExtractor={(item) => item.track_id}
 					data={result}
