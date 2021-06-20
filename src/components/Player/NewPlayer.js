@@ -35,7 +35,7 @@ const NewPlayer = (props) => {
 	
 	const [paused, setPaused] = useState(true);
 	const [currentPosition, setCurrentPosition] = useState(0);
-	const [selectedTrackLocal, setSelectedTrackLocal] = useState(0);
+	// const [selectedTrackLocal, setSelectedTrackLocal] = useState(0);
 	const [repeatOn, setRepeatOn] = useState(false);
 	const [shuffleOn, setShuffleOn] = useState(false);
 	const [color, setColor] = useState('');
@@ -54,14 +54,14 @@ const NewPlayer = (props) => {
 
 		if(skipping){
 			console.log("skipping");
-			TrackPlayer.add({...props.tracks[selectedTrackLocal],duration},null).then((res) => {
+			TrackPlayer.add({...props.tracks[selectedTrack],duration},null).then((res) => {
 			}).catch((err) => {
 				console.log(err);
 			})
 		}
 		else {
 			console.log("not skipping");
-			TrackPlayer.add({...props.tracks[selectedTrackLocal],duration}).then((res) => {
+			TrackPlayer.add({...props.tracks[selectedTrack],duration}).then((res) => {
 				console.log(res,"track curr");
 			}).catch((err) => {
 				console.log(err);
@@ -75,7 +75,7 @@ const NewPlayer = (props) => {
 		return () => TrackPlayer.destroy();
 	},[props])
 
-	const track = props.tracks[selectedTrackLocal];
+	const track = props.tracks[selectedTrack];
 	
 	useEffect(() => {
 		if (!isSeeking && position && duration) {
@@ -120,14 +120,14 @@ const NewPlayer = (props) => {
 			// console.log(queue,"queue from new",getCurr,"get Curr");
 		}
 		getTrack();
-	},[props,selectedTrackLocal])
+	},[props,selectedTrack])
 
 	const onBack = async () => {
 		if (currentPosition < 10 && selectedTrack > 0) {
 			setTimeout(() => {
 				setPaused(false);
 				setSkipping(true);
-				setSelectedTrackLocal((track) => track - 1);
+				// setSelectedTrackLocal((track) => track - 1);
 				updateSelectedTrack(-1);
 				const persistingData = async () => {
 					const currentSelectedTrack = await AsyncStorage.getItem("selectedTrack");
@@ -145,7 +145,7 @@ const NewPlayer = (props) => {
 			setTimeout(() => {
 				setPaused(false);
 				setSkipping(true);
-				setSelectedTrackLocal((track) => track + 1);
+				// setSelectedTrackLocal((track) => track + 1);
 				updateSelectedTrack(1);
 				const persistingData = async () => {
 					const currentSelectedTrack = await AsyncStorage.getItem("selectedTrack");
@@ -212,8 +212,8 @@ const NewPlayer = (props) => {
 				onPressRepeat={() => setRepeatOn((repeatOn) => !repeatOn)}
 				repeatOn={repeatOn}
 				shuffleOn={shuffleOn}
-				backwardDisabled={selectedTrackLocal === 0}
-				forwardDisabled={selectedTrackLocal === props.tracks.length - 1}
+				backwardDisabled={selectedTrack === 0}
+				forwardDisabled={selectedTrack === props.tracks.length - 1}
 				onPressShuffle={() => setShuffleOn((shuffleOn) => !shuffleOn)}
 				onPressPlay={async () => {
 					await TrackPlayer.play();

@@ -18,7 +18,6 @@ import {GlobalContext} from '../../context/GlobalState';
 import {apiUrl} from '../../constants/config';
 const {width, height} = Dimensions.get('window');
 import { BlurView, VibrancyView } from "@react-native-community/blur";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Recommend = ({modalVisible, toggleVisibility}) => {
 	const [result, setResult] = useState([]);
@@ -70,27 +69,27 @@ const Recommend = ({modalVisible, toggleVisibility}) => {
 	};
 	// console.log("This should print queue 0", queue[0]);
 	useEffect(() => {
-		console.log(selectedTrack,"selectedTrack from recommend");
-		axios
-			.post(
-				`${apiUrl}/recommend`,
-				{
-					ref_id: queue[selectedTrack].id,
-				},
-				{
-					headers: {
-						'Content-Type': 'application/json',
+		if(modalVisible){
+			axios
+				.post(
+					`${apiUrl}recommend`,
+					{
+						ref_id: queue[selectedTrack].id,
 					},
-				},
-			)
-			.then((res) => {
-				setResult(res.data);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-			console.log("in recommend");
-	}, [selectedTrack]);
+					{
+						headers: {
+							'Content-Type': 'application/json',
+						},
+					},
+				)
+				.then((res) => {
+					setResult(res.data);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		}
+	}, [modalVisible]);
 
 	return (
 		<Modal

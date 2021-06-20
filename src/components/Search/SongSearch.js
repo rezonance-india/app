@@ -17,9 +17,8 @@ const SongSearch = ({navigation}) => {
 	const [searchQuery, setSearchQuery] = useState('');
 	const [selectedSong, setSelectedSong] = useState({});
 	const [disable, setDisable] = useState(false);
-	const {queue, updateQueue} = useContext(GlobalContext);
+	const {queue, updateQueue,selectedTrack} = useContext(GlobalContext);
 	const [playerModalVisible, setPlayerModalVisible] = useState(false);
-
 
 	const renderer = ({item}) => (
 		<TouchableOpacity
@@ -30,7 +29,7 @@ const SongSearch = ({navigation}) => {
 				} else {
 					console.log('lol in queue');
 					const trackDetails = queue;
-					trackDetails[0] = {
+					trackDetails[selectedTrack] = {
 						title: item.track_name,
 						artist: item.artist_name,
 						artwork: item.album_image,

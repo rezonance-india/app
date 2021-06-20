@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
 	StyleSheet,
 	Text,
@@ -7,21 +7,31 @@ import {
 	Dimensions,
 	Image,
 } from 'react-native';
+import { TrackPlayerEvents } from 'react-native-track-player';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {GlobalContext} from '../../context/GlobalState';
 import {defaultString} from '../Player/config';
+import TrackPlayer from "react-native-track-player";
 
 const {width, height} = Dimensions.get('window');
 	
 const MiniPlayer = ({nav}) => {
 	const [paused, setPaused] = useState(false);
 	const [liked, setLiked] = useState(false);
-	const {queue,selectedTrack} = useContext(GlobalContext);
-	
-	
+	const {queue,selectedTrack,pausedState} = useContext(GlobalContext);
+		
 	const onPressPlay = () => {
-		setPaused((paused) => !paused);
+		setPaused((pausedState) => !pausedState)
 	};
+
+	// useEffect(() => {
+	// 	if(pausedState){
+	// 		setPaused(true);
+	// 	}
+	// 	else{
+	// 		setPaused(false);
+	// 	}
+	// },[pausedState])
 
 	const onPressLike = () => {
 		setLiked((liked) => !liked);
@@ -102,7 +112,7 @@ const MiniPlayer = ({nav}) => {
 				</TouchableOpacity>
 
 				<TouchableOpacity onPress={onPressPlay}>
-					{!paused ? (
+					{!pausedState ? (
 						<Icon
 							size={30}
 							name="pause-outline"
