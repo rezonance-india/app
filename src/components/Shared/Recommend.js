@@ -21,7 +21,7 @@ import { BlurView, VibrancyView } from "@react-native-community/blur";
 
 const Recommend = ({modalVisible, toggleVisibility}) => {
 	const [result, setResult] = useState([]);
-	const {queue,selectedTrack} = useContext(GlobalContext);
+	const {queue,selectedTrack,color} = useContext(GlobalContext);
 
 	const renderer = ({item}) => {
 		return (
@@ -101,7 +101,7 @@ const Recommend = ({modalVisible, toggleVisibility}) => {
 			}}>
 			<LinearGradientComp
 				bgcolors={{
-					colorOne: 'rgba(44,62,80, 1)',
+					colorOne: color ? color : 'rgba(44,62,80, 1)',
 					colorTwo: 'rgb(0,0,0)',
 				}}>
 					<View style={styles.modalView}>

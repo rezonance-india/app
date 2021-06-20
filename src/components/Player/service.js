@@ -1,12 +1,12 @@
 import TrackPlayer from "react-native-track-player";
 
 module.exports = async () => {
-    TrackPlayer.addEventListener("remote-play",() => {
-        TrackPlayer.play();
+    TrackPlayer.addEventListener("remote-play",async() => {
+        await TrackPlayer.play();
     })
 
-    TrackPlayer.addEventListener("remote-pause",() => {
-        TrackPlayer.pause();
+    TrackPlayer.addEventListener("remote-pause",async() => {
+        await TrackPlayer.pause();
     })
 
     TrackPlayer.addEventListener('remote-jump-forward', async () => {
@@ -31,4 +31,12 @@ module.exports = async () => {
     TrackPlayer.addEventListener("remote-seek", async ({position}) =>{
         await TrackPlayer.seekTo(position);
     });
+
+    TrackPlayer.addEventListener("remote-next",async () => {
+        await TrackPlayer.skipToNext();
+    })
+
+    TrackPlayer.addEventListener("remote-previous",async () => {
+        await TrackPlayer.skipToPrevious();
+    })
 }

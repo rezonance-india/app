@@ -55,6 +55,16 @@ const NewPlayer = (props) => {
 		if(skipping){
 			console.log("skipping");
 			TrackPlayer.add({...props.tracks[selectedTrack],duration},null).then((res) => {
+				// const autoPlay = async () => {
+				// 	if (await TrackPlayer.STATE_PLAYING)
+				// 	   {
+				// 		   console.log("playing from state");
+				// 		   await TrackPlayer.pause();
+				// 		   await TrackPlayer.seekTo(0);
+				// 	   	}
+				//    	await TrackPlayer.play()
+				// 	autoPlay();
+				// }
 			}).catch((err) => {
 				console.log(err);
 			})

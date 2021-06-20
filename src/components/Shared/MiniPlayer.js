@@ -12,27 +12,46 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {GlobalContext} from '../../context/GlobalState';
 import {defaultString} from '../Player/config';
 import TrackPlayer from "react-native-track-player";
+import { useTrackPlayerEvents} from 'react-native-track-player';
 
 const {width, height} = Dimensions.get('window');
 	
 const MiniPlayer = ({nav}) => {
-	const [paused, setPaused] = useState(false);
+	const [paused, setPaused] = useState(true);
 	const [liked, setLiked] = useState(false);
 	const {queue,selectedTrack,pausedState} = useContext(GlobalContext);
 		
-	const onPressPlay = () => {
-		setPaused((pausedState) => !pausedState)
+	const onPressPlay = async () => {
+		console.log("in play");
+		await TrackPlayer.play();
+		setPaused(false);
 	};
+	
+	const onPressPause = async () => {
+		console.log("in pause");
+		await TrackPlayer.pause();
+		setPaused(true);
+	}
 
-	// useEffect(() => {
-	// 	if(pausedState){
-	// 		setPaused(true);
-	// 	}
-	// 	else{
-	// 		setPaused(false);
-	// 	}
-	// },[pausedState])
+	const events = [
+		TrackPlayerEvents.PLAYBACK_STATE,
+		TrackPlayerEvents.PLAYBACK_ERROR
+	];
 
+	useTrackPlayerEvents(events, (event) => {
+		if (event.type === TrackPlayerEvents.PLAYBACK_ERROR) {
+			console.warn('An error occured while playing the current track.');
+		}
+		if (event.type === TrackPlayerEvents.PLAYBACK_STATE) {
+			if(event.state === 2){
+				setPaused(true);
+			}
+			else if(event.state === 3) {
+				setPaused(false);
+			}
+		}
+	});
+	
 	const onPressLike = () => {
 		setLiked((liked) => !liked);
 	};
@@ -111,25 +130,29 @@ const MiniPlayer = ({nav}) => {
 					)}
 				</TouchableOpacity>
 
-				<TouchableOpacity onPress={onPressPlay}>
-					{!pausedState ? (
-						<Icon
-							size={30}
-							name="pause-outline"
-							style={{
-								color: defaultString.darkColor,
-							}}
-						/>
-					) : (
-						<Icon
-							size={30}
-							name="play-outline"
-							style={{
-								color: defaultString.darkColor,
-							}}
-						/>
+					{!paused ? 
+					(
+						<TouchableOpacity onPress={onPressPause}>
+							<Icon
+								size={30}
+								name="pause-outline"
+								style={{
+									color: defaultString.darkColor,
+								}}
+							/>
+						</TouchableOpacity>
+					) : 
+					(
+						<TouchableOpacity onPress={onPressPlay}>
+							<Icon
+								size={30}
+								name="play-outline"
+								style={{
+									color: defaultString.darkColor,
+								}}
+							/>
+						</TouchableOpacity>
 					)}
-				</TouchableOpacity>
 			</View>
 		</View>
 	);
