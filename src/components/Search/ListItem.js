@@ -98,6 +98,7 @@ const ListItem = ({navigation, data, selectedSong, toggleDisability}) => {
 					<TouchableOpacity onPress={handlePress}>
 						<Icon
 							name="ellipsis-vertical-outline"
+							hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
 							size={20}
 							style={{
 								left: 5,
