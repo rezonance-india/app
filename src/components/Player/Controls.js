@@ -21,6 +21,7 @@ const Controls = ({
 	onPressRepeat,
 	backwardDisabled,
 	forwardDisabled,
+	navig
 }) => {
 	const [chatModalVisible, setChatModalVisible] = useState(false);
 	const [recommendModalVisible, setRecommendModalVisible] = useState(false);
@@ -33,6 +34,7 @@ const Controls = ({
 					modalVisible={chatModalVisible}
 				/>
 				<Recommend
+					navig={navig}
 					toggleVisibility={setRecommendModalVisible}
 					modalVisible={recommendModalVisible}
 				/>

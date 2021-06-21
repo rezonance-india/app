@@ -19,7 +19,6 @@ const retrieveItem = async (key) => {
 	}
 };
 
-
 export const GlobalContext = createContext(initialState);
 
 export const GlobalProvider = ({children}) => {

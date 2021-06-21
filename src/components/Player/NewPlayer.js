@@ -243,6 +243,7 @@ const NewPlayer = (props) => {
 				onBack={onBack}
 				onForward={onForward}
 				paused={paused}
+				navig={props.navig}
 			/>
 		</LinearGradientComp>
 	)

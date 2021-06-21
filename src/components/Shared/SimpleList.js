@@ -1,16 +1,71 @@
-import React from 'react';
+import axios from 'axios';
+import React,{useContext} from 'react';
 import {View, TouchableOpacity, Text, Dimensions, Image} from 'react-native';
 import {colors} from '../../constants/colors';
+import { apiUrl } from '../../constants/config';
+import { GlobalContext } from '../../context/GlobalState';
 import Type from './Type';
 
 const {width, height} = Dimensions.get('screen');
 
-const SimpleList = ({item, artist_details}) => {
+const SimpleList = ({item, artist_details,navig}) => {
+
+	const {selectedTrack,queue,updateQueue} = useContext(GlobalContext);
+
 	return (
 		<TouchableOpacity
 			activeOpacity={0.75}
 			onPress={() => {
-				console.log('pressed');
+				if(artist_details){
+					axios
+						.post(
+							`${apiUrl}fetch/tracks`,
+							{
+								album_id: item.album_id,
+							},
+							{
+								headers: {
+									'Content-Type': 'application/json',
+								},
+							},
+						)
+						.then((res) => {
+							const result = res.data.map((track) => ({
+								...track,
+								track_img: item.album_img,
+								artist_name: item.artist_name,
+							}));
+							navig.navigate('ViewArtistScreen', {
+								tracksData: result,
+								album_image: item.album_img,
+								artist_name: item.artist_name,
+								album_name: item.album_name,
+							});
+						})
+						.catch((err) => {
+							console.log(err);
+						});
+				}
+				else{
+					const trackDetails = queue;
+					trackDetails[selectedTrack] = {
+						title: item.track_name,
+						artist: item.artist_name,
+						artwork: item.album_image,
+						url: item.track_url,
+						id: item.ref_id,
+					};
+					updateQueue(trackDetails);
+					const persistingData = async () => {
+						await AsyncStorage.setItem(
+							'queue',
+							JSON.stringify(trackDetails),
+						);
+					};
+					persistingData();
+					navig.navigate('PlayerScreen');
+					console.log("hello abhi lke liue");
+				}
 			}}>
 			<View style={{flexDirection: 'row', width: '100%'}}>
 				<View
@@ -22,7 +77,7 @@ const SimpleList = ({item, artist_details}) => {
 						marginHorizontal: 10,
 						justifyContent: 'center',
 						alignItems: 'center',
-					}}>
+					}}>							
 					<Image
 						source={{
 							uri: artist_details

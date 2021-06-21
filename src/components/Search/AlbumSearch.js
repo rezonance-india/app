@@ -37,6 +37,7 @@ const AlbumSearch = ({navigation}) => {
 								...track,
 								track_img: item.album_img,
 								artist_name: item.artist_name,
+								album_image:item.album_img
 							}));
 							console.log(result, 'data');
 							navigation.navigate('ViewArtistScreen', {

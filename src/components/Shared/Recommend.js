@@ -5,6 +5,7 @@ import {
 	ImageBackground,
 	Modal,
 	ScrollView,
+	TouchableOpacity,
 	View,
 	Text,
 	StyleSheet,
@@ -16,53 +17,76 @@ import LinearGradientComp from './LinearGradient';
 import {useContext} from 'react';
 import {GlobalContext} from '../../context/GlobalState';
 import {apiUrl} from '../../constants/config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const {width, height} = Dimensions.get('window');
 
-const Recommend = ({modalVisible, toggleVisibility}) => {
+const Recommend = ({modalVisible, toggleVisibility,navig}) => {
 	const [result, setResult] = useState([]);
-	const {queue,selectedTrack,color} = useContext(GlobalContext);
+	const {queue,selectedTrack,color,updateQueue} = useContext(GlobalContext);
 
 	const renderer = ({item}) => {
 		return (
 			<View style={styles.container}>
-				<ImageBackground
-					source={{uri: item.album_image}}
-					style={styles.album}
-					imageStyle={{borderRadius: 10}}>
-        
-					<View
-						style={{
-							height: '27.5%',
-							top: '75%',
-							width: '100%',
-							backgroundColor: '#000',
-							opacity: 0.75,
-							borderBottomLeftRadius: 10,
-							borderBottomRightRadius: 10,
-						}}></View>
+				<TouchableOpacity onPress={() => {
+					const trackDetails = queue;
+					trackDetails[selectedTrack] = {
+						title: item.track_name,
+						artist: item.artist_name,
+						artwork: item.album_image,
+						url: item.track_url,
+						id: item.track_id,
+					};
+					updateQueue(trackDetails);
+					const persistingData = async () => {
+						await AsyncStorage.setItem(
+							'queue',
+							JSON.stringify(trackDetails),
+						);
+					};
+					persistingData();
+					navig.navigate('PlayerScreen');
+					toggleVisibility(!modalVisible);
+				}}>
 
-					<Text
-						style={{
-							...styles.text,
-							fontSize: 18,
-							fontFamily: 'NotoSans',
-							fontWeight: 'bold',
-						}}>
-							{/* <BlurView
-								style={styles.absolute}
-								blurType="regular"
-								blurAmount={60}
-							/> */}
-						{item.track_name.length > 20
-							? `${item.track_name.substring(0, 20)}...`
-							: item.track_name}
-					</Text>
-					<Text style={{...styles.text, fontSize: 14}}>
-						{item.artist_name.length > 30
-							? `${item.artist_name.substring(0, 20)}...`
-							: item.artist_name}
-					</Text>
-				</ImageBackground>
+					<ImageBackground
+						source={{uri: item.album_image}}
+						style={styles.album}
+						imageStyle={{borderRadius: 10}}>
+			
+						<View
+							style={{
+								height: '27.5%',
+								top: '75%',
+								width: '100%',
+								backgroundColor: '#000',
+								opacity: 0.75,
+								borderBottomLeftRadius: 10,
+								borderBottomRightRadius: 10,
+							}}></View>
+
+						<Text
+							style={{
+								...styles.text,
+								fontSize: 18,
+								fontFamily: 'NotoSans',
+								fontWeight: 'bold',
+							}}>
+								{/* <BlurView
+									style={styles.absolute}
+									blurType="regular"
+									blurAmount={60}
+								/> */}
+							{item.track_name.length > 20
+								? `${item.track_name.substring(0, 20)}...`
+								: item.track_name}
+						</Text>
+						<Text style={{...styles.text, fontSize: 14}}>
+							{item.artist_name.length > 30
+								? `${item.artist_name.substring(0, 20)}...`
+								: item.artist_name}
+						</Text>
+					</ImageBackground>
+				</TouchableOpacity>
 			</View>
 		);
 	};

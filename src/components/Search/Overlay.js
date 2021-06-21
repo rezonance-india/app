@@ -6,6 +6,7 @@ import {
 	Text,
 	StyleSheet,
 	TouchableOpacity,
+	ToastAndroid,
 } from 'react-native';
 import LinearGradient from '../Shared/LinearGradient';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -46,6 +47,8 @@ const Overlay = ({toggleVisibility, modalVisible, data, selectedSong}) => {
 					id:selectedSong.ref_id
 				});
 				updateQueue(trackDetails);
+
+				ToastAndroid.show("Added to queue",ToastAndroid.SHORT);
 
 				const persistingData = async () => {
 					await AsyncStorage.setItem(

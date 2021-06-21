@@ -18,7 +18,7 @@ const {width, height} = Dimensions.get('screen');
 //Second -
 //Album Search -> View Artist Screen but with Album image as the hero image
 //List -> All tracks of that album
-const ViewArtistScreen = ({route}) => {
+const ViewArtistScreen = ({route,navigation}) => {
 	const {
 		artist_image,
 		artist_name,
@@ -71,7 +71,10 @@ const ViewArtistScreen = ({route}) => {
 	//List renderer function
 	const renderer = ({item}) => {
 		return (
+			//Rendering list of albums by a particular artist if the condition is false
+			//Rendering list of tracks of a particular album
 			<SimpleList
+				navig={navigation}
 				artist_details={album_details.tracksData ? false : true}
 				item={item}
 			/>

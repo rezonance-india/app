@@ -22,13 +22,11 @@ const MiniPlayer = ({nav}) => {
 	const {queue,selectedTrack,pausedState} = useContext(GlobalContext);
 		
 	const onPressPlay = async () => {
-		console.log("in play");
 		await TrackPlayer.play();
 		setPaused(false);
 	};
 	
 	const onPressPause = async () => {
-		console.log("in pause");
 		await TrackPlayer.pause();
 		setPaused(true);
 	}
