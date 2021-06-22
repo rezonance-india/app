@@ -13,25 +13,33 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {useState} from 'react';
 import {GlobalContext} from '../../context/GlobalState';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ChatModal from "../Shared/ChatModal";
+import Recommend from "../Shared/Recommend";
+import axios from 'axios';
+import { apiUrl } from '../../constants/config';
 
-const Overlay = ({toggleVisibility, modalVisible, data, selectedSong}) => {
+const Overlay = ({toggleVisibility, modalVisible, data, selectedSong,navig}) => {
 	const [liked, setLiked] = useState(false);
 	const [heartIcon, setHeartIcon] = useState('heart-outline');
 	const [chatModalVisible, setChatModalVisible] = useState(false);
 	const {queue, updateQueue} = useContext(GlobalContext);
-
-	// const handlePress = () => {
-	// 	console.log('lol');
-	// 	setChatModalVisible(true);
-	// };
+	const [recommendModalVisible, setRecommendModalVisible] = useState(false);
 
 	const options = [
 		{
 			name: 'Like',
 			icon_name: heartIcon,
 			onPress: () => {
+				//Todo Async State updates
 				setLiked(!liked);
+				console.log(liked,"liked");
 				liked ? setHeartIcon('heart') : setHeartIcon('heart-outline');
+				if(liked) {
+					ToastAndroid.show("Added to liked songs",ToastAndroid.SHORT);
+				}
+				else {
+					ToastAndroid.show("Removed from liked songs",ToastAndroid.SHORT);
+				}
 			},
 		},
 		{
@@ -64,7 +72,6 @@ const Overlay = ({toggleVisibility, modalVisible, data, selectedSong}) => {
 			name: 'Send to Friends',
 			icon_name: 'rocket-outline',
 			onPress: () => {
-				console.log('lol rocket');
 				setChatModalVisible(true);
 			},
 		},
@@ -76,12 +83,57 @@ const Overlay = ({toggleVisibility, modalVisible, data, selectedSong}) => {
 		{
 			name: 'View artist',
 			icon_name: 'person-outline',
-			onPress: () => {},
+			onPress: () => {
+				axios
+				.post(
+					`${apiUrl}search/artists`,
+					{
+						query: selectedSong.artist_name,
+					},
+					{
+						headers: {
+							'Content-Type': 'application/json',
+						},
+					},
+				)
+				.then((result) => {
+					console.log(result.data,"Data");
+					axios
+					.post(
+						`${apiUrl}fetch/albums`,
+						{
+							artist_id: result.data[0].artist_id,
+						},
+						{
+							headers: {
+								'Content-Type': 'application/json',
+							},
+						},
+					)
+					.then((res) => {
+						navig.navigate('ViewArtistScreen', {
+							albumData: res.data,
+							artist_id: result.data[0].artist_id,
+							artist_image:result.data[0].artist_image,
+							artist_name: result.data[0].artist_name,
+						});
+						toggleVisibility(false);
+					})
+					.catch((err) => {
+						console.log(err);
+					});
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+			},
 		},
 		{
 			name: 'Similar Songs',
 			icon_name: 'layers-outline',
-			onPress: () => {},
+			onPress: () => {
+				setRecommendModalVisible(true);
+			},
 		},
 	];
 
@@ -93,6 +145,16 @@ const Overlay = ({toggleVisibility, modalVisible, data, selectedSong}) => {
 			onRequestClose={() => {
 				toggleVisibility(!modalVisible);
 			}}>
+			<ChatModal
+				toggleVisibility={setChatModalVisible}
+				modalVisible={chatModalVisible}
+			/>
+			<Recommend
+				selectedSong={selectedSong}
+				navig={navig}
+				toggleVisibility={setRecommendModalVisible}
+				modalVisible={recommendModalVisible}
+			/>
 			<LinearGradient
 				bgcolors={{
 					colorOne: '#2d3436AF',

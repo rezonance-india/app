@@ -18,7 +18,7 @@ import Overlay from './Overlay';
 
 const {width, height} = Dimensions.get('screen');
 
-const ListItem = ({navigation, data, selectedSong, toggleDisability}) => {
+const ListItem = ({navig, data, selectedSong, toggleDisability}) => {
 	const [modalVisible, setModalVisible] = useState(false);
 
 	const handlePress = () => {
@@ -38,6 +38,7 @@ const ListItem = ({navigation, data, selectedSong, toggleDisability}) => {
 		<View style={{flexDirection: 'row', width: '100%'}}>
 			<View style={styles.centeredView}>
 				<Overlay
+					navig={navig}
 					data={data}
 					selectedSong={selectedSong}
 					toggleVisibility={setModalVisible}

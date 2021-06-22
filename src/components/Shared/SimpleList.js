@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import React,{useContext} from 'react';
 import {View, TouchableOpacity, Text, Dimensions, Image} from 'react-native';
@@ -51,7 +52,7 @@ const SimpleList = ({item, artist_details,navig}) => {
 					trackDetails[selectedTrack] = {
 						title: item.track_name,
 						artist: item.artist_name,
-						artwork: item.album_image,
+						artwork: item.track_img,
 						url: item.track_url,
 						id: item.ref_id,
 					};

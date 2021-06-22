@@ -20,7 +20,7 @@ import {apiUrl} from '../../constants/config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const {width, height} = Dimensions.get('window');
 
-const Recommend = ({modalVisible, toggleVisibility,navig}) => {
+const Recommend = ({modalVisible, toggleVisibility,navig,selectedSong}) => {
 	const [result, setResult] = useState([]);
 	const {queue,selectedTrack,color,updateQueue} = useContext(GlobalContext);
 
@@ -93,11 +93,12 @@ const Recommend = ({modalVisible, toggleVisibility,navig}) => {
 	// console.log("This should print queue 0", queue[0]);
 	useEffect(() => {
 		if(modalVisible){
+			console.log(selectedSong,"selectedSong");
 			axios
 				.post(
 					`${apiUrl}recommend`,
 					{
-						ref_id: queue[selectedTrack].id,
+						ref_id: selectedSong ? selectedSong.ref_id : queue[selectedTrack].id,
 					},
 					{
 						headers: {
@@ -132,7 +133,7 @@ const Recommend = ({modalVisible, toggleVisibility,navig}) => {
 						color:"white",
 						fontSize:24,
 						marginHorizontal:"20%"
-					}}>Recommendations for {queue[selectedTrack].title}</Text>
+					}}>Recommendations for {selectedSong ? selectedSong.track_name : queue[selectedTrack].title}</Text>
 				<FlatList
 					keyExtractor={(item) => item.track_id}
 					data={result}

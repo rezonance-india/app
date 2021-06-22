@@ -53,6 +53,7 @@ const SongSearch = ({navigation}) => {
 				navigation={navigation}
 				selectedSong={selectedSong}
 				data={item}
+				navig={navigation}
 			/>
 		</TouchableOpacity>
 	);
