@@ -21,6 +21,20 @@ export const rp = [
         album_image: "https://i.scdn.co/image/ab67616d0000b27388b3414802727efbacf8dc43"
 	},
 	{
+		ref_id: "pop19299",
+        track_name: "Save Your Tears",
+        album_name: "The Highlights",
+        artist_name: "The Weeknd",
+        album_image: "https://i.scdn.co/image/ab67616d0000b27312a76d1b13ef07188f7dfbc9"
+	},
+	{
+		ref_id: "pop33792",
+        track_name: "Dance Monkey",
+        album_name: "Dance Monkey",
+        artist_name: "Tones And I",
+        album_image: "https://i.scdn.co/image/ab67616d0000b273c6f7af36ecdc3ed6e0a1f169"
+	},
+	{
 		ref_id: "edm2527",
         track_name: "Area51",
         album_name: "United We Are",
@@ -28,23 +42,23 @@ export const rp = [
         album_image: "https://i.scdn.co/image/ab67616d0000b2735fb2df6cfc7d3cad7625713d"
 	},
 	{
-		ref_id: 'roc26546',
-		track_name: 'The Final Countdown',
-		album_name: 'The Final Countdown',
-		artist_name: 'Europe',
+		ref_id: 'pop6790',
+		track_name: 'A Sky Full of Stars',
+		album_name: 'Ghost Stories',
+		artist_name: 'Coldplay',
 		album_image:
-			'https://i.scdn.co/image/ab67616d0000b27354dbd4c77b2a3db8fb079943',
+			'https://i.scdn.co/image/ab67616d0000b273f864bcdcc245f06831d17ae0',
 	},
 ];
 
 export const rfu = [
 	{
-		ref_id: 'roc16460',
-		track_name: 'The Final Countdown',
-		album_name: 'TOP 40 HITDOSSIER - 80s (Eighties Top 100)',
-		artist_name: 'Billy Joel',
+		ref_id: 'pop6790',
+		track_name: 'A Sky Full of Stars',
+		album_name: 'Ghost Stories',
+		artist_name: 'Coldplay',
 		album_image:
-			'https://i.scdn.co/image/ab67616d0000b2737ba47d554d89ce01f4859f8f',
+			'https://i.scdn.co/image/ab67616d0000b273f864bcdcc245f06831d17ae0',
 	},
 	{
 		ref_id: 'roc21001',
