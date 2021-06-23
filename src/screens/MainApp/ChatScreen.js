@@ -1,15 +1,92 @@
 import React, {useState} from 'react';
-import {Text, View, ScrollView, Image, StyleSheet} from 'react-native';
+import {Text, View, ScrollView, Image, StyleSheet,TouchableOpacity,FlatList} from 'react-native';
 import SearchBox from '../../components/Search/SearchBox';
 import LinearGradientComp from '../../components/Shared/LinearGradient';
 import {ACCENT, PRIMARY} from '../../constants/colors';
 import {userData} from '../../constants/store';
 
-const ChatScreen = () => {
+const ChatScreen = ({navigation}) => {
 	const [searchQuery, setSearchQuery] = useState('');
 	const search = () => {
 		console.log('in search frands');
 	};
+
+	
+	const renderer = ({item}) => {
+		const pressChatBox = () => {
+			navigation.navigate("MessagingScreen",{
+				item
+			})
+		}
+		return (
+			<View
+				key={item.id}
+				style={{
+					flexDirection: 'column',
+					margin: '2%',
+					height: '10%',
+					// borderTopWidth: 1,
+					// borderTopColor: 'rgba(255, 255, 2555, 0.5)',
+				}}>
+				<TouchableOpacity onPress={pressChatBox}>
+
+					<View
+						style={{
+							flexDirection: 'row',
+						}}>
+						<Image
+							source={{uri: item.image}}
+							style={{
+								borderRadius: 20,
+								left: 10,
+								width: 50,
+								height: 50,
+							}}
+						/>
+						<View
+							styel={{
+								flex: 1,
+							}}>
+							<View
+								style={{
+									flexDirection: 'row',
+								}}>
+								<Text style={styles.options}>
+									{item.name.length > 30
+										? item.name.substring(0, 30) +
+										'...'
+										: item.name}
+								</Text>
+							</View>
+							<View
+								style={{
+									maxWidth: '80%',
+									flexDirection: 'row',
+								}}>
+								<Text
+									style={{
+										...styles.options,
+										fontSize: 14,
+										marginTop: 2,
+										fontFamily: 'NotoSans-Regular',
+									}}>
+									You shared song, Vertigo By Khalid.
+								</Text>
+								<Text
+									style={{
+										...styles.options,
+										marginTop: -25,
+									}}>
+									3hr
+								</Text>
+							</View>
+						</View>
+					</View>
+				</TouchableOpacity>
+			</View>
+		)
+	}
+
 	return (
 		<LinearGradientComp
 			bgcolors={{
@@ -40,77 +117,12 @@ const ChatScreen = () => {
 				Messages
 			</Text>
 			<View>
-				<ScrollView
-					showsVerticalScrollIndicator={true}
-					style={{
-						color: 'white',
-						marginTop: 10,
-					}}>
-					{userData.map((user, i) => (
-						<View
-							key={i}
-							style={{
-								flexDirection: 'column',
-								margin: '2%',
-								height: '10%',
-								// borderTopWidth: 1,
-								// borderTopColor: 'rgba(255, 255, 2555, 0.5)',
-							}}>
-							<View
-								style={{
-									flexDirection: 'row',
-								}}>
-								<Image
-									source={{uri: user.image}}
-									style={{
-										borderRadius: 20,
-										left: 10,
-										width: 50,
-										height: 50,
-									}}
-								/>
-								<View
-									styel={{
-										flex: 1,
-									}}>
-									<View
-										style={{
-											flexDirection: 'row',
-										}}>
-										<Text style={styles.options}>
-											{user.name.length > 30
-												? user.name.substring(0, 30) +
-												  '...'
-												: user.name}
-										</Text>
-									</View>
-									<View
-										style={{
-											maxWidth: '80%',
-											flexDirection: 'row',
-										}}>
-										<Text
-											style={{
-												...styles.options,
-												fontSize: 14,
-												marginTop: 2,
-												fontFamily: 'NotoSans-Regular',
-											}}>
-											You shared song, Vertigo By Khalid.
-										</Text>
-										<Text
-											style={{
-												...styles.options,
-												marginTop: -25,
-											}}>
-											3hr
-										</Text>
-									</View>
-								</View>
-							</View>
-						</View>
-					))}
-				</ScrollView>
+				<FlatList
+					keyExtractor={(item) => item.id}
+					data={userData}
+					renderItem={renderer}
+					showsVerticalScrollIndicator={false}
+				/>
 			</View>
 		</LinearGradientComp>
 	);

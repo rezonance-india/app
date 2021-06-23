@@ -38,8 +38,8 @@ const Header = ({navigation, isBack, heading, style, iconName, iconAction}) => {
 						</Text>
 					</View>
 				</View>
-				{/* 
-				{navigation.canGoBack() && isBack ? (
+				
+				{/* {navigation.canGoBack() && isBack ? (
 					<TouchableOpacity onPress={handleBack} activeOpacity={0.75}>
 						<Icon
 							name="chevron-back-outlined"
@@ -49,7 +49,7 @@ const Header = ({navigation, isBack, heading, style, iconName, iconAction}) => {
 					</TouchableOpacity>
 				) : null} */}
 
-				{iconName && (
+				{/* {iconName && (
 					<TouchableOpacity
 						activeOpacity={0.75}
 						style={{position: 'absolute', right: 0, padding: 5}}
@@ -62,7 +62,7 @@ const Header = ({navigation, isBack, heading, style, iconName, iconAction}) => {
 							style={{margin: 5, color: colors.text}}
 						/>
 					</TouchableOpacity>
-				)}
+				)} */}
 			</View>
 		</>
 	);
