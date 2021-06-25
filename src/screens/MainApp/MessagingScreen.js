@@ -12,8 +12,7 @@ const MessagingScreen = ({route,navigation}) => {
     const user = route.params.item;
 
     const handleBack = () => {
-        // navigation.canGoBack();
-		console.log("lol");
+        navigation.goBack();
 	}
 
 	const renderer = ({item}) => {

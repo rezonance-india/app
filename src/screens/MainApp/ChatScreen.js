@@ -10,7 +10,6 @@ const ChatScreen = ({navigation}) => {
 	const search = () => {
 		console.log('in search frands');
 	};
-
 	
 	const renderer = ({item}) => {
 		const pressChatBox = () => {

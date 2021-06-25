@@ -6,6 +6,8 @@ import {
 	Dimensions,
 	TextInput,
 	ScrollView,
+	Image,
+	TouchableOpacity
 } from 'react-native';
 import LinearGradient from '../../components/Shared/LinearGradient';
 import {ACCENT, PRIMARY} from '../../constants/colors';
@@ -22,6 +24,15 @@ const HomeScreen = ({navigation}) => {
 	const {queue} = useContext(GlobalContext);
 
 	console.log(queue,"global queue");
+
+	const imageUrl = "https://images.unsplash.com/photo-1500048993953-d23a436266cf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=749&q=80";
+
+	const goToProfile = () => {
+		console.log("ok");
+		navigation.navigate("ProfileScreen",{
+			imageUrl
+		})
+	}
 
 	const renderSongs = () => {
 		return titles.map((title, i) => (
@@ -45,10 +56,27 @@ const HomeScreen = ({navigation}) => {
 			<ScrollView>
 				<View style={{marginHorizontal: 15, marginVertical: 10}}>
 					<View style={styles.greetingContainer}>
-						<Text style={styles.greeting}>Good Evening!</Text>
+						<View 
+							style={{
+								flexDirection:"row",
+								justifyContent:"space-around"
+							}}>
+								<Text style={styles.greeting}>Good Evening!</Text>
+								<TouchableOpacity onPress={goToProfile}>
+								<Image
+									source={{uri: imageUrl}}
+									style={{
+										top:-10,
+										borderRadius: 35,
+										width: 70,
+										height: 70,
+								}} />
+								</TouchableOpacity>
+							</View>
 						<Text
 							style={{
 								...styles.greeting,
+								marginTop:-45,
 								fontSize: 32,
 								fontFamily: 'NotoSans-Bold',
 							}}>
@@ -65,7 +93,6 @@ const HomeScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
 	greetingContainer: {
-		justifyContent: 'space-between',
 		flex: 0.08,
 		marginTop: 50,
 		marginBottom: 20,
@@ -77,6 +104,7 @@ const styles = StyleSheet.create({
 		letterSpacing: 0.1,
 		width: width / 1.5,
 		fontSize: 20,
+		marginLeft:-10
 	},
 });
 

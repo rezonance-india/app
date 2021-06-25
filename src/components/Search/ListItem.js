@@ -126,3 +126,4 @@ export default ListItem;
 const styles = StyleSheet.create({
 	centeredView: {},
 });
+ 
