@@ -20,7 +20,7 @@ const ChatModal = ({modalVisible, toggleVisibility}) => {
 			}}>
 			<LinearGradient
 				bgcolors={{
-					colorOne: 'rgba(0, 0, 0, 0.45)',
+					colorOne: 'rgba(0, 0, 0, 0.3)',
 					colorTwo: 'rgba(0, 0, 0, 1)',
 				}}>
 				<View>
@@ -99,8 +99,8 @@ const styles = StyleSheet.create({
 		marginLeft: -10,
 	},
 	button: {
-		// backgroundColor: '#09a0eb',
-		backgroundColor: '#7200ca',
+		backgroundColor: '#09a0eb',
+		// backgroundColor: '#7200ca',
 		height: 35,
 		width: 70,
 		opacity: 0.8,

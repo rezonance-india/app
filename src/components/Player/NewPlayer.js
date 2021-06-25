@@ -15,7 +15,6 @@ TrackPlayer.updateOptions({
 	capabilities: [
 		TrackPlayer.CAPABILITY_PLAY,
             TrackPlayer.CAPABILITY_PAUSE,
-            TrackPlayer.CAPABILITY_STOP,
             TrackPlayer.CAPABILITY_SKIP_TO_PREVIOUS,
             TrackPlayer.CAPABILITY_SKIP_TO_NEXT,
 			TrackPlayer.CAPABILITY_SEEK_TO,
@@ -72,7 +71,12 @@ const NewPlayer = (props) => {
 		else {
 			console.log("not skipping");
 			TrackPlayer.add({...props.tracks[selectedTrack],duration}).then((res) => {
-				console.log(res,"track curr");
+				if(TrackPlayer.STATE_PLAYING)
+				{
+					TrackPlayer.pause()
+					TrackPlayer.seekTo(0)
+					TrackPlayer.play()
+				}
 			}).catch((err) => {
 				console.log(err);
 			})
