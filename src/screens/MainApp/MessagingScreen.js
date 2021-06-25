@@ -28,8 +28,8 @@ const MessagingScreen = ({route,navigation}) => {
 							height: '20%',
 							top: '80%',
 							width: '100%',
-							backgroundColor: '#1c1b19',
-							opacity: 0.65,
+							backgroundColor: 'rgba(18, 18, 18, 0.9)',
+							// opacity: 0.65,
 							borderBottomLeftRadius: 10,
 							borderBottomRightRadius: 10,
 						}}></View>
@@ -37,7 +37,8 @@ const MessagingScreen = ({route,navigation}) => {
 					<Text
 						style={{
 							...styles.text,
-							fontSize: 20,
+							paddingTop: 8,
+							fontSize: 18,
 							fontFamily: '',
 							fontWeight: 'bold',
 						}}>
@@ -52,13 +53,13 @@ const MessagingScreen = ({route,navigation}) => {
     return (
         <LinearGradientComp
 			bgcolors={{
-				colorOne: PRIMARY,
-				colorTwo: ACCENT,
+				colorOne: 'rgba(0,0,0,1)',
+				colorTwo: 'rgba(0,0,0,1)',
 			}}>
                 
 				<View style={{
 					marginTop:"10%",
-					marginLeft:"10%",
+					// marginLeft:"10%",
 					marginBottom:20,
 					flexDirection:"row",
 				}}>
@@ -68,7 +69,7 @@ const MessagingScreen = ({route,navigation}) => {
 						<Icon
 							name="arrow-back-outline"
 							size={30}
-							style={{marginVertical: 5,marginHorizontal:15, color:"white"}}
+							style={{marginVertical: 7.5,marginHorizontal:15, color:"white"}}
 						/>
 					</TouchableOpacity>
 
@@ -84,10 +85,12 @@ const MessagingScreen = ({route,navigation}) => {
 					/>
 					<Text style={{
 						marginLeft:"4%",
+						paddingTop: "1%",
 						color:"white",
 						marginTop:"2%",
 						fontFamily:"NotoSans-Bold",
-						fontSize:16
+						fontSize:18,
+						fontWeight: '900',
 					}}>{user.name}</Text>
             	
 				</View>            
