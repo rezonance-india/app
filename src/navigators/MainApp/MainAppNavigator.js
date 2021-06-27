@@ -3,7 +3,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 //Screens
 import BottomNavigator from './BottomNavigator';
-import ProfileScreen from '../../screens/MainApp/ProfileScreen';
 import EditProfileScreen from '../../screens/MainApp/EditProfileScreen';
 import ViewArtistScreen from '../../screens/MainApp/ViewArtistScreen';
 import OnboardingScreen from '../../screens/Home/OnboardingScreen';
@@ -23,11 +22,6 @@ const MainAppNavigator = () => {
 				<Stack.Screen
 					name="HomeScreen"
 					component={BottomNavigator}
-					options={{headerShown: false}}
-				/>
-				<Stack.Screen
-					name="ProfileScreen"
-					component={ProfileScreen}
 					options={{headerShown: false}}
 				/>
 				<Stack.Screen

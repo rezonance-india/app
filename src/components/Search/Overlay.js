@@ -32,7 +32,6 @@ const Overlay = ({toggleVisibility, modalVisible, data, selectedSong,navig}) => 
 			onPress: () => {
 				//Todo Async State updates
 				setLiked(!liked);
-				console.log(liked,"liked");
 				liked ? setHeartIcon('heart') : setHeartIcon('heart-outline');
 				if(liked) {
 					ToastAndroid.show("Added to liked songs",ToastAndroid.SHORT);
@@ -97,7 +96,6 @@ const Overlay = ({toggleVisibility, modalVisible, data, selectedSong,navig}) => 
 					},
 				)
 				.then((result) => {
-					console.log(result.data,"Data");
 					axios
 					.post(
 						`${apiUrl}fetch/albums`,

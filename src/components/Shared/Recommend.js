@@ -93,7 +93,6 @@ const Recommend = ({modalVisible, toggleVisibility,navig,selectedSong}) => {
 	// console.log("This should print queue 0", queue[0]);
 	useEffect(() => {
 		if(modalVisible){
-			console.log(selectedSong,"selectedSong");
 			axios
 				.post(
 					`${apiUrl}recommend`,

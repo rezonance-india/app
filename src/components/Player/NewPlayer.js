@@ -71,12 +71,12 @@ const NewPlayer = (props) => {
 		else {
 			console.log("not skipping");
 			TrackPlayer.add({...props.tracks[selectedTrack],duration}).then((res) => {
-				if(TrackPlayer.STATE_PLAYING)
-				{
-					TrackPlayer.pause()
-					TrackPlayer.seekTo(0)
-					TrackPlayer.play()
-				}
+				// if(TrackPlayer.STATE_PLAYING)
+				// {
+				// 	TrackPlayer.pause()
+				// 	TrackPlayer.seekTo(0)
+				// 	TrackPlayer.play()
+				// }
 			}).catch((err) => {
 				console.log(err);
 			})
