@@ -1,13 +1,26 @@
 import React,{useEffect,useState} from 'react';
-import {Text,View,Image,StyleSheet} from 'react-native';
+import {Text,View,Image,StyleSheet,FlatList,Dimensions,ScrollView} from 'react-native';
 import LinearGradientComp from '../../components/Shared/LinearGradient';
-import { ACCENT } from '../../constants/colors';
+import { ACCENT, colors } from '../../constants/colors';
 import ImageColors from 'react-native-image-colors';
+import { playlistData } from '../../constants/Playlistdata';
+import List from "../../components/Profile/List"
+import { userData } from '../../constants/store';
+import Icon from 'react-native-vector-icons/Ionicons';
+import Type from "../../components/Shared/Type"
+
+const {width, height} = Dimensions.get('screen');
 
 const ProfileScreen = ({route}) => {
 	const [color,setColor] = useState(color);
-
+	
 	const {imageUrl} = route.params;
+
+	const renderer = ({item}) => {
+		return(
+			<List item = {item} /> 
+		)
+	}
 
 	useEffect(() => {
 		const getDominantColors = async () => {
@@ -119,6 +132,48 @@ const ProfileScreen = ({route}) => {
 					</Text>
 				</View>
 			</View>
+			<ScrollView>
+
+				<View style={{
+					flexDirection:"row",
+					marginTop:30
+				}}>
+					<Icon
+						name="create-outline"
+						size={50}
+						style={{marginHorizontal:20, color:"white"}}
+					/>
+
+					<View
+						style={{
+							flexDirection: 'row',
+							marginTop:10,
+							justifyContent: 'space-between',
+							flex: 1,
+							width: '100%',
+					}}>
+						<Type
+							style={{
+								fontSize: width / 22,
+								width: '80%',
+								color: colors.text,
+								marginHorizontal:10,
+								fontWeight:"bold",
+								fontFamily:"IBMPlexSans"
+							}}>
+							{"Create Playlist"}
+						</Type>
+					</View>
+
+				</View>	 	
+				
+				<FlatList
+					keyExtractor={(item) => (item.id).toString()}
+					data={playlistData}
+					renderItem={renderer}
+					showsVerticalScrollIndicator={false}
+				/>
+			</ScrollView>
 		</LinearGradientComp>
     )
 };
