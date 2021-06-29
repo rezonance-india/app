@@ -1,25 +1,37 @@
 import React,{useEffect,useState} from 'react';
-import {Text,View,Image,StyleSheet,FlatList,Dimensions,ScrollView} from 'react-native';
+import {Text,View,Image,StyleSheet,FlatList,Dimensions,ScrollView, TouchableOpacity} from 'react-native';
 import LinearGradientComp from '../../components/Shared/LinearGradient';
 import { ACCENT, colors } from '../../constants/colors';
 import ImageColors from 'react-native-image-colors';
-import { playlistData } from '../../constants/Playlistdata';
+import { playlistData } from '../../constants/playlistdata';
 import List from "../../components/Profile/List"
 import { userData } from '../../constants/store';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Type from "../../components/Shared/Type"
+import FriendsModal from '../../components/Profile/FriendsModal';
+import PendingRequestsModal from '../../components/Profile/PendingRequestsModal';
 
 const {width, height} = Dimensions.get('screen');
 
 const ProfileScreen = ({route}) => {
 	const [color,setColor] = useState(color);
-	
+	const [friendModalVisible, setFriendModalVisible] = useState(false);
+	const [pendingModalVisible,setPendingModalVisible] = useState(true);
+
 	const {imageUrl} = route.params;
 
 	const renderer = ({item}) => {
 		return(
 			<List item = {item} /> 
 		)
+	}
+
+	const openModal = () => {
+		setFriendModalVisible(true);
+	}
+
+	const showPending = () => {
+		setPendingModalVisible(true);
 	}
 
 	useEffect(() => {
@@ -55,6 +67,16 @@ const ProfileScreen = ({route}) => {
 				colorTwo: ACCENT,
 			}}>
 			
+			<FriendsModal
+				toggleVisibility={setFriendModalVisible}
+				modalVisible={friendModalVisible}
+			/>
+
+			<PendingRequestsModal
+				toggleVisibility={setPendingModalVisible}
+				modalVisible={pendingModalVisible}
+			/>				
+
 			<View style={{
 				flexDirection:"column",
 				justifyContent:"space-between",
@@ -67,87 +89,100 @@ const ProfileScreen = ({route}) => {
 						borderRadius: 70,
 						width: 140,
 						height: 140,
-				}} />
+					}} />
 				<Text style={styles.text}>
 					kg-kartik
 				</Text>
 			</View>
-			<View style={{
-				flexDirection:"column",
-			}}>
+
 				<View style={{
 					flexDirection:"row",
 					justifyContent:"space-around",
 					marginTop:20,
 				}}>
-					<Text style={{
-						...styles.text,
-						fontFamily:"NotoSans-Regular",
-						fontSize:20
+					<View style={{
+						flexDirection:"column",
 					}}>
-						0
-					</Text>
-					<Text style={{
-						...styles.text,
-						fontFamily:"NotoSans-Regular",
-						fontSize:20
+						<TouchableOpacity onPress={openModal}>
+							<Text style={{
+								...styles.text,
+								fontFamily:"NotoSans-Regular",
+								fontSize:20
+							}}>
+								0
+							</Text>
+
+							<Text style={{
+								...styles.text,
+								fontFamily:"NotoSans-Regular",
+								fontSize:20
+							}}>
+								Friends
+							</Text>
+						</TouchableOpacity>
+
+					</View>
+
+					<TouchableOpacity onPress={showPending}>
+
+						<View style={{
+							flexDirection:"column"
+						}}>
+
+							<Text style={{
+								...styles.text,
+								fontFamily:"NotoSans-Regular",
+								fontSize:20
+							}}>
+								0
+							</Text>
+							<Text style={{
+								...styles.text,
+								fontFamily:"NotoSans-Regular",
+								fontSize:20
+							}}>
+								Pending
+							</Text>
+						</View>
+					</TouchableOpacity>
+
+					<View style={{
+						flexDirection:"column"
 					}}>
-						0
-					</Text>
-					<Text style={{
-						...styles.text,
-						fontFamily:"NotoSans-Regular",
-						fontSize:20
-					}}>
-						0
-					</Text>
+
+						<Text style={{
+							...styles.text,
+							fontFamily:"NotoSans-Regular",
+							fontSize:20
+						}}>
+							0
+						</Text>
+						
+						<Text style={{
+							...styles.text,
+							fontFamily:"NotoSans-Regular",
+							fontSize:20
+						}}>
+							Playlist
+						</Text>
+					</View>
 				</View>
 
-				<View style={{
-					flexDirection:"row",
-					justifyContent:"space-around",
-					fontSize:20,
-					marginTop:-15,
-				}}>
-					<Text style={{
-						...styles.text,
-						fontFamily:"NotoSans-Regular",
-						fontSize:20
-					}}>
-						Followers
-					</Text>
-					<Text style={{
-						...styles.text,
-						fontFamily:"NotoSans-Regular",
-						fontSize:20
-					}}>
-						Following
-					</Text>
-					<Text style={{
-						...styles.text,
-						fontFamily:"NotoSans-Regular",
-						fontSize:20
-					}}>
-						Playlist
-					</Text>
-				</View>
-			</View>
-			<ScrollView>
-
+				<ScrollView>
 				<View style={{
 					flexDirection:"row",
 					marginTop:30
 				}}>
 					<Icon
 						name="create-outline"
-						size={50}
-						style={{marginHorizontal:20, color:"white"}}
+						size={60}
+						style={{marginHorizontal:15, color:"white"}}
 					/>
 
 					<View
 						style={{
 							flexDirection: 'row',
-							marginTop:10,
+							marginTop:15,
 							justifyContent: 'space-between',
 							flex: 1,
 							width: '100%',
@@ -158,13 +193,12 @@ const ProfileScreen = ({route}) => {
 								width: '80%',
 								color: colors.text,
 								marginHorizontal:10,
-								fontWeight:"bold",
-								fontFamily:"IBMPlexSans"
+	                            fontFamily:"NotoSans-Bold"
 							}}>
 							{"Create Playlist"}
 						</Type>
 					</View>
-
+					
 				</View>	 	
 				
 				<FlatList
@@ -173,7 +207,7 @@ const ProfileScreen = ({route}) => {
 					renderItem={renderer}
 					showsVerticalScrollIndicator={false}
 				/>
-			</ScrollView>
+				</ScrollView>
 		</LinearGradientComp>
     )
 };
