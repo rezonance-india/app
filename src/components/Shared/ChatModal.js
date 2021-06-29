@@ -7,9 +7,11 @@ import LinearGradient from './LinearGradient';
 
 const ChatModal = ({modalVisible, toggleVisibility}) => {
 	const [searchQuery, setSearchQuery] = useState('');
+	
 	const search = () => {
 		console.log('in search frands');
 	};
+
 	return (
 		<Modal
 			animationType="fade"
@@ -83,6 +85,7 @@ const ChatModal = ({modalVisible, toggleVisibility}) => {
 		</Modal>
 	);
 };
+
 const styles = StyleSheet.create({
 	modalView: {
 		marginTop: '100%',
