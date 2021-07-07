@@ -38,7 +38,7 @@ const OnboardingScreen = ({ navigation }) => {
 
     const _onDone = () => {
         console.log("I m here")
-        navigation.push("HomeScreen");
+        navigation.push("LoginScreen");
     };
 
     return (

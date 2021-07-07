@@ -7,6 +7,7 @@ import EditProfileScreen from '../../screens/MainApp/EditProfileScreen';
 import ViewArtistScreen from '../../screens/MainApp/ViewArtistScreen';
 import OnboardingScreen from '../../screens/Home/OnboardingScreen';
 import MessagingScreen from '../../screens/MainApp/MessagingScreen';
+import LoginScene from '../../screens/Home/LoginScreen';
 
 const Stack = createStackNavigator();
 
@@ -18,6 +19,11 @@ const MainAppNavigator = () => {
 					name ="OnboardingScreen"
 					component={OnboardingScreen}
 					options={{headerShown: false}}
+				/>
+				<Stack.Screen 
+					name="LoginScreen"
+					component={LoginScene}
+					options={{headerShown:false}}
 				/>
 				<Stack.Screen
 					name="HomeScreen"

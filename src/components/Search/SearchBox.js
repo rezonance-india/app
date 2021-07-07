@@ -18,6 +18,10 @@ const SearchBox = ({setSearchQuery, searchQuery, navigation, placeholder}) => {
 				placeholder={placeholder}
 				style={{
 					borderRadius: 6,
+					flex:1,
+					marginRight:-20,
+					paddingLeft:20,
+					borderColor:"transparent",
 				}}
 				autoFocus={true}
 				icon={'X'}

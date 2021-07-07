@@ -11,7 +11,7 @@ const FriendsModal = ({modalVisible, toggleVisibility}) => {
             <List friends={true} item = {item} />
         )
     }
-
+	
 	return (
 		<Modal
 			animationType="fade"
