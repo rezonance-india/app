@@ -24,7 +24,7 @@ import InputBox from "../../components/Shared/InputBox"
 //Constants
 
 //Assets
-import LOGO from "../../../assets/logo.png"
+import LOGO from "../../../assets/rezonance-logo-blue-sq.png"
 import BG from "../../../assets/bg.jpg"
 
 import { ACCENT, colors, GRAY, PRIMARY } from '../../constants/colors';
@@ -128,8 +128,9 @@ const LoginScreen = ({navigation}) => {
 
       <LinearGradientComp
 			  bgcolors={{
-				  colorOne: PRIMARY,
-				  colorTwo: ACCENT,
+				  // colorOne: PRIMARY,
+				  colorOne: "#004e92",
+				  colorTwo: "#000428",
 			}}>
       {/* <KeyboardAvoidingView
         keyboardVerticalOffset={-height / 2}
@@ -156,14 +157,18 @@ const LoginScreen = ({navigation}) => {
               <Text style={{
                   color:"white",
                   fontSize:26,
-                  letterSpacing:2.5,
-                  marginBottom:20,
+                  marginRight: "5%",
+                  letterSpacing:1,
+                  marginBottom:5,
+                  alignContent: "center",
                   fontWeight:"bold"
                 }}>{"Sign In"}</Text>
             </View>
             <InputBox
               style={{
                 backgroundColor: "transparent",
+                color: "white",
+                fontSize: 16,
                 borderLeftWidth:0,
                 borderRightWidth:0,
                 borderTopWidth:0,
@@ -178,7 +183,9 @@ const LoginScreen = ({navigation}) => {
             <InputBox
                 style={{
                   backgroundColor: "transparent",
+                  color: "white",
                   borderLeftWidth:0,
+                  fontSize: 16,
                   borderRightWidth:0,
                   borderTopWidth:0,
                   borderWidth: 1,
@@ -196,8 +203,9 @@ const LoginScreen = ({navigation}) => {
               <Text
                 onPress={handleForgot}
                 style={{
-                  marginTop:10,
+                  marginTop:25,
                   color: GRAY.T5,
+                  fontSize: 16,
                   textDecorationLine: 'underline',
                 }}>
                 {"Forgot Password ?"}
@@ -207,12 +215,13 @@ const LoginScreen = ({navigation}) => {
             <View style={{
               flexDirection:"row",
               justifyContent:"center",
-              marginTop:20
+              marginTop:50
             }}>
               <Btn
                 style={{
                   width:width/3,
-                  backgroundColor:"#222422"
+                  color: "black",
+                  backgroundColor:"rgb(243, 244, 246)"
                 }}
                 title={"Login"}
                 onPress={handleLogin}
@@ -222,8 +231,8 @@ const LoginScreen = ({navigation}) => {
 
             </View>
 
-            <Text onPress={handleSignUp} style={{textAlign: 'center',margin:20,color:"white"}}>
-              {"Not registered? Sign In"}
+            <Text onPress={handleSignUp} style={{textAlign: 'center', margin:30, color:"white", fontSize: 16}}>
+              {"Don't have an account? Sign Up"}
               <Icon name="arrow-forward" style={{fontSize: 15}} />
             </Text>
           </View>
