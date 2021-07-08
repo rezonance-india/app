@@ -4,6 +4,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Actions} from './ActionsOverview';
 
 const initialState = {
+	user:null,
+	token:null,
 	queue: [],
 	color: '',
 	pausedState:true,
@@ -30,6 +32,20 @@ export const GlobalProvider = ({children}) => {
 			dispatch({type: Actions.UPDATE_QUEUE, payload: queue});
 		};
 
+		const fetchUser = async () => {
+			const user = await retrieveItem("user");
+			dispatch({
+				type:Actions.UPDATE_USER,payload:user
+			})
+		}
+
+		const fetchToken = async () => {
+			const token = await retrieveItem("token");
+			dispatch({
+				type:Actions.UPDATE_TOKEN,payload:token
+			})
+		}
+
 		const fetchPausedState = async () => {
 			const pausedState = await retrieveItem("pausedState");
 			dispatch({
@@ -46,11 +62,27 @@ export const GlobalProvider = ({children}) => {
 			})
 		}
 
+		fetchUser();
+		fetchToken();
 		fetchQueue();
 		fetchPausedState();
 		fetchSelectedTrack();
 
 	}, []);
+
+	const updateUser = (userDetails) => {
+		dispatch({
+			type:Actions.UPDATE_USER,
+			payload:userDetails
+		})
+	}
+
+	const updateToken = (token) => {
+		dispatch({
+			type:Actions.UPDATE_TOKEN,
+			payload:token
+		})
+	}
 
 	const updateQueue = (trackDetails) => {
 		dispatch({
@@ -88,10 +120,12 @@ export const GlobalProvider = ({children}) => {
 				color: state.color,
 				pausedState:state.pausedState,
 				selectedTrack:state.selectedTrack,
+				updateUser,
+				updateToken,
 				updateQueue,
 				updateColor,
 				updatePausedState,
-				updateSelectedTrack
+				updateSelectedTrack,
 			}}>
 			{children}
 		</GlobalContext.Provider>

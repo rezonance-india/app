@@ -2,10 +2,15 @@ import {Actions} from './ActionsOverview';
 
 export default (state, action) => {
 	switch (action.type) {
-		case Actions.UPDATE_QUEUE:
+		case Actions.UPDATE_USER:
+			return{
+				...state,
+				user:action.payload
+			}
+		case Actions.UPDATE_TOKEN:
 			return {
 				...state,
-				queue: action.payload,
+				token: action.payload,
 			};
 		case Actions.UPDATE_COLOR:
 			return {
