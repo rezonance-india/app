@@ -28,10 +28,11 @@ const Btn = (props) => {
         <Text
           style={{
             flex: 1,
-            fontSize: 15,
+            fontSize: 20,
             textAlign: 'center',
             textAlignVertical: 'center',
-            color: GRAY.T1,
+            color: "black",
+            fontWeight:"bold",
             marginHorizontal: 20,
           }}>
           {props.loading

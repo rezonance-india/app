@@ -28,6 +28,10 @@ import LOGO from "../../../assets/rezonance-logo-blue-sq.png"
 import BG from "../../../assets/bg.jpg"
 
 import { ACCENT, colors, GRAY, PRIMARY } from '../../constants/colors';
+import { userApiUrl } from '../../constants/config';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { GlobalContext } from '../../context/GlobalState';
 
 const {height, width} = Dimensions.get('window');
 
@@ -39,7 +43,7 @@ const LoginScreen = ({navigation}) => {
   const [submitting, isSubmitting] = useState(false);
   const [color,setColor] = useState("");
 
-//   const {updateUser, user, token, updateToken} = useContext(GlobalContext);
+  const {updateUser,updateToken} = useContext(GlobalContext);
 
   const handleEmailChange = (text) => setEmail(text);
   const handlePasswordChange = (text) => setPassword(text);
@@ -49,33 +53,8 @@ const LoginScreen = ({navigation}) => {
   };
 
   const handleSignUp = () => {
-    navigation.dispatch(StackActions.replace('SignUpScene'));
+    navigation.navigate("SignUpScreen");
   };
-
-//   const [loginUser] = useMutation(LOGIN_USER, {
-//     async onCompleted(data) {
-//       console.log(data, 'data');
-
-//       //Updating values in async storage
-//       updateUser(data.loginUser.user);
-//       updateToken(data.loginUser.token);
-
-//       //Updating AsyncStorage for persistence
-//       await AsyncStorage.setItem('token', data.loginUser.token);
-//       await AsyncStorage.setItem('user', JSON.stringify(data.loginUser.user));
-//       isSubmitting(false);
-//       if (Platform.OS === 'android') {
-//         ToastAndroid.show('Login Successful', ToastAndroid.SHORT);
-//       }
-//       navigation.dispatch(StackActions.replace('Home'));
-//     },
-//     onError(error) {
-//       isSubmitting(false);
-//       if (Platform.OS === 'android') {
-//         ToastAndroid.show(error.message, ToastAndroid.SHORT);
-//       }
-//     },
-//   });
 
 	useEffect(() => {
 		const getDominantColors = async () => {
@@ -97,15 +76,35 @@ const LoginScreen = ({navigation}) => {
   const handleLogin = () => {
 	const re=/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
-	navigation.navigate("HomeScreen");
-
      if (email) {
       if (password) {
         if (email.match(re)) {
           isSubmitting(true);
-        //   loginUser({
-        //     variables: {email, password},
-        //   });
+            axios.post(`${userApiUrl}/user/signin`,{
+              email,
+              password
+            }).then(async (result) => {
+              // const {user,token} = res.data;
+              const user = result.data.user;
+              const token = result.data.token;
+
+              updateUser(user);
+              updateToken(token);     
+              await AsyncStorage.setItem('token',token);
+              await AsyncStorage.setItem('user', JSON.stringify(user));
+              isSubmitting(false);
+              if (Platform.OS === 'android') {
+                ToastAndroid.show('Login Successful', ToastAndroid.SHORT);
+              }
+              navigation.navigate("HomeScreen");              
+            }).catch((err) => {
+              isSubmitting(false);
+              if (Array.isArray(err.response.data.errors)) {
+                if (Platform.OS === 'android') {
+                  ToastAndroid.show(err.response.data.errors[0].msg, ToastAndroid.SHORT);
+                }
+              }
+            })
         } else {
           if (Platform.OS === 'android') {
             ToastAndroid.show('Invalid Email', ToastAndroid.SHORT);

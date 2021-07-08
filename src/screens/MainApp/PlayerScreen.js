@@ -1,6 +1,5 @@
 import React, {useContext} from 'react';
 import NewPlayer from '../../components/Player/NewPlayer';
-import Player from '../../components/Player/Player';
 import {TRACKS} from '../../components/Player/tracksData';
 import {GlobalContext} from '../../context/GlobalState';
 

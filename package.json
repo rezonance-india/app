@@ -25,15 +25,13 @@
 		"react-native-gesture-handler": "^1.10.3",
 		"react-native-image-colors": "^1.2.5",
 		"react-native-linear-gradient": "^2.5.6",
-		"react-native-music-control": "^1.4.0",
 		"react-native-reanimated": "^2.2.0",
 		"react-native-safe-area-context": "^3.1.9",
 		"react-native-screens": "^2.18.0",
 		"react-native-tab-view": "^2.16.0",
 		"react-native-track-player": "^1.2.7",
 		"react-native-unimodules": "^0.12.0",
-		"react-native-vector-icons": "^8.1.0",
-		"react-native-video": "^5.1.1"
+		"react-native-vector-icons": "^8.1.0"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.8.4",

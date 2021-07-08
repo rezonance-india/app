@@ -42,9 +42,11 @@ const InputBox = (props) => {
           borderColor:"white",
           borderRadius: 8,
           height: 45,
+          color:"white",
 		      opacity:1,
           ...props.style,
         }}
+        placeholderTextColor="white"
         ref={inputRef}
         onFocus={handleFocus}
         onBlur={handleBlur}
@@ -76,10 +78,11 @@ const InputBox = (props) => {
 
       <Text
         style={{
+
           position: 'absolute',
           left:8,
           top: !isFocused && value === '' ? 13 : -20,
-          color: !isFocused && value === '' ? GRAY.T5 : "white",
+          color: !isFocused && value === '' ? "white" : GRAY.T5,
         }}
         onPress={() => {
           inputRef.current.focus();

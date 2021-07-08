@@ -19,3 +19,4 @@ const LinearGradientComp = (props) => {
 };
 
 export default LinearGradientComp;
+
