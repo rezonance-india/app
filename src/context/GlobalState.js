@@ -67,7 +67,6 @@ export const GlobalProvider = ({children}) => {
 		fetchQueue();
 		fetchPausedState();
 		fetchSelectedTrack();
-
 	}, []);
 
 	const updateUser = (userDetails) => {
@@ -106,16 +105,18 @@ export const GlobalProvider = ({children}) => {
 	}
 
 	const updateSelectedTrack = (selectedIndex) => {
-		console.log(selectedIndex,"selected from dispatch fun");
 		dispatch({
 			type: Actions.UPDATE_SELECTEDTRACK,
 			payload: selectedIndex
 		})
 	}
 
+
 	return (
 		<GlobalContext.Provider
 			value={{
+				user:state.user,
+				token:state.token,
 				queue: state.queue,
 				color: state.color,
 				pausedState:state.pausedState,

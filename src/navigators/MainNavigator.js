@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState,useContext} from 'react';
 import {LogBox} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NavigationContainer} from '@react-navigation/native';
@@ -7,13 +7,14 @@ import {createStackNavigator} from '@react-navigation/stack';
 //Navigators
 import MainAppNavigator from './MainApp/MainAppNavigator.js';
 import HomeNavigator from './Home/HomeNavigator';
-import {GlobalProvider} from '../context/GlobalState.js';
+import {GlobalContext,GlobalProvider} from '../context/GlobalState.js';
 
 const Stack = createStackNavigator();
 
 const MainNavigator = () => {
 	const [isReady, setIsReady] = useState(false);
 	const [initialScreen, setInitialScreen] = useState('MainApp');
+	const {user} = useContext(GlobalContext);
 
 	LogBox.ignoreAllLogs(true);
 

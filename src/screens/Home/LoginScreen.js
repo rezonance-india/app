@@ -90,7 +90,8 @@ const LoginScreen = ({navigation}) => {
 
               updateUser(user);
               updateToken(token);     
-              await AsyncStorage.setItem('token',token);
+              console.log(token,"from login");
+              await AsyncStorage.setItem('token',JSON.stringify(token));
               await AsyncStorage.setItem('user', JSON.stringify(user));
               isSubmitting(false);
               if (Platform.OS === 'android') {
