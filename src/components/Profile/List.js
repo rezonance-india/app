@@ -27,7 +27,7 @@ const List = ({item,friends,pending}) => {
                 {/* <TouchableOpacity onPress = {}> */}
 				<Image
 					source={{
-						uri: item.image,
+						uri: "https://images.unsplash.com/photo-1624387832956-1a33ddb5f7f9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2735&q=80",
 					}}
 					style={{
 						width: 50,
@@ -103,13 +103,13 @@ const List = ({item,friends,pending}) => {
 					}}>
 					{
                             pending ? (
-                                "5 Followers"
+                                "1 friend"
                             ):(
                                 friends ?
                                 (
-                                    "5 followers"
+                                    "1 friend"
                                 ): (
-                                    "5 songs"
+                                    `${item.songs.length} ${item.songs.length> 1 ? "songs" : "song"}`
                                 )
                             )
                         }

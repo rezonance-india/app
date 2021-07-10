@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from 'react';
+import React,{useEffect,useState,useContext} from 'react';
 import {Text,View,Image,StyleSheet,FlatList,Dimensions,ScrollView, TouchableOpacity} from 'react-native';
 import LinearGradientComp from '../../components/Shared/LinearGradient';
 import { ACCENT, colors } from '../../constants/colors';
@@ -10,13 +10,20 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Type from "../../components/Shared/Type"
 import FriendsModal from '../../components/Profile/FriendsModal';
 import PendingRequestsModal from '../../components/Profile/PendingRequestsModal';
+import { GlobalContext } from '../../context/GlobalState';
+import axios from 'axios';
+import { userApiUrl } from "../../constants/config";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const {width, height} = Dimensions.get('screen');
 
 const ProfileScreen = ({route}) => {
 	const [color,setColor] = useState(color);
 	const [friendModalVisible, setFriendModalVisible] = useState(false);
-	const [pendingModalVisible,setPendingModalVisible] = useState(true);
+	const [pendingModalVisible,setPendingModalVisible] = useState(false);
+	const [result,setResult] = useState({});
+	// const [token,setToken] = useState("");
+	const {updateUser,token,user} = useContext(GlobalContext);
 
 	const {imageUrl} = route.params;
 
@@ -33,6 +40,32 @@ const ProfileScreen = ({route}) => {
 	const showPending = () => {
 		setPendingModalVisible(true);
 	}
+
+	useEffect(() => {
+		console.log(token,"token USE");
+		const fetchUser = () => {
+			axios.get(`${userApiUrl}/user/getUser`,{
+				headers: {
+					Authorization: "Bearer " + token,
+				},
+			})
+			.then(async (res) => {
+				console.log(res.data,"data");
+				updateUser(res.data);
+				setResult(res.data); 
+				await AsyncStorage.setItem('user', JSON.stringify(res.data));
+			}).catch((err) => {
+				console.log(err,"err");
+				// console.log(Array.isArray(err.response.data.errors[0].msg));
+				if (Array.isArray(err.response.data.errors)) {
+					if (Platform.OS === 'android') {
+					  ToastAndroid.show(err.response.data.errors[0].msg, ToastAndroid.SHORT);
+					}
+				}
+			})
+		}
+		fetchUser();
+	},[token])
 
 	useEffect(() => {
 		const getDominantColors = async () => {
@@ -60,6 +93,8 @@ const ProfileScreen = ({route}) => {
 		getDominantColors();
 	}, [imageUrl]);
 
+	console.log(result.playlists,"data");
+
     return (
         <LinearGradientComp
 			bgcolors={{
@@ -68,6 +103,7 @@ const ProfileScreen = ({route}) => {
 			}}>
 			
 			<FriendsModal
+				data={result ? result.friends : []}
 				toggleVisibility={setFriendModalVisible}
 				modalVisible={friendModalVisible}
 			/>
@@ -91,7 +127,8 @@ const ProfileScreen = ({route}) => {
 						height: 140,
 					}} />
 				<Text style={styles.text}>
-					kg-kartik
+					{/* {0} */}
+					{result ? result.name : ""}
 				</Text>
 			</View>
 
@@ -109,7 +146,8 @@ const ProfileScreen = ({route}) => {
 								fontFamily:"NotoSans-Regular",
 								fontSize:20
 							}}>
-								0
+								{/* {"0"} */}
+								{result.friends ? result.friends.length : "0"}
 							</Text>
 
 							<Text style={{
@@ -134,7 +172,8 @@ const ProfileScreen = ({route}) => {
 								fontFamily:"NotoSans-Regular",
 								fontSize:20
 							}}>
-								0
+								{/* {"0"} */}
+								{result.pending ? result.pending.length : "0"}
 							</Text>
 							<Text style={{
 								...styles.text,
@@ -202,8 +241,8 @@ const ProfileScreen = ({route}) => {
 				</View>	 	
 				
 				<FlatList
-					keyExtractor={(item) => (item.id).toString()}
-					data={playlistData}
+					keyExtractor={(item) => (item._id).toString()}
+					data= {result.playlists ? result.playlists : []}
 					renderItem={renderer}
 					showsVerticalScrollIndicator={false}
 				/>

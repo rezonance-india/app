@@ -4,7 +4,7 @@ import { userData } from '../../constants/store';
 import LinearGradientComp from '../Shared/LinearGradient';
 import List from "./List"
 
-const FriendsModal = ({modalVisible, toggleVisibility}) => {
+const FriendsModal = ({modalVisible, toggleVisibility,data}) => {
 
     const renderer = ({item}) => {
         return (
@@ -28,8 +28,8 @@ const FriendsModal = ({modalVisible, toggleVisibility}) => {
 				<View>
 					<View style={styles.modalView}>
                         <FlatList
-					        keyExtractor={(item) => (item.id).toString()}
-                            data={userData}
+					        keyExtractor={(item) => (item._id).toString()}
+                            data={data}
                             renderItem={renderer}
                             showsVerticalScrollIndicator={false}
 				        />
