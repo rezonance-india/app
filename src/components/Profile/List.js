@@ -1,15 +1,114 @@
-import React from "react";
-import {View,Text,Image,Dimensions} from "react-native";
+import React,{useContext} from "react";
+import {View,Text,Image,Dimensions, ToastAndroid} from "react-native";
 import Type from "../../components/Shared/Type"
 import { colors } from "../../constants/colors";
 import Button from "../../components/Shared/Button";
+import axios from "axios";
+import { userApiUrl } from "../../constants/config";
+import { GlobalContext } from "../../context/GlobalState";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const {width, height} = Dimensions.get('screen');
 
 const List = ({item,friends,pending}) => {
 
+    const {token,updateUser} = useContext(GlobalContext);
+
     const removeFriend = () => {
-        console.log("remove");
+        console.log("in remove");
+        axios.post(`${userApiUrl}/friends/removeFriend`,
+        {
+            friendId:item._id
+        },
+        {
+            headers: {
+                Authorization: "Bearer " + token,
+            },
+        })
+        .then(async (res) => {
+            console.log(res.data,"remove user data");
+            updateUser(res.data);
+            await AsyncStorage.setItem('user', JSON.stringify(res.data));
+        }).catch((err) => {
+            console.log(err,"err");
+            if (Array.isArray(err.response.data.errors)) {
+                if (Platform.OS === 'android') {
+                    ToastAndroid.show(err.response.data.errors[0].msg, ToastAndroid.SHORT);
+                }
+            }
+        })     
+    }
+
+    const acceptRequest = () => {
+        axios.post(`${userApiUrl}/friends/acceptFriendRequest`,
+        {
+            friendId:item._id
+        },
+        {
+            headers: {
+                Authorization: "Bearer " + token,
+            },
+        })
+        .then(async (res) => {
+            console.log(res.data.friends,"accept user data");
+            updateUser(res.data.friends);
+            await AsyncStorage.setItem('user', JSON.stringify(res.data.friends));
+        }).catch((err) => {
+            console.log(err,"err");
+            if (Array.isArray(err.response.data.errors)) {
+                if (Platform.OS === 'android') {
+                    ToastAndroid.show(err.response.data.errors[0].msg, ToastAndroid.SHORT);
+                }
+            }
+        })
+    }
+
+    const removeRequest = () => {
+        axios.post(`${userApiUrl}/friends/removeFriend`,
+        {
+            friendId:item._id
+        },
+        {
+            headers: {
+                Authorization: "Bearer " + token,
+            },
+        })
+        .then(async (res) => {
+            console.log(res.data.user,"remove friend user data");
+            updateUser(res.data.user);
+            await AsyncStorage.setItem('user', JSON.stringify(res.data.user));
+        }).catch((err) => {
+            console.log(err,"err");
+            if (Array.isArray(err.response.data.errors)) {
+                if (Platform.OS === 'android') {
+                    ToastAndroid.show(err.response.data.errors[0].msg, ToastAndroid.SHORT);
+                }
+            }
+        })
+    }
+
+    const rejectRequest = () => {
+        axios.post(`${userApiUrl}/friends/rejectRequest`,
+        {
+            friendId:item._id
+        },
+        {
+            headers: {
+                Authorization: "Bearer " + token,
+            },
+        })
+        .then(async (res) => {
+            console.log(res.data.friends,"remove friend user data");
+            updateUser(res.data.friends);
+            await AsyncStorage.setItem('user', JSON.stringify(res.data.friends));
+        }).catch((err) => {
+            console.log(err,"err");
+            if (Array.isArray(err.response.data.errors)) {
+                if (Platform.OS === 'android') {
+                    ToastAndroid.show(err.response.data.errors[0].msg, ToastAndroid.SHORT);
+                }
+            }
+        })
     }
 
     return (
@@ -78,8 +177,8 @@ const List = ({item,friends,pending}) => {
                                     justifyContent:"space-around"
                                 }}>
 
-                                <Button title="accept" onPressFunction={removeFriend}>Accept</Button>
-                                <Button backColor="transparent" title="remove" borderColor="white" onPressFunction={removeFriend}>Delete</Button>
+                                <Button title="accept" onPressFunction={acceptRequest}>Accept</Button>
+                                <Button backColor="transparent" title="Reject" borderColor="white" onPressFunction={rejectRequest}>Delete</Button>
                             </View>
                             ):(
                                 friends ?
