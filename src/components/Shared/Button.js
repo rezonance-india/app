@@ -1,17 +1,19 @@
 import React from "react"
-import {View,Text,StyleSheet} from "react-native";
+import {View,Text,StyleSheet, TouchableOpacity} from "react-native";
 
-const Button = ({children,backColor,onPress,borderColor}) => {
+const Button = ({children,backColor,onPressFunction,borderColor}) => {
     return (
-        <View style={{
-            ...styles.button,
-            backgroundColor: backColor ? backColor: '#09a0eb',
-            borderColor: borderColor ? borderColor : "transparent"
-        }}>
-            <Text style={styles.textButton}>
-                {children}
-            </Text>
-        </View>
+		<TouchableOpacity onPress={onPressFunction}>
+			<View style={{
+				...styles.button,
+				backgroundColor: backColor ? backColor: '#09a0eb',
+				borderColor: borderColor ? borderColor : "transparent"
+			}}>
+				<Text style={styles.textButton}>
+					{children}
+				</Text>
+			</View>
+		</TouchableOpacity>
     )
 }
 

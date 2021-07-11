@@ -1,5 +1,5 @@
 import React,{useEffect,useState,useContext} from 'react';
-import {Text,View,Image,StyleSheet,FlatList,Dimensions,ScrollView, TouchableOpacity} from 'react-native';
+import {Text,View,Image,StyleSheet,FlatList,Dimensions,ScrollView, TouchableOpacity, RefreshControl} from 'react-native';
 import LinearGradientComp from '../../components/Shared/LinearGradient';
 import { ACCENT, colors } from '../../constants/colors';
 import ImageColors from 'react-native-image-colors';
@@ -22,8 +22,10 @@ const ProfileScreen = ({route}) => {
 	const [friendModalVisible, setFriendModalVisible] = useState(false);
 	const [pendingModalVisible,setPendingModalVisible] = useState(false);
 	const [result,setResult] = useState({});
-	// const [token,setToken] = useState("");
+	const [refreshing,setRefreshing] = useState(false);
 	const {updateUser,token,user} = useContext(GlobalContext);
+
+	console.log(user,"user");
 
 	const {imageUrl} = route.params;
 
@@ -50,7 +52,7 @@ const ProfileScreen = ({route}) => {
 				},
 			})
 			.then(async (res) => {
-				console.log(res.data,"data");
+				console.log(res.data,"data from useeffect");
 				updateUser(res.data);
 				setResult(res.data); 
 				await AsyncStorage.setItem('user', JSON.stringify(res.data));
@@ -64,8 +66,9 @@ const ProfileScreen = ({route}) => {
 				}
 			})
 		}
+		
 		fetchUser();
-	},[token])
+	},[refreshing])
 
 	useEffect(() => {
 		const getDominantColors = async () => {
@@ -93,7 +96,14 @@ const ProfileScreen = ({route}) => {
 		getDominantColors();
 	}, [imageUrl]);
 
-	console.log(result.playlists,"data");
+	const wait = (timeout) => {
+  		return new Promise(resolve => setTimeout(resolve, timeout));
+	}
+
+	const onRefresh = React.useCallback(() => {
+    	setRefreshing(true);
+    	wait(2000).then(() => setRefreshing(false));
+  	}, []);
 
     return (
         <LinearGradientComp
@@ -103,65 +113,100 @@ const ProfileScreen = ({route}) => {
 			}}>
 			
 			<FriendsModal
-				data={result ? result.friends : []}
+				data={user.friends}
 				toggleVisibility={setFriendModalVisible}
 				modalVisible={friendModalVisible}
 			/>
 
 			<PendingRequestsModal
+				data = {user.pending}
 				toggleVisibility={setPendingModalVisible}
 				modalVisible={pendingModalVisible}
 			/>				
 
-			<View style={{
-				flexDirection:"column",
-				justifyContent:"space-between",
-				alignItems:"center",
-				marginTop:"30%"
-			}}>
-				<Image
-					source={{uri: imageUrl}}
-					style={{
-						borderRadius: 70,
-						width: 140,
-						height: 140,
-					}} />
-				<Text style={styles.text}>
-					{/* {0} */}
-					{result ? result.name : ""}
-				</Text>
-			</View>
+			<ScrollView 
+				 refreshControl={
+					<RefreshControl
+						refreshing={refreshing}
+						onRefresh={onRefresh}
+					/>
+        		}
+			>
 
 				<View style={{
-					flexDirection:"row",
-					justifyContent:"space-around",
-					marginTop:20,
+					flexDirection:"column",
+					justifyContent:"space-between",
+					alignItems:"center",
+					marginTop:"30%"
 				}}>
+					<Image
+						source={{uri: imageUrl}}
+						style={{
+							borderRadius: 70,
+							width: 140,
+							height: 140,
+						}} />
+					<Text style={styles.text}>
+						{/* {0} */}
+						{user.name}
+						{/* {result ? result.name : ""} */}
+					</Text>
+				</View>
+
 					<View style={{
-						flexDirection:"column",
+						flexDirection:"row",
+						justifyContent:"space-around",
+						marginTop:20,
 					}}>
-						<TouchableOpacity onPress={openModal}>
-							<Text style={{
-								...styles.text,
-								fontFamily:"NotoSans-Regular",
-								fontSize:20
-							}}>
-								{/* {"0"} */}
-								{result.friends ? result.friends.length : "0"}
-							</Text>
+						<View style={{
+							flexDirection:"column",
+						}}>
+							<TouchableOpacity onPress={openModal}>
+								<Text style={{
+									...styles.text,
+									fontFamily:"NotoSans-Regular",
+									fontSize:20
+								}}>
+									{/* {"0"} */}
+									{user.friends.length}
+									{/* {result.friends ? result.friends.length : "0"} */}
+								</Text>
 
-							<Text style={{
-								...styles.text,
-								fontFamily:"NotoSans-Regular",
-								fontSize:20
+								<Text style={{
+									...styles.text,
+									fontFamily:"NotoSans-Regular",
+									fontSize:20
+								}}>
+									Friends
+								</Text>
+							</TouchableOpacity>
+
+						</View>
+
+						<TouchableOpacity onPress={showPending}>
+
+							<View style={{
+								flexDirection:"column"
 							}}>
-								Friends
-							</Text>
+
+								<Text style={{
+									...styles.text,
+									fontFamily:"NotoSans-Regular",
+									fontSize:20
+								}}>
+									{/* {"0"} */}
+									{user.pending.length}
+									{/* {result.pending ? result.pending.length : "0"} */}
+								</Text>
+								<Text style={{
+									...styles.text,
+									fontFamily:"NotoSans-Regular",
+									fontSize:20
+								}}>
+									Pending
+								</Text>
+							</View>
 						</TouchableOpacity>
-
-					</View>
-
-					<TouchableOpacity onPress={showPending}>
 
 						<View style={{
 							flexDirection:"column"
@@ -172,81 +217,60 @@ const ProfileScreen = ({route}) => {
 								fontFamily:"NotoSans-Regular",
 								fontSize:20
 							}}>
-								{/* {"0"} */}
-								{result.pending ? result.pending.length : "0"}
+								0
 							</Text>
+							
 							<Text style={{
 								...styles.text,
 								fontFamily:"NotoSans-Regular",
 								fontSize:20
 							}}>
-								Pending
+								Playlist
 							</Text>
 						</View>
-					</TouchableOpacity>
-
-					<View style={{
-						flexDirection:"column"
-					}}>
-
-						<Text style={{
-							...styles.text,
-							fontFamily:"NotoSans-Regular",
-							fontSize:20
-						}}>
-							0
-						</Text>
-						
-						<Text style={{
-							...styles.text,
-							fontFamily:"NotoSans-Regular",
-							fontSize:20
-						}}>
-							Playlist
-						</Text>
 					</View>
-				</View>
 
-				<ScrollView>
-				<View style={{
-					flexDirection:"row",
-					marginTop:30
-				}}>
-					<Icon
-						name="create-outline"
-						size={60}
-						style={{marginHorizontal:15, color:"white"}}
-					/>
+					<ScrollView>
+						<View style={{
+							flexDirection:"row",
+							marginTop:30
+						}}>
+							<Icon
+								name="create-outline"
+								size={60}
+								style={{marginHorizontal:15, color:"white"}}
+							/>
 
-					<View
-						style={{
-							flexDirection: 'row',
-							marginTop:15,
-							justifyContent: 'space-between',
-							flex: 1,
-							width: '100%',
-					}}>
-						<Type
-							style={{
-								fontSize: width / 22,
-								width: '80%',
-								color: colors.text,
-								marginHorizontal:10,
-	                            fontFamily:"NotoSans-Bold"
+							<View
+								style={{
+									flexDirection: 'row',
+									marginTop:15,
+									justifyContent: 'space-between',
+									flex: 1,
+									width: '100%',
 							}}>
-							{"Create Playlist"}
-						</Type>
-					</View>
-					
-				</View>	 	
-				
-				<FlatList
-					keyExtractor={(item) => (item._id).toString()}
-					data= {result.playlists ? result.playlists : []}
-					renderItem={renderer}
-					showsVerticalScrollIndicator={false}
-				/>
-				</ScrollView>
+								<Type
+									style={{
+										fontSize: width / 22,
+										width: '80%',
+										color: colors.text,
+										marginHorizontal:10,
+										fontFamily:"NotoSans-Bold"
+									}}>
+									{"Create Playlist"}
+								</Type>
+							</View>
+							
+						</View>	 	
+						
+						<FlatList
+							keyExtractor={(item) => (item._id).toString()}
+							data= {user.playlists}
+							renderItem={renderer}
+							showsVerticalScrollIndicator={false}
+						/>
+					</ScrollView>
+			</ScrollView>
 		</LinearGradientComp>
     )
 };
