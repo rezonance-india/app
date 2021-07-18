@@ -14,6 +14,7 @@ import { GlobalContext } from '../../context/GlobalState';
 import axios from 'axios';
 import { userApiUrl } from "../../constants/config";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import PlayListModal from '../../components/Profile/PlayListModal';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -21,17 +22,18 @@ const ProfileScreen = ({route}) => {
 	const [color,setColor] = useState(color);
 	const [friendModalVisible, setFriendModalVisible] = useState(false);
 	const [pendingModalVisible,setPendingModalVisible] = useState(false);
+	const [listModalVisible,setListModalVisible] = useState(false);
 	const [result,setResult] = useState({});
 	const [refreshing,setRefreshing] = useState(false);
 	const {updateUser,token,user} = useContext(GlobalContext);
-
-	console.log(user,"user");
 
 	const {imageUrl} = route.params;
 
 	const renderer = ({item}) => {
 		return(
-			<List item = {item} /> 
+			// <TouchableOpacity onPress={setListModalVisible(true)}>
+				<List item = {item} /> 
+			// </TouchableOpacity>
 		)
 	}
 
@@ -43,6 +45,11 @@ const ProfileScreen = ({route}) => {
 		setPendingModalVisible(true);
 	}
 
+	const createPlaylist = () => {
+		setListModalVisible(true);
+	}
+
+	//?Todo fix on server side, populate both fields name and id in pending 
 	useEffect(() => {
 		console.log(token,"token USE");
 		const fetchUser = () => {
@@ -52,7 +59,6 @@ const ProfileScreen = ({route}) => {
 				},
 			})
 			.then(async (res) => {
-				console.log(res.data,"data from useeffect");
 				updateUser(res.data);
 				setResult(res.data); 
 				await AsyncStorage.setItem('user', JSON.stringify(res.data));
@@ -112,6 +118,11 @@ const ProfileScreen = ({route}) => {
 				colorTwo: ACCENT,
 			}}>
 			
+			<PlayListModal
+				toggleVisibility={setListModalVisible}
+				modalVisible={listModalVisible}
+			/>
+
 			<FriendsModal
 				data={user.friends}
 				toggleVisibility={setFriendModalVisible}
@@ -249,6 +260,7 @@ const ProfileScreen = ({route}) => {
 									flex: 1,
 									width: '100%',
 							}}>
+								<TouchableOpacity onPress={createPlaylist}>
 								<Type
 									style={{
 										fontSize: width / 22,
@@ -259,6 +271,7 @@ const ProfileScreen = ({route}) => {
 									}}>
 									{"Create Playlist"}
 								</Type>
+								</TouchableOpacity>
 							</View>
 							
 						</View>	 	

@@ -2,8 +2,9 @@
 #
 .DS_Store
 
+src/constants/config.js
+
 # Xcode
-#
 build/
 *.pbxuser
 !default.pbxuser

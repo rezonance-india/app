@@ -30,6 +30,7 @@ const FriendsModal = ({modalVisible, toggleVisibility,data}) => {
                         <FlatList
 					        keyExtractor={(item) => (item._id).toString()}
                             data={data}
+							
                             renderItem={renderer}
                             showsVerticalScrollIndicator={false}
 				        />
@@ -39,6 +40,7 @@ const FriendsModal = ({modalVisible, toggleVisibility,data}) => {
 		</Modal>
 	);
 };
+
 const styles = StyleSheet.create({
 	modalView: {
 		marginTop: '20%',
