@@ -1,5 +1,5 @@
 import React,{useContext} from "react";
-import {View,Text,Image,Dimensions, ToastAndroid} from "react-native";
+import {View,Text,Image,Dimensions, ToastAndroid, TouchableOpacity} from "react-native";
 import Type from "../../components/Shared/Type"
 import { colors } from "../../constants/colors";
 import Button from "../../components/Shared/Button";
@@ -111,9 +111,13 @@ const List = ({item,friends,pending}) => {
         })
     }
 
+    const renderFunc = () => {
+        console.log('touched')
+    }
+
     return (
         <View style={{flexDirection: 'row', width: '100%'}}>
-
+            {/* <TouchableOpacity onPress={renderFunc}> */}
 			<View
 				style={{
 					width: width / 7,
@@ -214,6 +218,7 @@ const List = ({item,friends,pending}) => {
                         }
 				</Type>
 			</View>
+            {/* </TouchableOpacity> */}
 		</View>
     )
 }

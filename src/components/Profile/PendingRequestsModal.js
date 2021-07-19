@@ -5,7 +5,6 @@ import LinearGradientComp from '../Shared/LinearGradient';
 import List from "./List"
 
 const PendingRequestsModal = ({modalVisible, toggleVisibility,data}) => {
-	console.log(data,"data from pending");
 	const renderer = ({item}) => {
 		console.log(item._id,"id");
         return (
