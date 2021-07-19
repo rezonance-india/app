@@ -5,6 +5,7 @@ import SongSearch from '../../components/Search/SongSearch';
 import ArtistSearch from '../../components/Search/ArtistSearch';
 import AlbumSearch from '../../components/Search/AlbumSearch';
 import {colors} from '../../constants/colors';
+import FriendSearch from '../../components/Search/FriendSearch';
 const {width, height} = Dimensions.get('window');
 
 const Tab = createMaterialTopTabNavigator();
@@ -24,8 +25,8 @@ const SearchScreen = () => {
 				},
 				indicatorStyle: {
 					backgroundColor: 'white',
-					width: 50,
-					left: '10%',
+					width: "15%",
+					left: '5%',
 					top: '110%',
 				},
 				style: {
@@ -36,6 +37,7 @@ const SearchScreen = () => {
 			<Tab.Screen name="Songs" component={SongSearch} />
 			<Tab.Screen name="Artists" component={ArtistSearch} />
 			<Tab.Screen name="Albums" component={AlbumSearch} />
+			<Tab.Screen name="Friends" component={FriendSearch} />
 		</Tab.Navigator>
 	);
 };
