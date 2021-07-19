@@ -13,31 +13,35 @@ import axios from 'axios';
 import { userApiUrl } from "../../constants/config";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PlayListModal from '../../components/Profile/PlayListModal';
+import Button from "../../components/Shared/Button"
 
 const {width, height} = Dimensions.get('screen');
 
-const ProfileScreen = ({route,navigation}) => {
+const ViewProfileScreen = ({route}) => {
 	const [color,setColor] = useState(color);
 	const [friendModalVisible, setFriendModalVisible] = useState(false);
 	const [pendingModalVisible,setPendingModalVisible] = useState(false);
 	const [listModalVisible,setListModalVisible] = useState(false);
 	const [result,setResult] = useState({});
 	const [refreshing,setRefreshing] = useState(false);
+	const [currentUser,setCurrentUser] = useState(item);
 	const {updateUser,token,user} = useContext(GlobalContext);
 
-	console.log(user,"user");
+	console.log(route.params.item,"item");
 
-	const {imageUrl} = route.params;
+    let isFriends = user.friends.filter((userId) => {
+        userId === item._id
+    })
+
+    console.log(isFriends,"friend");
+
+	const {item} = route.params;
+
+	const imageUrl = "https://images.unsplash.com/photo-1500048993953-d23a436266cf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1949&q=80";
 
 	const renderer = ({item}) => {
 		return(
-			<TouchableOpacity onPress={() => {
-				navigation.navigate("PlaylistScreen",{
-					item
-				})
-			}}>
-				<List item = {item} /> 
-			</TouchableOpacity>	
+			<List item = {item} /> 
 		)
 	}
 
@@ -56,32 +60,24 @@ const ProfileScreen = ({route,navigation}) => {
 	//?Todo fix on server side, populate both fields name and id in pending 
 	useEffect(() => {
 		const fetchUser = () => {
-			console.log("chala");
-			axios.get(`${userApiUrl}/user/getUser`,{
-				headers: {
-					Authorization: "Bearer " + token,
-				},
-			})
+			axios.get(`${userApiUrl}/user/getAUser`)
 			.then(async (res) => {
-				updateUser(res.data);
-				setResult(res.data); 
-				await AsyncStorage.setItem('user', JSON.stringify(res.data));
-				setRefreshing(false);
+                setRefreshing(false);
+				setCurrentUser(res.data); 
 			}).catch((err) => {
+                setRefreshing(false);
 				console.log(err,"err");
-				// console.log(Array.isArray(err.response.data.errors[0].msg));
 				if (Array.isArray(err.response.data.errors)) {
 					if (Platform.OS === 'android') {
 					  ToastAndroid.show(err.response.data.errors[0].msg, ToastAndroid.SHORT);
 					}
 				}
-				setRefreshing(false);
 			})
 		}
-		
-		if(refreshing !== false){
-			fetchUser();
-		}
+
+        if(refreshing !== false){
+            fetchUser();
+        }		
 	},[refreshing])
 
 	useEffect(() => {
@@ -110,14 +106,14 @@ const ProfileScreen = ({route,navigation}) => {
 		getDominantColors();
 	}, [imageUrl]);
 
-	// const wait = (timeout) => {
-  	// 	return new Promise(resolve => setTimeout(resolve, timeout));
-	// }
-
 	const onRefresh = React.useCallback(() => {
     	setRefreshing(true);
-    	// wait(2000).then(() => setRefreshing(false));
   	}, []);
+
+    //Send request connection
+    const sendRequest = () => {
+
+    }
 
     return (
         <LinearGradientComp
@@ -132,7 +128,8 @@ const ProfileScreen = ({route,navigation}) => {
 			/>
 
 			<FriendsModal
-				data={user.friends}
+				currentUser={true}
+				data={item ? item.friends : user.friends}
 				toggleVisibility={setFriendModalVisible}
 				modalVisible={friendModalVisible}
 			/>
@@ -164,12 +161,22 @@ const ProfileScreen = ({route,navigation}) => {
 							borderRadius: 70,
 							width: 140,
 							height: 140,
-						}} />
-					<Text style={styles.text}>
-						{/* {0} */}
-						{user.name}
-						{/* {result ? result.name : ""} */}
-					</Text>
+					}} />
+                    <View style={{
+                        flexDirection:'row'
+                    }}>
+                        <Text style={styles.text}>
+                            {item.name}
+                        </Text>
+                        {item._id !== user._id ? (
+                            <Button buttonStyle={{
+								marginTop:100
+							}} title="Send" onPressFunction={sendRequest}>Send</Button>
+                        ):(
+                           <>
+                           </>   
+                        )}    
+                    </View>
 				</View>
 
 					<View style={{
@@ -186,9 +193,7 @@ const ProfileScreen = ({route,navigation}) => {
 									fontFamily:"NotoSans-Regular",
 									fontSize:20
 								}}>
-									{/* {"0"} */}
-									{user.friends.length}
-									{/* {result.friends ? result.friends.length : "0"} */}
+									{item.friends.length}
 								</Text>
 
 								<Text style={{
@@ -202,96 +207,86 @@ const ProfileScreen = ({route,navigation}) => {
 
 						</View>
 
-						<TouchableOpacity onPress={showPending}>
+						{item._id === user._id ? (
 
-							<View style={{
-								flexDirection:"column"
-							}}>
+							<TouchableOpacity onPress={showPending}>
 
-								<Text style={{
-									...styles.text,
-									fontFamily:"NotoSans-Regular",
-									fontSize:20
+								<View style={{
+									flexDirection:"column"
 								}}>
-									{/* {"0"} */}
-									{user.pending.length}
-									{/* {result.pending ? result.pending.length : "0"} */}
-								</Text>
-								<Text style={{
-									...styles.text,
-									fontFamily:"NotoSans-Regular",
-									fontSize:20
-								}}>
-									Pending
-								</Text>
-							</View>
-						</TouchableOpacity>
 
-						<View style={{
-							flexDirection:"column"
-						}}>
-
-							<Text style={{
-								...styles.text,
-								fontFamily:"NotoSans-Regular",
-								fontSize:20
-							}}>
-								0
-							</Text>
-							
-							<Text style={{
-								...styles.text,
-								fontFamily:"NotoSans-Regular",
-								fontSize:20
-							}}>
-								Playlist
-							</Text>
-						</View>
+									<Text style={{
+										...styles.text,
+										fontFamily:"NotoSans-Regular",
+										fontSize:20
+									}}>
+										{item.pending.length}
+									</Text>
+									<Text style={{
+										...styles.text,
+										fontFamily:"NotoSans-Regular",
+										fontSize:20
+									}}>
+										Pending
+									</Text>
+								</View>
+							</TouchableOpacity>
+						):(
+							<>
+							</>
+						)}
+                    
 					</View>
-
+			</ScrollView>
+					
 					<ScrollView>
 						<View style={{
 							flexDirection:"row",
 							marginTop:30
 						}}>
-							<Icon
-								name="create-outline"
-								size={60}
-								style={{marginHorizontal:15, color:"white"}}
-							/>
-
-							<View
-								style={{
-									flexDirection: 'row',
-									marginTop:15,
-									justifyContent: 'space-between',
-									flex: 1,
-									width: '100%',
-							}}>
-								<TouchableOpacity onPress={createPlaylist}>
-								<Type
-									style={{
-										fontSize: width / 22,
-										width: '80%',
-										color: colors.text,
-										marginHorizontal:10,
-										fontFamily:"NotoSans-Bold"
+							{user._id === item._id ? (
+								<>
+									<Icon
+										name="create-outline"
+										size={60}
+										style={{marginHorizontal:15, color:"white"}}
+									/>
+									<View
+										style={{
+											flexDirection: 'row',
+											marginTop:15,
+											justifyContent: 'space-between',
+											flex: 1,
+											width: '100%',
 									}}>
-									{"Create Playlist"}
-								</Type>
-								</TouchableOpacity>
-							</View>
+										<TouchableOpacity onPress={createPlaylist}>
+										<Type
+											style={{
+												fontSize: width / 22,
+												width: '80%',
+												color: colors.text,
+												marginHorizontal:10,
+												fontFamily:"NotoSans-Bold"
+											}}>
+											{"Create Playlist"}
+										</Type>
+										</TouchableOpacity>
+									</View>
+								</>
+							):(
+								<>
+								</>
+							)}
 							
 						</View>	 	
 						
 						<FlatList
 							keyExtractor={(item) => (item._id).toString()}
-							data= {user.playlists}
+							data= {item.playlists}
 							renderItem={renderer}
 							showsVerticalScrollIndicator={false}
 						/>
 					</ScrollView>
-			</ScrollView>
 		</LinearGradientComp>
     )
 };
@@ -300,9 +295,9 @@ const styles = StyleSheet.create({
 	text:{
 		fontSize:24,
 		color:"white",
-		marginTop:"4%",
+		marginTop:"10%",
 		fontFamily:"NotoSans-Bold"
 	}
 })
 
-export default ProfileScreen;
+export default ViewProfileScreen;
