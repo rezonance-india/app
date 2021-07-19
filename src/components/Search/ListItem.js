@@ -92,7 +92,7 @@ const ListItem = ({navig, data, selectedSong, toggleDisability}) => {
 							fontWeight: 'bold',
 						}}>
 						{data.track_name.length > 30
-							? `${data.track_name.substring(0, 20)}....`
+							? `${data.track_name.substring(0, 26)}....`
 							: data.track_name}
 					</Type>
 

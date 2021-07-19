@@ -55,8 +55,8 @@ const Recommend = ({modalVisible, toggleVisibility,navig,selectedSong}) => {
 			
 						<View
 							style={{
-								height: '27.5%',
-								top: '75%',
+								height: '20%',
+								top: '80%',
 								width: '100%',
 								backgroundColor: '#000',
 								opacity: 0.75,
@@ -76,13 +76,13 @@ const Recommend = ({modalVisible, toggleVisibility,navig,selectedSong}) => {
 									blurType="regular"
 									blurAmount={60}
 								/> */}
-							{item.track_name.length > 20
-								? `${item.track_name.substring(0, 20)}...`
+							{item.track_name.length > 40
+								? `${item.track_name.substring(0, 35)}...`
 								: item.track_name}
 						</Text>
 						<Text style={{...styles.text, fontSize: 14}}>
 							{item.artist_name.length > 30
-								? `${item.artist_name.substring(0, 20)}...`
+								? `${item.artist_name.substring(0, 25)}...`
 								: item.artist_name}
 						</Text>
 					</ImageBackground>
@@ -124,15 +124,17 @@ const Recommend = ({modalVisible, toggleVisibility,navig,selectedSong}) => {
 			}}>
 			<LinearGradientComp
 				bgcolors={{
-					colorOne: color ? color : 'rgba(44,62,80, 1)',
+					// colorOne: color ? color : 'rgba(44,62,80, 1)',
+					colorOne: 'rgba(0, 0,01, 0.85)',
 					colorTwo: 'rgb(0,0,0)',
 				}}>
 					<View style={styles.modalView}>
 					<Text style={{
 						color:"white",
 						fontSize:24,
-						marginHorizontal:"20%"
-					}}>Recommendations for {selectedSong ? selectedSong.track_name : queue[selectedTrack].title}</Text>
+						marginHorizontal:"20%",
+						marginBottom: "10%"
+					}}>Songs like {selectedSong ? selectedSong.track_name : queue[selectedTrack].title}</Text>
 				<FlatList
 					keyExtractor={(item) => item.track_id}
 					data={result}
@@ -151,7 +153,7 @@ const styles = StyleSheet.create({
 		display:"flex",
 		flexDirection:"row",
 		justifyContent:"center",
-		marginVertical:"6%"
+		marginVertical:"5%"
 	},
 	absolute: {
 		position: "absolute",
@@ -161,19 +163,19 @@ const styles = StyleSheet.create({
 		right: 0
   },
 	modalView:{
-		marginTop:"30%",
+		marginTop:"20%",
 	},
 	album: {
-		width: (width * 4) / 6.5,
-		height: (width * 4) / 6.5,
+		width: (width * 5) / 6.5,
+		height: (width * 5) / 6.5,
 	},
 	text: {
 		fontSize: 12,
-		top: '50%',
+		top: '61%',
 		color: 'white',
 		fontFamily: 'IBMPlexSans-Regular',
 		marginHorizontal: 8,
-		marginTop: 2,
+		marginTop: 6,
 	},
 });
 
