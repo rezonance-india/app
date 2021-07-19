@@ -14,11 +14,14 @@ const SearchBox = ({setSearchQuery, searchQuery, navigation, placeholder}) => {
 			}}>
 			<InputBox
 				value={searchQuery}
+				searchbox={true}
 				onChangeText={(value) => setSearchQuery(value)}
 				placeholder={placeholder}
 				style={{
 					borderRadius: 6,
 					flex:1,
+					color:"black",
+					opacity:0.6,
 					marginRight:-20,
 					paddingLeft:20,
 					borderColor:"transparent",

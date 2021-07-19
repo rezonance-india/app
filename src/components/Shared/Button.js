@@ -1,11 +1,12 @@
 import React from "react"
 import {View,Text,StyleSheet, TouchableOpacity} from "react-native";
 
-const Button = ({children,backColor,onPressFunction,borderColor}) => {
+const Button = ({children,backColor,onPressFunction,borderColor,prop}) => {
     return (
 		<TouchableOpacity onPress={onPressFunction}>
 			<View style={{
 				...styles.button,
+				marginTop:100,
 				backgroundColor: backColor ? backColor: '#09a0eb',
 				borderColor: borderColor ? borderColor : "transparent"
 			}}>

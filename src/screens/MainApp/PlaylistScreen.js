@@ -2,22 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {View, Dimensions, ScrollView, FlatList} from 'react-native';
 import LinearGradientComp from '../../components/Shared/LinearGradient';
 import {ACCENT, GRAY, PRIMARY} from '../../constants/colors';
-import Icon from 'react-native-vector-icons/Ionicons';
 import ImageColors from 'react-native-image-colors';
-import axios from 'axios';
-import {apiUrl} from '../../constants/config';
 import PlaylistHero from '../../components/Profile/PlaylistHero';
 import SongsList from '../../components/Profile/SongsList';
 
 const {width, height} = Dimensions.get('screen');
 
-//Two components rendering
-//Artist Search -> Hero image of Artist
-//List -> Album images with album names and the artist name below it
-
-//Second -
-//Album Search -> View Artist Screen but with Album image as the hero image
-//List -> All tracks of that album
 const PlaylistScreen = ({route,navigation}) => {
 
 	const [scrollYPosition, setScrollYPosition] = useState(0);
@@ -86,7 +76,7 @@ const PlaylistScreen = ({route,navigation}) => {
 		<View>
 			<ScrollView onScroll={handleOnScroll} stickyHeaderIndices={[1]}>
 				<PlaylistHero
-					name={"lol"}
+					name={item.name}
 					details={"https://i.scdn.co/image/ab67616d0000b27388b3414802727efbacf8dc43"}
 					yOffset={scrollYPosition}
 					onParallaxImageScrolled={handleParallaxImageScrolled}

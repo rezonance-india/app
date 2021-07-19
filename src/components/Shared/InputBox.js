@@ -46,7 +46,7 @@ const InputBox = (props) => {
 		      opacity:1,
           ...props.style,
         }}
-        placeholderTextColor="white"
+        placeholderTextColor={props.searchbox ? "black" : "white"}
         ref={inputRef}
         onFocus={handleFocus}
         onBlur={handleBlur}

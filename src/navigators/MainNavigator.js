@@ -22,7 +22,6 @@ const MainNavigator = () => {
 		//? when auth will be implemented
 		const checkToken = async () => {
 			const user = await AsyncStorage.getItem('user');
-			console.log(user,"user");
 			  if (user) {
 			    setInitialScreen('MainApp');
 			  }
