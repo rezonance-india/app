@@ -183,6 +183,7 @@ const ProfileScreen = ({route,navigation}) => {
 							<TouchableOpacity onPress={openModal}>
 								<Text style={{
 									...styles.text,
+									top:"5%",
 									fontFamily:"NotoSans-Regular",
 									fontSize:20
 								}}>
@@ -193,6 +194,7 @@ const ProfileScreen = ({route,navigation}) => {
 
 								<Text style={{
 									...styles.text,
+									top:"5%",
 									fontFamily:"NotoSans-Regular",
 									fontSize:20
 								}}>

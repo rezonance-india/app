@@ -11,7 +11,6 @@ import PendingRequestsModal from '../../components/Profile/PendingRequestsModal'
 import { GlobalContext } from '../../context/GlobalState';
 import axios from 'axios';
 import { userApiUrl } from "../../constants/config";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import PlayListModal from '../../components/Profile/PlayListModal';
 import Button from "../../components/Shared/Button"
 
@@ -22,20 +21,12 @@ const ViewProfileScreen = ({route}) => {
 	const [friendModalVisible, setFriendModalVisible] = useState(false);
 	const [pendingModalVisible,setPendingModalVisible] = useState(false);
 	const [listModalVisible,setListModalVisible] = useState(false);
-	const [result,setResult] = useState({});
 	const [refreshing,setRefreshing] = useState(false);
-	const [currentUser,setCurrentUser] = useState(item);
 	const {updateUser,token,user} = useContext(GlobalContext);
-
-	console.log(route.params.item,"item");
-
-    let isFriends = user.friends.filter((userId) => {
-        userId === item._id
-    })
-
-    console.log(isFriends,"friend");
-
+	
 	const {item} = route.params;
+
+	const [currentUser,setCurrentUser] = useState(item);
 
 	const imageUrl = "https://images.unsplash.com/photo-1500048993953-d23a436266cf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1949&q=80";
 
@@ -57,21 +48,17 @@ const ViewProfileScreen = ({route}) => {
 		setListModalVisible(true);
 	}
 
-	//?Todo fix on server side, populate both fields name and id in pending 
 	useEffect(() => {
 		const fetchUser = () => {
-			axios.get(`${userApiUrl}/user/getAUser`)
+			axios.post(`${userApiUrl}/user/getAUser`,{
+				_id:currentUser._id
+			})
 			.then(async (res) => {
                 setRefreshing(false);
 				setCurrentUser(res.data); 
 			}).catch((err) => {
                 setRefreshing(false);
 				console.log(err,"err");
-				if (Array.isArray(err.response.data.errors)) {
-					if (Platform.OS === 'android') {
-					  ToastAndroid.show(err.response.data.errors[0].msg, ToastAndroid.SHORT);
-					}
-				}
 			})
 		}
 
@@ -79,6 +66,8 @@ const ViewProfileScreen = ({route}) => {
             fetchUser();
         }		
 	},[refreshing])
+
+	console.log(currentUser,"curr user");
 
 	useEffect(() => {
 		const getDominantColors = async () => {
@@ -109,11 +98,44 @@ const ViewProfileScreen = ({route}) => {
 	const onRefresh = React.useCallback(() => {
     	setRefreshing(true);
   	}, []);
-
+	
     //Send request connection
     const sendRequest = () => {
-
+		axios.post(`${userApiUrl}/friends/addFriend`,{
+            friendId:currentUser._id
+        },
+        {
+            headers: {
+                Authorization: "Bearer " + token,
+            },
+        }).then((res) => {
+			if (Platform.OS === 'android') {
+				ToastAndroid.show("Request sent successfully", ToastAndroid.SHORT);
+			}
+		}).catch((err) => {
+			if (Array.isArray(err.response.data.errors)) {
+				if (Platform.OS === 'android') {
+					ToastAndroid.show(err.response.data.errors[0].msg, ToastAndroid.SHORT);
+				}
+			}
+			console.log(err);
+		})
     }
+
+
+	let isSent = false;
+
+	//?Todo fix on first render (server side fix, populate only friends property and compare only 
+	//?Todo array element)
+	//?Todo Make sure that buttons show dont show in front of list of other users' friends
+
+	currentUser.pending.map((peep) => {
+		if(peep._id == user._id){
+			isSent = true;		
+		}
+	})
+
+	// console.log(isSent,"sent");
 
     return (
         <LinearGradientComp
@@ -129,7 +151,7 @@ const ViewProfileScreen = ({route}) => {
 
 			<FriendsModal
 				currentUser={true}
-				data={item ? item.friends : user.friends}
+				data={currentUser ? currentUser.friends : user.friends}
 				toggleVisibility={setFriendModalVisible}
 				modalVisible={friendModalVisible}
 			/>
@@ -163,17 +185,30 @@ const ViewProfileScreen = ({route}) => {
 							height: 140,
 					}} />
                     <View style={{
-                        flexDirection:'row'
+                        flexDirection:'row',
+						justifyContent:"space-between"
                     }}>
-                        <Text style={styles.text}>
-                            {item.name}
+                        <Text style={{
+							...styles.text,
+							top:"-1%"
+						}}>
+                            {currentUser.name}
                         </Text>
-                        {item._id !== user._id ? (
+                        {currentUser._id !== user._id ? (
                             <Button buttonStyle={{
-								marginTop:100
-							}} title="Send" onPressFunction={sendRequest}>Send</Button>
+								marginTop:"35%",
+								width:80,
+								height:40,
+							}}
+							textStyles = {{
+								fontSize:18
+							}} 
+							title="Send" onPressFunction={sendRequest}>
+								{isSent ? "Sent" : "Send"}
+							</Button>
                         ):(
                            <>
+
                            </>   
                         )}    
                     </View>
@@ -190,16 +225,19 @@ const ViewProfileScreen = ({route}) => {
 							<TouchableOpacity onPress={openModal}>
 								<Text style={{
 									...styles.text,
+									fontWeight:"bold",
 									fontFamily:"NotoSans-Regular",
-									fontSize:20
+									fontSize:20,
+									top:"8%"
 								}}>
-									{item.friends.length}
+									{currentUser.friends.length}
 								</Text>
 
 								<Text style={{
 									...styles.text,
-									fontFamily:"NotoSans-Regular",
-									fontSize:20
+									fontFamily:"5NotoSans-Regular",
+									fontSize:20,
+									top:"8%"
 								}}>
 									Friends
 								</Text>
@@ -207,7 +245,7 @@ const ViewProfileScreen = ({route}) => {
 
 						</View>
 
-						{item._id === user._id ? (
+						{currentUser._id === user._id ? (
 
 							<TouchableOpacity onPress={showPending}>
 
@@ -218,9 +256,10 @@ const ViewProfileScreen = ({route}) => {
 									<Text style={{
 										...styles.text,
 										fontFamily:"NotoSans-Regular",
-										fontSize:20
+										fontSize:20,
+										fontWeight:"bold"
 									}}>
-										{item.pending.length}
+										{currentUser.pending.length}
 									</Text>
 									<Text style={{
 										...styles.text,
@@ -235,17 +274,40 @@ const ViewProfileScreen = ({route}) => {
 							<>
 							</>
 						)}
-                    
+						
+							<View style={{
+								flexDirection:"column"
+							}}>
+
+								<Text style={{
+									...styles.text,
+									fontFamily:"NotoSans-Regular",
+									fontSize:20,
+									fontWeight:"bold"
+
+								}}>
+									{currentUser.playlists.length}
+								</Text>
+								<Text style={{
+									...styles.text,
+									fontFamily:"NotoSans-Regular",
+									fontSize:20
+								}}>
+									Playlists
+								</Text>
+
+							</View>
+
 					</View>
 			</ScrollView>
 					
 					<ScrollView>
-						<View style={{
-							flexDirection:"row",
-							marginTop:30
-						}}>
-							{user._id === item._id ? (
+							{user._id === currentUser._id ? (
 								<>
+								<View style={{
+									flexDirection:"row",
+									marginTop:10
+								}}>
 									<Icon
 										name="create-outline"
 										size={60}
@@ -263,29 +325,52 @@ const ViewProfileScreen = ({route}) => {
 										<Type
 											style={{
 												fontSize: width / 22,
-												width: '80%',
+												width: '90%',
 												color: colors.text,
-												marginHorizontal:10,
+												magintTop:-20,
 												fontFamily:"NotoSans-Bold"
 											}}>
 											{"Create Playlist"}
 										</Type>
 										</TouchableOpacity>
 									</View>
+								</View>
 								</>
 							):(
 								<>
 								</>
 							)}
 							
-						</View>	 	
-						
-						<FlatList
-							keyExtractor={(item) => (item._id).toString()}
-							data= {item.playlists}
-							renderItem={renderer}
-							showsVerticalScrollIndicator={false}
-						/>
+						{currentUser.playlists.length > 0 ? (
+							<>
+								{user._id !== currentUser._id ? (
+									<Text style={{
+										...styles.text,
+										top:"-5%"
+									}}>
+									Public Playlists
+									</Text>
+								) :(
+									<>
+									</>
+								)} 
+
+								<FlatList
+									keyExtractor={(item) => (item._id).toString()}
+									data= {currentUser.playlists}
+									renderItem={renderer}
+									showsVerticalScrollIndicator={false}
+								/>
+							</>
+						):(
+							<Text style={{
+								...styles.text,
+								marginHorizontal:"5%",
+								fontFamily:"Noto-Sans"
+							}}>
+								The User has no playlist! Send them a song maybe?
+							</Text>
+						)}
 					</ScrollView>
 		</LinearGradientComp>
     )
@@ -296,6 +381,7 @@ const styles = StyleSheet.create({
 		fontSize:24,
 		color:"white",
 		marginTop:"10%",
+		marginLeft:"5%",
 		fontFamily:"NotoSans-Bold"
 	}
 })
