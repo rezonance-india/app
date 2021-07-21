@@ -110,13 +110,9 @@ const ProfileScreen = ({route,navigation}) => {
 		getDominantColors();
 	}, [imageUrl]);
 
-	// const wait = (timeout) => {
-  	// 	return new Promise(resolve => setTimeout(resolve, timeout));
-	// }
 
 	const onRefresh = React.useCallback(() => {
     	setRefreshing(true);
-    	// wait(2000).then(() => setRefreshing(false));
   	}, []);
 
     return (
@@ -166,9 +162,7 @@ const ProfileScreen = ({route,navigation}) => {
 							height: 140,
 						}} />
 					<Text style={styles.text}>
-						{/* {0} */}
 						{user.name}
-						{/* {result ? result.name : ""} */}
 					</Text>
 				</View>
 
@@ -187,9 +181,7 @@ const ProfileScreen = ({route,navigation}) => {
 									fontFamily:"NotoSans-Regular",
 									fontSize:20
 								}}>
-									{/* {"0"} */}
 									{user.friends.length}
-									{/* {result.friends ? result.friends.length : "0"} */}
 								</Text>
 
 								<Text style={{
@@ -215,9 +207,7 @@ const ProfileScreen = ({route,navigation}) => {
 									fontFamily:"NotoSans-Regular",
 									fontSize:20
 								}}>
-									{/* {"0"} */}
 									{user.pending.length}
-									{/* {result.pending ? result.pending.length : "0"} */}
 								</Text>
 								<Text style={{
 									...styles.text,

@@ -1,5 +1,5 @@
 import React,{useEffect,useState,useContext} from 'react';
-import {Text,View,Image,StyleSheet,FlatList,Dimensions,ScrollView, TouchableOpacity, RefreshControl} from 'react-native';
+import {Text,View,Image,StyleSheet,FlatList,Dimensions,ScrollView, TouchableOpacity, RefreshControl, ToastAndroid} from 'react-native';
 import LinearGradientComp from '../../components/Shared/LinearGradient';
 import { ACCENT, colors } from '../../constants/colors';
 import ImageColors from 'react-native-image-colors';
@@ -13,6 +13,7 @@ import axios from 'axios';
 import { userApiUrl } from "../../constants/config";
 import PlayListModal from '../../components/Profile/PlayListModal';
 import Button from "../../components/Shared/Button"
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -22,8 +23,10 @@ const ViewProfileScreen = ({route}) => {
 	const [pendingModalVisible,setPendingModalVisible] = useState(false);
 	const [listModalVisible,setListModalVisible] = useState(false);
 	const [refreshing,setRefreshing] = useState(false);
+	const [isSent,setIsSent] = useState(false);
+	const [areFriends,setAreFriends] = useState(false);
 	const {updateUser,token,user} = useContext(GlobalContext);
-	
+
 	const {item} = route.params;
 
 	const [currentUser,setCurrentUser] = useState(item);
@@ -62,12 +65,10 @@ const ViewProfileScreen = ({route}) => {
 			})
 		}
 
-        if(refreshing !== false){
+        if(refreshing !== false || areFriends === false ){
             fetchUser();
         }		
-	},[refreshing])
-
-	console.log(currentUser,"curr user");
+	},[refreshing,isSent,areFriends])
 
 	useEffect(() => {
 		const getDominantColors = async () => {
@@ -98,45 +99,77 @@ const ViewProfileScreen = ({route}) => {
 	const onRefresh = React.useCallback(() => {
     	setRefreshing(true);
   	}, []);
-	
-    //Send request connection
-    const sendRequest = () => {
-		axios.post(`${userApiUrl}/friends/addFriend`,{
-            friendId:currentUser._id
-        },
-        {
-            headers: {
-                Authorization: "Bearer " + token,
-            },
-        }).then((res) => {
-			if (Platform.OS === 'android') {
-				ToastAndroid.show("Request sent successfully", ToastAndroid.SHORT);
-			}
-		}).catch((err) => {
-			if (Array.isArray(err.response.data.errors)) {
+		
+	  const genFunc = () => {
+		  
+		  if(!isSent){
+			//Send request
+			axios.post(`${userApiUrl}/friends/addFriend`,{
+				friendId:currentUser._id
+			},
+			{
+				headers: {
+					Authorization: "Bearer " + token,
+				},
+			}).then((res) => {
+				setIsSent(true);
+				setAreFriends(false);
 				if (Platform.OS === 'android') {
-					ToastAndroid.show(err.response.data.errors[0].msg, ToastAndroid.SHORT);
+					ToastAndroid.show("Request sent successfully", ToastAndroid.SHORT);
 				}
-			}
-			console.log(err);
-		})
-    }
-
-
-	let isSent = false;
-
-	//?Todo fix on first render (server side fix, populate only friends property and compare only 
-	//?Todo array element)
-	//?Todo Make sure that buttons show dont show in front of list of other users' friends
-
-	currentUser.pending.map((peep) => {
-		if(peep._id == user._id){
-			isSent = true;		
+			}).catch((err) => {
+				// if (Array.isArray(err.response.data.errors)) {
+				// 	if (Platform.OS === 'android') {
+				// 		ToastAndroid.show(err.response.data.errors[0].msg, ToastAndroid.SHORT);
+				// 	}
+				// }
+				console.log(err);
+			})
 		}
-	})
+		if(areFriends){
+			//Remove from friends 
+			axios.post(`${userApiUrl}/friends/removeFriend`,
+			{
+				friendId:currentUser._id
+			},
+			{
+				headers: {
+					Authorization: "Bearer " + token,
+				},
+			})
+			.then(async (res) => {
+				setAreFriends(false);
+				setIsSent(false);
+				updateUser(res.data);
+				await AsyncStorage.setItem('user', JSON.stringify(res.data));
+				ToastAndroid.show(`Friendship ended with ${currentUser.name}`, ToastAndroid.SHORT);
+			}).catch((err) => {
+				console.log(err,"err");
+				// if (Array.isArray(err.response.data.errors)) {
+				// 	if (Platform.OS === 'android') {
+				// 		ToastAndroid.show(err.response.data.errors[0].msg, ToastAndroid.SHORT);
+				// 	}
+				// }
+			})
+		}
+	}
 
-	// console.log(isSent,"sent");
+	useEffect(() => {
+		//Checking if the auth user has sent request to the currentUser
+		currentUser.pending.map((peep) => {
+			if(peep == user._id){
+				setIsSent(true);		
+			}
+		})
 
+		//Checking if the auth user is friends with the current user
+		currentUser.friends.map((peep) => {
+			if(peep._id === user._id){
+				setAreFriends(true);
+			}
+		})
+	},[refreshing])
+	
     return (
         <LinearGradientComp
 			bgcolors={{
@@ -203,14 +236,31 @@ const ViewProfileScreen = ({route}) => {
 							textStyles = {{
 								fontSize:18
 							}} 
-							title="Send" onPressFunction={sendRequest}>
-								{isSent ? "Sent" : "Send"}
+							title="Send" onPressFunction={genFunc}>
+								{
+									areFriends ? "Remove" : (
+										isSent ? "Sent" : "Send"
+									)
+								}
 							</Button>
                         ):(
-                           <>
-
-                           </>   
-                        )}    
+							areFriends ? (
+								<Button buttonStyle={{
+									marginTop:"35%",
+									width:80,
+									height:40,
+								}}
+								textStyles = {{
+									fontSize:18
+								}} 
+								title="Send" onPressFunction={sendRequest}>
+									{}
+							</Button>
+							) :(
+								<>
+								</>
+							)
+						)}    
                     </View>
 				</View>
 
