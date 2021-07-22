@@ -17,6 +17,7 @@ import ChatModal from "../Shared/ChatModal";
 import Recommend from "../Shared/Recommend";
 import axios from 'axios';
 import { apiUrl } from '../../constants/config';
+import AddToPlayListModal from './AddToPlaylistModal';
 
 const Overlay = ({toggleVisibility, modalVisible, data, selectedSong,navig}) => {
 	const [liked, setLiked] = useState(false);
@@ -24,6 +25,7 @@ const Overlay = ({toggleVisibility, modalVisible, data, selectedSong,navig}) => 
 	const [chatModalVisible, setChatModalVisible] = useState(false);
 	const {queue, updateQueue} = useContext(GlobalContext);
 	const [recommendModalVisible, setRecommendModalVisible] = useState(false);
+	const [addToPlaylistModalVisible,setAddToPlaylistModalVisible] = useState(false);
 
 	const options = [
 		{
@@ -77,7 +79,9 @@ const Overlay = ({toggleVisibility, modalVisible, data, selectedSong,navig}) => 
 		{
 			name: 'Add to Playlist',
 			icon_name: 'list-outline',
-			onPress: () => {},
+			onPress: () => {
+				setAddToPlaylistModalVisible(true);
+			},
 		},
 		{
 			name: 'View artist',
@@ -143,16 +147,26 @@ const Overlay = ({toggleVisibility, modalVisible, data, selectedSong,navig}) => 
 			onRequestClose={() => {
 				toggleVisibility(!modalVisible);
 			}}>
+			
 			<ChatModal
 				toggleVisibility={setChatModalVisible}
 				modalVisible={chatModalVisible}
 			/>
+
 			<Recommend
 				selectedSong={selectedSong}
 				navig={navig}
 				toggleVisibility={setRecommendModalVisible}
 				modalVisible={recommendModalVisible}
 			/>
+
+			<AddToPlayListModal
+				selectedSong={selectedSong}
+				navig={navig}
+				toggleVisibility={setAddToPlaylistModalVisible}
+				modalVisible={addToPlaylistModalVisible}
+			/>
+
 			<LinearGradient
 				bgcolors={{
 					colorOne: '#2d3436AF',

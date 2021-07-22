@@ -1,15 +1,33 @@
-import React, {useState} from 'react';
+import React, {useState,useContext} from 'react';
 import {Modal, Text, View, StyleSheet, Image, ScrollView} from 'react-native';
 import {userData} from '../../constants/store';
+import { GlobalContext } from '../../context/GlobalState';
 import SearchBox from '../Search/SearchBox';
 import InputBox from './InputBox';
 import LinearGradient from './LinearGradient';
 
 const ChatModal = ({modalVisible, toggleVisibility}) => {
-	const [searchQuery, setSearchQuery] = useState('');
-	
-	const search = () => {
-		console.log('in search frands');
+	const [searchQuery, setSearchQuery] = useState('');	
+	const {user} = useContext(GlobalContext);
+
+	const [searchResults,setSearchResults] = useState(user.friends);
+
+	const search = (value) => {
+        //Searching using regex
+        let re = new RegExp(`^${value}`);
+        
+		let results = [];
+		
+        user.friends.map((friend) => {
+            if(friend.name.match(re)){
+				console.log(friend,"friend");
+                results.push(friend);
+                setSearchResults(results);
+            }
+			else{
+				setSearchResults([]);
+			}
+        })
 	};
 
 	return (
@@ -37,7 +55,7 @@ const ChatModal = ({modalVisible, toggleVisibility}) => {
 							style={{
 								color: 'white',
 							}}>
-							{userData.map((user, i) => (
+							{searchResults.map((user, i) => (
 								<View
 									key={i}
 									style={{
@@ -51,7 +69,7 @@ const ChatModal = ({modalVisible, toggleVisibility}) => {
 											justifyContent: 'flex-start',
 										}}>
 										<Image
-											source={{uri: user.image}}
+											source={{"uri": "https://i.scdn.co/image/ab67616d0000b27388b3414802727efbacf8dc43"}}
 											style={{
 												borderRadius: 20,
 												left: 10,
