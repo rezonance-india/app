@@ -1,16 +1,25 @@
+import axios from 'axios';
 import React, {useState,useContext} from 'react';
-import {Modal, Text, View, StyleSheet, Image, ScrollView} from 'react-native';
+import {Modal, Text, View, StyleSheet, Image, ScrollView, TouchableOpacity, ToastAndroid} from 'react-native';
+import { userApiUrl } from '../../constants/config';
 import {userData} from '../../constants/store';
 import { GlobalContext } from '../../context/GlobalState';
 import SearchBox from '../Search/SearchBox';
 import InputBox from './InputBox';
 import LinearGradient from './LinearGradient';
 
-const ChatModal = ({modalVisible, toggleVisibility}) => {
+const ChatModal = ({modalVisible, toggleVisibility,selectedSong}) => {
 	const [searchQuery, setSearchQuery] = useState('');	
-	const {user} = useContext(GlobalContext);
+	const {user,updateUser,token} = useContext(GlobalContext);
+
+	// const [messageDetails,setMessageDetails] = useState({
+	// 	id:null,
+	// 	text:"Send"
+	// });
 
 	const [searchResults,setSearchResults] = useState(user.friends);
+
+	const {album_image,track_name,track_url,artist_name} = selectedSong;
 
 	const search = (value) => {
         //Searching using regex
@@ -25,6 +34,44 @@ const ChatModal = ({modalVisible, toggleVisibility}) => {
             }
         })
 	};
+
+	const playlistData = {
+		trackName:track_name,
+		artistName:artist_name,
+		albumArt:album_image,
+		to:"lol",
+		trackUrl:track_url
+	}
+
+	const sendSong = (userId) => {
+		console.log(userId,"useriD");
+
+		axios.post(`${userApiUrl}/messages/send`,
+        {
+			...playlistData,
+			to:userId
+        },
+        {
+            headers: {
+                Authorization: "Bearer " + token,
+            },
+        })
+        .then(async (res) => {
+            console.log(res.data,"messages");
+			// setMessageDetails({
+			// 	id:userId,
+			// 	text:"Sent"
+			// })
+			ToastAndroid.show("Song sent", ToastAndroid.SHORT);
+        }).catch((err) => {
+            console.log(err,"err");
+            // if (Array.isArray(err.response.data.errors)) {
+            //     if (Platform.OS === 'android') {
+            //         ToastAndroid.show(err.response.data.errors[0].msg, ToastAndroid.SHORT);
+            //     }
+            // }
+        })
+	}
 
 	return (
 		<Modal
@@ -83,11 +130,13 @@ const ChatModal = ({modalVisible, toggleVisibility}) => {
 												justifyContent: 'flex-end',
 												marginRight: 20,
 											}}>
-											<View style={styles.button}>
-												<Text style={styles.textButton}>
-													Send
-												</Text>
-											</View>
+											<TouchableOpacity onPress={() => sendSong(user._id)}>
+												<View style={styles.button}>
+													<Text style={styles.textButton}>
+														{"Send"}
+													</Text>
+												</View>
+											</TouchableOpacity>
 										</View>
 									</View>
 								</View>

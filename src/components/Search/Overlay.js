@@ -149,6 +149,7 @@ const Overlay = ({toggleVisibility, modalVisible, data, selectedSong,navig}) => 
 			}}>
 			
 			<ChatModal
+				selectedSong={selectedSong}
 				toggleVisibility={setChatModalVisible}
 				modalVisible={chatModalVisible}
 			/>
