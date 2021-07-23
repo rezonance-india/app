@@ -1,15 +1,18 @@
-import React from "react";
+import React,{useContext} from "react";
 import {View,Text,Image,TouchableOpacity,ImageBackground,Dimensions,FlatList,StyleSheet} from "react-native"
 import LinearGradientComp from "../../components/Shared/LinearGradient";
 import { ACCENT, PRIMARY } from "../../constants/colors";
 import Icon from 'react-native-vector-icons/Ionicons';
 import messageData from "../../constants/messageData";
+import { GlobalContext } from "../../context/GlobalState";
 
 const {width, height} = Dimensions.get('window');
 
-
 const MessagingScreen = ({route,navigation}) => {
-    const user = route.params.item;
+    const {chat} = route.params.item;
+	const {user} = useContext(GlobalContext);
+
+	console.log(chat,"chat");
 
     const handleBack = () => {
         navigation.goBack();
@@ -17,9 +20,9 @@ const MessagingScreen = ({route,navigation}) => {
 
 	const renderer = ({item}) => {
 		return (
-			<View style={item.to === "Kartik" ? {...styles.container,marginLeft:100} : styles.container}>
+			<View style={item.user._id === user._id ? {...styles.container,marginLeft:100} : styles.container}>
 				<ImageBackground
-					source={{uri: item.songDetails.album_image}}
+					source={{uri: item.message.albumArt}}
 					style={styles.album}
 					imageStyle={{borderRadius: 10}}>
 					<View
@@ -42,15 +45,17 @@ const MessagingScreen = ({route,navigation}) => {
 							fontWeight: 'bold',
 						}}>
 						{/* {item.songDetails.track_name}  */}
-						{item.songDetails.track_name.length > 30
-							? `${item.songDetails.track_name.substring(0, 26)}....`
-							: item.songDetails.track_name}
+						{item.message.trackName.length > 30
+							? `${item.message.trackName.substring(0, 26)}....`
+							: item.message.trackName}
 					</Text>
-					<Text style={styles.text}>{item.songDetails.artist_name} </Text>
+					<Text style={styles.text}>{item.message.artistName} </Text>
 				</ImageBackground>
 			</View>
 		)
 	}
+
+	const sampleImage = "https://images.unsplash.com/photo-1624387832956-1a33ddb5f7f9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2735&q=80"
 
     return (
         <LinearGradientComp
@@ -77,7 +82,7 @@ const MessagingScreen = ({route,navigation}) => {
 
 					<Image
 						source={{
-							uri:user.image
+							uri:sampleImage
 						}}
 						style={{
 							borderRadius: 20,
@@ -98,8 +103,8 @@ const MessagingScreen = ({route,navigation}) => {
 				</View>            
 			
 			<FlatList
-				keyExtractor={(item) => item.songDetails.track_id}
-				data={messageData}
+				keyExtractor={(item) => item._id}
+				data={chat}
 				renderItem={renderer}
 				showsVerticalScrollIndicator={false}
 			/>

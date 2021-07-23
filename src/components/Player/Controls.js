@@ -30,6 +30,7 @@ const Controls = ({
 		<View style={styles.container}>
 			<View>
 				<ChatModal
+					selectedSong={selectedSong}
 					toggleVisibility={setChatModalVisible}
 					modalVisible={chatModalVisible}
 				/>

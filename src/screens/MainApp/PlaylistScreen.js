@@ -19,8 +19,6 @@ const PlaylistScreen = ({route,navigation}) => {
 
     const {item} = route.params;
 
-    console.log(item,"data");
-
 	const handleOnScroll = (event) => {
 		if (event.nativeEvent.contentOffset.y < height / 2) {
 			setScrollYPosition(event.nativeEvent.contentOffset.y);

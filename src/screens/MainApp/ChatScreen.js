@@ -1,25 +1,54 @@
-import React, {useState} from 'react';
+import axios from 'axios';
+import React, {useState,useEffect,useContext} from 'react';
 import {Text, View, ScrollView, Image, StyleSheet,TouchableOpacity,FlatList} from 'react-native';
 import SearchBox from '../../components/Search/SearchBox';
 import LinearGradientComp from '../../components/Shared/LinearGradient';
 import {ACCENT, PRIMARY} from '../../constants/colors';
+import { userApiUrl } from '../../constants/config';
 import {userData} from '../../constants/store';
+import { GlobalContext } from '../../context/GlobalState';
 
 const ChatScreen = ({navigation}) => {
 	const [searchQuery, setSearchQuery] = useState('');
+	const [messages,setMessages] = useState([]);
+	const {token} = useContext(GlobalContext);
+
 	const search = () => {
 		console.log('in search frands');
 	};
 	
+	useEffect(() => {
+		axios.get(`${userApiUrl}/messages/getMessages`,
+        {
+            headers: {
+                Authorization: "Bearer " + token,
+            },
+        })
+        .then(async (res) => {
+            console.log(res.data,"messages");
+			setMessages(res.data);
+        }).catch((err) => {
+            console.log(err,"err");
+            // if (Array.isArray(err.response.data.errors)) {
+            //     if (Platform.OS === 'android') {
+            //         ToastAndroid.show(err.response.data.errors[0].msg, ToastAndroid.SHORT);
+            //     }
+            // }
+        })
+	},[])
+
 	const renderer = ({item}) => {
 		const pressChatBox = () => {
 			navigation.navigate("MessagingScreen",{
 				item
 			})
 		}
+
+		const sampleImage ="https://images.unsplash.com/photo-1624387832956-1a33ddb5f7f9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2735&q=80";
+
 		return (
 			<View
-				key={item.id}
+				key={item._id}
 				style={{
 					flexDirection: 'column',
 					margin: '2%',
@@ -34,7 +63,7 @@ const ChatScreen = ({navigation}) => {
 							flexDirection: 'row',
 						}}>
 						<Image
-							source={{uri: item.image}}
+							source={{uri: sampleImage}}
 							style={{
 								borderRadius: 20,
 								left: 10,
@@ -51,10 +80,10 @@ const ChatScreen = ({navigation}) => {
 									flexDirection: 'row',
 								}}>
 								<Text style={styles.options}>
-									{item.name.length > 30
-										? item.name.substring(0, 30) +
+									{item.to.name.length > 30
+										? item.to.name.substring(0, 30) +
 										'...'
-										: item.name}
+										: item.to.name}
 								</Text>
 							</View>
 							<View
@@ -117,8 +146,8 @@ const ChatScreen = ({navigation}) => {
 			</Text>
 			<View>
 				<FlatList
-					keyExtractor={(item) => item.id}
-					data={userData}
+					keyExtractor={(item) => item._id}
+					data={messages}
 					renderItem={renderer}
 					showsVerticalScrollIndicator={false}
 				/>
