@@ -9,6 +9,7 @@ import { GlobalContext } from "../../context/GlobalState";
 const {width, height} = Dimensions.get('window');
 
 const MessagingScreen = ({route,navigation}) => {
+	const item = route.params.item;
     const {chat} = route.params.item;
 	const {user} = useContext(GlobalContext);
 
@@ -71,7 +72,6 @@ const MessagingScreen = ({route,navigation}) => {
 					flexDirection:"row",
 				}}>
 
-
 					<TouchableOpacity onPress={handleBack} activeOpacity={0.75}>
 						<Icon
 							name="arrow-back-outline"
@@ -98,7 +98,13 @@ const MessagingScreen = ({route,navigation}) => {
 						fontFamily:"NotoSans-Bold",
 						fontSize:18,
 						fontWeight: '700',
-					}}>{user.name}</Text>
+					}}>{item.to.id !== user._id ? 
+							item.to.name.length > 30
+							? item.to.name.substring(0, 30) +
+							'...'
+							: item.to.name
+							: ""
+						}</Text>
             	
 				</View>            
 			

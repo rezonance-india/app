@@ -17,6 +17,8 @@ const ChatModal = ({modalVisible, toggleVisibility,selectedSong}) => {
 	// 	text:"Send"
 	// });
 
+	console.log(selectedSong,"selee");
+	
 	const [searchResults,setSearchResults] = useState(user.friends);
 
 	const {album_image,track_name,track_url,artist_name} = selectedSong;

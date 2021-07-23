@@ -11,7 +11,7 @@ import { GlobalContext } from '../../context/GlobalState';
 const ChatScreen = ({navigation}) => {
 	const [searchQuery, setSearchQuery] = useState('');
 	const [messages,setMessages] = useState([]);
-	const {token} = useContext(GlobalContext);
+	const {token,user} = useContext(GlobalContext);
 
 	const search = () => {
 		console.log('in search frands');
@@ -53,15 +53,13 @@ const ChatScreen = ({navigation}) => {
 					flexDirection: 'column',
 					margin: '2%',
 					height: '10%',
-					// borderTopWidth: 1,
-					// borderTopColor: 'rgba(255, 255, 2555, 0.5)',
 				}}>
-				<TouchableOpacity onPress={pressChatBox}>
-
-					<View
+			
+					<TouchableOpacity onPress={pressChatBox}
 						style={{
 							flexDirection: 'row',
 						}}>
+							
 						<Image
 							source={{uri: sampleImage}}
 							style={{
@@ -71,6 +69,7 @@ const ChatScreen = ({navigation}) => {
 								height: 50,
 							}}
 						/>
+
 						<View
 							styel={{
 								flex: 1,
@@ -80,10 +79,13 @@ const ChatScreen = ({navigation}) => {
 									flexDirection: 'row',
 								}}>
 								<Text style={styles.options}>
-									{item.to.name.length > 30
+									{item.to.id !== user._id ? 
+										item.to.name.length > 30
 										? item.to.name.substring(0, 30) +
 										'...'
-										: item.to.name}
+										: item.to.name
+										: ""
+									}
 								</Text>
 							</View>
 							<View
@@ -92,24 +94,25 @@ const ChatScreen = ({navigation}) => {
 									flexDirection: 'row',
 								}}>
 								<Text
+
 									style={{
 										...styles.options,
 										fontSize: 14,
 										marginTop: 2,
 										fontFamily: 'NotoSans-Regular',
 									}}>
-									You shared song, Vertigo By Khalid.
+									{`${item.chat[item.chat.length-1].user._id === user._id ? "You" : item.chat[item.chat.length-1].user.name} shared ${item.chat[item.chat.length-1].message.trackName}, By ${item.chat[item.chat.length-1].message.artistName}`}.
 								</Text>
 								<Text
 									style={{
 										...styles.options,
 										marginTop: -25,
 									}}>
-									3hr
+									{"1hr"}
+									{/* {`${Date.now() - new Date(item.chat[item.chat.length-1].messageSentAt)}`} */}
 								</Text>
 							</View>
 						</View>
-					</View>
 				</TouchableOpacity>
 			</View>
 		)

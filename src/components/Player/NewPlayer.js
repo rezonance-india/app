@@ -30,7 +30,7 @@ TrackPlayer.updateOptions({
 	
 const NewPlayer = (props) => {
 			
-	const {updateColor,selectedTrack,updateSelectedTrack} = useContext(GlobalContext);
+	const {updateColor,selectedTrack,updateSelectedTrack,queue} = useContext(GlobalContext);
 	
 	const [paused, setPaused] = useState(true);
 	const [currentPosition, setCurrentPosition] = useState(0);
@@ -44,6 +44,13 @@ const NewPlayer = (props) => {
 	const [isSeeking, setIsSeeking] = useState(false); 
 	const {position, duration} = useTrackPlayerProgress(250);
 
+	const selectedSongData = {
+		track_name:queue[0].title,
+		album_image:queue[0].artwork,
+		artist_name:queue[0].artist,
+		track_url:queue[0].url
+	}
+
 	const setUpTrackPlayer =  () => {
 		TrackPlayer.setupPlayer()
 		.then((res) => {
@@ -52,7 +59,6 @@ const NewPlayer = (props) => {
 		})
 
 		if(skipping){
-			console.log("skipping");
 			TrackPlayer.add({...props.tracks[selectedTrack],duration},null).then((res) => {
 				// const autoPlay = async () => {
 				// 	if (await TrackPlayer.STATE_PLAYING)
@@ -128,13 +134,11 @@ const NewPlayer = (props) => {
 		() => {
 			TrackPlayer.getQueue()
 			.then((res) => {
-				console.log(res,"queue from new");
 			}).catch((err) => {
 				console.log("error",err);
 			})
 			TrackPlayer.getCurrentTrack()
 			.then((curr) => {
-				console.log(curr,"current Track")
 			}).catch((err) => {
 				console.log(err);
 			});
@@ -228,6 +232,7 @@ const NewPlayer = (props) => {
 				currentPosition={position}
 			/>
 			<Controls
+				selectedSong={selectedSongData}
 				onPressLike={() => setLiked((liked) => !liked)}
 				liked={liked}
 				onPressRepeat={() => setRepeatOn((repeatOn) => !repeatOn)}
