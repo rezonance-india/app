@@ -48,11 +48,13 @@ const PlaylistScreen = ({route,navigation}) => {
 		);
 	};
 
+	const sampleImage = "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=750&q=80"
+
 	useEffect(() => {
 		const getDominantColors = async () => {
 			try {
 				const colors = await ImageColors.getColors(
-					"https://i.scdn.co/image/ab67616d0000b27388b3414802727efbacf8dc43",
+					item.songs.length === 0 ? sampleImage : item.songs[0].albumArt,
 					{
 						fallback: '#7f8c8d',
 					},
@@ -77,7 +79,7 @@ const PlaylistScreen = ({route,navigation}) => {
 			<ScrollView onScroll={handleOnScroll} stickyHeaderIndices={[1]}>
 				<PlaylistHero
 					name={item.name}
-					details={"https://i.scdn.co/image/ab67616d0000b27388b3414802727efbacf8dc43"}
+					details={item.songs.length === 0 ? sampleImage : item.songs[0].albumArt}
 					yOffset={scrollYPosition}
 					onParallaxImageScrolled={handleParallaxImageScrolled}
 					headingTint={headingTint}

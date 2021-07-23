@@ -1,21 +1,26 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 import React, {useState,useContext} from 'react';
-import {Modal, Text, View, StyleSheet, Image, ScrollView} from 'react-native';
+import {Modal, Text, View, StyleSheet, Image, ScrollView, TouchableOpacity, ToastAndroid} from 'react-native';
+import { userApiUrl } from '../../constants/config';
 import {userData} from '../../constants/store';
 import { GlobalContext } from '../../context/GlobalState';
 import SearchBox from '../Search/SearchBox';
 import LinearGradientComp from '../Shared/LinearGradient';
 
-const AddToPlayListModal = ({modalVisible, toggleVisibility}) => {
-    const {user} = useContext(GlobalContext);
+const AddToPlayListModal = ({modalVisible, toggleVisibility,selectedSong}) => {
+    const {user,updateUser,token} = useContext(GlobalContext);
     
+	console.log(selectedSong,"selected song");
+
+	const {album_image,track_name,track_url,artist_name} = selectedSong
+
     let playlistNames = [];
 
     //Saving the playlist names
     user.playlists.map((playlist) => {
         playlistNames.push(playlist.name);
     })
-
-    console.log(playlistNames,"name");
 
     const [searchQuery, setSearchQuery] = useState('');
 	const [searchResults,setSearchResults] = useState(playlistNames);
@@ -31,11 +36,43 @@ const AddToPlayListModal = ({modalVisible, toggleVisibility}) => {
                 results.push(playlist);
                 setSearchResults(results);
             }
-            else{
-                setSearchResults([]);
-            }
         })
 	};
+
+	const playlistData = {
+		trackName:track_name,
+		artistName:artist_name,
+		playlistName:"lol",
+		albumArt:album_image,
+		trackUrl:track_url
+	}
+
+	const addToPlaylist = (playlist) => {
+		console.log(playlist,"playlist");
+		axios.post(`${userApiUrl}/songs/addSong`,
+        {
+			...playlistData,
+			playlistName:playlist
+        },
+        {
+            headers: {
+                Authorization: "Bearer " + token,
+            },
+        })
+        .then(async (res) => {
+            console.log(res.data,"add song in the playlist");
+            updateUser(res.data);
+            await AsyncStorage.setItem('user', JSON.stringify(res.data));
+			ToastAndroid.show("Song added", ToastAndroid.SHORT);
+        }).catch((err) => {
+            console.log(err,"err");
+            if (Array.isArray(err.response.data.errors)) {
+                if (Platform.OS === 'android') {
+                    ToastAndroid.show(err.response.data.errors[0].msg, ToastAndroid.SHORT);
+                }
+            }
+        })
+	}
 
 	return (
 		<Modal
@@ -70,24 +107,27 @@ const AddToPlayListModal = ({modalVisible, toggleVisibility}) => {
                                             alignContent: 'space-between',
                                             margin: '2%',
                                         }}>
-                                        <View
+
+										<TouchableOpacity onPress={() => addToPlaylist(playlist)}>
+											<View
                                             style={{
                                                 flexDirection: 'row',
                                                 justifyContent: 'flex-start',
                                             }}>
-                                            <Image
-                                                source={{uri: "https://i.scdn.co/image/ab67616d0000b27388b3414802727efbacf8dc43"}}
-                                                style={{
-                                                    left: 10,
-                                                    width: 50,
-                                                    height: 50,
-                                                }}
-                                            />
-                                            <Text style={styles.options}>
-                                                {playlist}
-                                            </Text>
-                                            
-                                        </View>
+												<Image
+													source={{uri: "https://i.scdn.co/image/ab67616d0000b27388b3414802727efbacf8dc43"}}
+													style={{
+														left: 10,
+														width: 50,
+														height: 50,
+													}}
+												/>
+												<Text style={styles.options}>
+													{playlist}
+												</Text>
+                                        </View>	
+										</TouchableOpacity>
+                                        
                                     </View>
                                 )        
                             )}

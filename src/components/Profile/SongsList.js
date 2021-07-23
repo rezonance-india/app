@@ -25,7 +25,7 @@ const SongsList = ({item}) => {
 						alignItems: 'center',
 					}}>							
 					<Image
-						source={{uri:"https://i.scdn.co/image/ab67616d0000b27388b3414802727efbacf8dc43"}}
+						source={{uri:item.albumArt}}
 						style={{
 							width: 50,
 							height: 50,

@@ -20,13 +20,9 @@ const ChatModal = ({modalVisible, toggleVisibility}) => {
 		
         user.friends.map((friend) => {
             if(friend.name.match(re)){
-				console.log(friend,"friend");
                 results.push(friend);
                 setSearchResults(results);
             }
-			else{
-				setSearchResults([]);
-			}
         })
 	};
 
