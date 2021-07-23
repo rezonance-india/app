@@ -98,13 +98,21 @@ const MessagingScreen = ({route,navigation}) => {
 						fontFamily:"NotoSans-Bold",
 						fontSize:18,
 						fontWeight: '700',
-					}}>{item.to.id !== user._id ? 
+					}}>
+						{item.to._id !== user._id ? 
 							item.to.name.length > 30
 							? item.to.name.substring(0, 30) +
 							'...'
 							: item.to.name
-							: ""
-						}</Text>
+							: 
+							(
+							item.user.name.length > 30
+							? item.user.name.substring(0, 30) +
+							'...'
+							: item.user.name
+							)
+						}
+					</Text>
             	
 				</View>            
 			

@@ -9,7 +9,8 @@ const initialState = {
 	queue: [],
 	color: '',
 	pausedState:true,
-	selectedTrack:0
+	selectedTrack:0,
+	messages:[]
 };
 
 const retrieveItem = async (key) => {
@@ -61,6 +62,13 @@ export const GlobalProvider = ({children}) => {
 				payload:selectedTrack
 			})
 		}
+
+		// const fetchMessages = async () => {
+		// 	const messages = await retrieveItem("messages");
+		// 	dispatch({
+		// 		type:Actions.
+		// 	})
+		// }
 
 		fetchUser();
 		fetchToken();

@@ -79,12 +79,18 @@ const ChatScreen = ({navigation}) => {
 									flexDirection: 'row',
 								}}>
 								<Text style={styles.options}>
-									{item.to.id !== user._id ? 
+									{item.to._id !== user._id ? 
 										item.to.name.length > 30
 										? item.to.name.substring(0, 30) +
 										'...'
 										: item.to.name
-										: ""
+										: 
+										(
+										item.user.name.length > 30
+										? item.user.name.substring(0, 30) +
+										'...'
+										: item.user.name
+										)
 									}
 								</Text>
 							</View>
