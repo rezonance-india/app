@@ -20,6 +20,7 @@ const FriendsModal = ({modalVisible, toggleVisibility,data}) => {
 			onRequestClose={() => {
 				toggleVisibility(!modalVisible);
 			}}>
+
 			<LinearGradientComp
 				bgcolors={{
 					colorOne: 'rgba(0, 0, 0, 0.3)',
@@ -30,7 +31,6 @@ const FriendsModal = ({modalVisible, toggleVisibility,data}) => {
                         <FlatList
 					        keyExtractor={(item) => (item._id).toString()}
                             data={data}
-							
                             renderItem={renderer}
                             showsVerticalScrollIndicator={false}
 				        />

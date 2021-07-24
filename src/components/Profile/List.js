@@ -1,4 +1,4 @@
-import React,{useContext} from "react";
+import React,{useContext,useState} from "react";
 import {View,Text,Image,Dimensions, ToastAndroid, TouchableOpacity} from "react-native";
 import Type from "../../components/Shared/Type"
 import { colors } from "../../constants/colors";
@@ -7,37 +7,14 @@ import axios from "axios";
 import { userApiUrl } from "../../constants/config";
 import { GlobalContext } from "../../context/GlobalState";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import RemoveFriendModal from "./RemoveFriendModal";
 
 const {width, height} = Dimensions.get('screen');
 
 const List = ({item,friends,pending}) => {
 
     const {token,updateUser} = useContext(GlobalContext);
-
-    const removeFriend = () => {
-        console.log("in remove");
-        axios.post(`${userApiUrl}/friends/removeFriend`,
-        {
-            friendId:item._id
-        },
-        {
-            headers: {
-                Authorization: "Bearer " + token,
-            },
-        })
-        .then(async (res) => {
-            console.log(res.data,"remove user data");
-            updateUser(res.data);
-            await AsyncStorage.setItem('user', JSON.stringify(res.data));
-        }).catch((err) => {
-            console.log(err,"err");
-            if (Array.isArray(err.response.data.errors)) {
-                if (Platform.OS === 'android') {
-                    ToastAndroid.show(err.response.data.errors[0].msg, ToastAndroid.SHORT);
-                }
-            }
-        })     
-    }
+	const [confirmationModalVisible,setConfirmationModalVisible] = useState(false);
 
     const acceptRequest = () => {
         axios.post(`${userApiUrl}/friends/acceptFriendRequest`,
@@ -52,6 +29,7 @@ const List = ({item,friends,pending}) => {
         .then(async (res) => {
             console.log(res.data.friends,"accept user data");
             updateUser(res.data.friends);
+            ToastAndroid.show(`You are now friends with ${item.name}`, ToastAndroid.SHORT);
             await AsyncStorage.setItem('user', JSON.stringify(res.data.friends));
         }).catch((err) => {
             console.log(err,"err");
@@ -63,28 +41,8 @@ const List = ({item,friends,pending}) => {
         })
     }
 
-    const removeRequest = () => {
-        axios.post(`${userApiUrl}/friends/removeFriend`,
-        {
-            friendId:item._id
-        },
-        {
-            headers: {
-                Authorization: "Bearer " + token,
-            },
-        })
-        .then(async (res) => {
-            console.log(res.data.user,"remove friend user data");
-            updateUser(res.data.user);
-            await AsyncStorage.setItem('user', JSON.stringify(res.data.user));
-        }).catch((err) => {
-            console.log(err,"err");
-            if (Array.isArray(err.response.data.errors)) {
-                if (Platform.OS === 'android') {
-                    ToastAndroid.show(err.response.data.errors[0].msg, ToastAndroid.SHORT);
-                }
-            }
-        })
+    const removeFriend = () => {
+        setConfirmationModalVisible(true);
     }
 
     const rejectRequest = () => {
@@ -100,6 +58,7 @@ const List = ({item,friends,pending}) => {
         .then(async (res) => {
             console.log(res.data.friends,"remove friend user data");
             updateUser(res.data.friends);
+            ToastAndroid.show(`Request rejected`, ToastAndroid.SHORT);
             await AsyncStorage.setItem('user', JSON.stringify(res.data.friends));
         }).catch((err) => {
             console.log(err,"err");
@@ -111,12 +70,13 @@ const List = ({item,friends,pending}) => {
         })
     }
 
-    const renderFunc = () => {
-        console.log('touched')
-    }
-
     return (
         <View style={{flexDirection: 'row', width: '100%'}}>
+            <RemoveFriendModal
+				id = {item._id}
+				toggleVisibility={setConfirmationModalVisible}
+				modalVisible={confirmationModalVisible}
+			/>	
             {/* <TouchableOpacity onPress={renderFunc}> */}
 			<View
 				style={{
@@ -164,11 +124,11 @@ const List = ({item,friends,pending}) => {
                                     fontSize: width / 22,
                                     width: '80%',
                                     color: colors.text,
-                                    marginTop:-4,
+                                    marginTop:-6,
                                     fontFamily:"NotoSans-Bold"
                                 }}>
                                 {item.name.length > 30
-                                    ? `${item.name.substring(0, 20)}....`
+                                    ? `${item.name.substring(0, 30)}....`
                                     : item.name}
                             </Type>
                         </View>
@@ -180,7 +140,6 @@ const List = ({item,friends,pending}) => {
                                     flex:1.2,
                                     justifyContent:"space-around"
                                 }}>
-
                                 <Button title="accept" onPressFunction={acceptRequest}>Accept</Button>
                                 <Button backColor="transparent" title="Reject" borderColor="white" onPressFunction={rejectRequest}>Delete</Button>
                             </View>
@@ -201,7 +160,7 @@ const List = ({item,friends,pending}) => {
 					style={{
 						fontSize: width / 24,
 						color: '#D3D3D3',
-                        marginTop:-4,
+                        marginTop:-12,
                         fontFamily:"NotoSans"
 					}}>
 					{
