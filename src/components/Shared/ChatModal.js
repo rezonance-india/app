@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import React, {useState,useContext} from 'react';
 import {Modal, Text, View, StyleSheet, Image, ScrollView, TouchableOpacity, ToastAndroid} from 'react-native';
@@ -10,7 +11,7 @@ import LinearGradient from './LinearGradient';
 
 const ChatModal = ({modalVisible, toggleVisibility,selectedSong}) => {
 	const [searchQuery, setSearchQuery] = useState('');	
-	const {user,updateUser,token} = useContext(GlobalContext);
+	const {user,updateUser,token,updateMessages} = useContext(GlobalContext);
 
 	// const [messageDetails,setMessageDetails] = useState({
 	// 	id:null,
@@ -60,18 +61,16 @@ const ChatModal = ({modalVisible, toggleVisibility,selectedSong}) => {
         })
         .then(async (res) => {
             console.log(res.data,"messages");
-			// setMessageDetails({
-			// 	id:userId,
-			// 	text:"Sent"
-			// })
+			updateMessages(res.data);
+			await AsyncStorage.setItem("messages",JSON.stringify(res.data));
 			ToastAndroid.show("Song sent", ToastAndroid.SHORT);
         }).catch((err) => {
             console.log(err,"err");
-            // if (Array.isArray(err.response.data.errors)) {
-            //     if (Platform.OS === 'android') {
-            //         ToastAndroid.show(err.response.data.errors[0].msg, ToastAndroid.SHORT);
-            //     }
-            // }
+            if (Array.isArray(err.response.data.errors)) {
+                if (Platform.OS === 'android') {
+                    ToastAndroid.show(err.response.data.errors[0].msg, ToastAndroid.SHORT);
+                }
+            }
         })
 	}
 

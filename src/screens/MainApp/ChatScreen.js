@@ -1,6 +1,7 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import React, {useState,useEffect,useContext} from 'react';
-import {Text, View, ScrollView, Image, StyleSheet,TouchableOpacity,FlatList} from 'react-native';
+import {Text, View, ScrollView, Image, StyleSheet,TouchableOpacity,FlatList, ToastAndroid} from 'react-native';
 import SearchBox from '../../components/Search/SearchBox';
 import LinearGradientComp from '../../components/Shared/LinearGradient';
 import {ACCENT, PRIMARY} from '../../constants/colors';
@@ -10,32 +11,42 @@ import { GlobalContext } from '../../context/GlobalState';
 
 const ChatScreen = ({navigation}) => {
 	const [searchQuery, setSearchQuery] = useState('');
-	const [messages,setMessages] = useState([]);
-	const {token,user} = useContext(GlobalContext);
+	const {token,user,updateMessages,messages} = useContext(GlobalContext);
+	const [localMessages,setLocalMessages] = useState([]);
 
 	const search = () => {
 		console.log('in search frands');
 	};
 	
+	// console.log([messages],"messages from gs");
+
+	//?Todo persisting using server side data only as of now
+	//?Todo fix the popualting fields on sending first message(ykwim)
+	
 	useEffect(() => {
-		axios.get(`${userApiUrl}/messages/getMessages`,
-        {
-            headers: {
-                Authorization: "Bearer " + token,
-            },
-        })
-        .then(async (res) => {
-            console.log(res.data,"messages");
-			setMessages(res.data);
-        }).catch((err) => {
-            console.log(err,"err");
-            // if (Array.isArray(err.response.data.errors)) {
-            //     if (Platform.OS === 'android') {
-            //         ToastAndroid.show(err.response.data.errors[0].msg, ToastAndroid.SHORT);
-            //     }
-            // }
-        })
+		// if(!messages){
+			console.log("lol")
+			axios.get(`${userApiUrl}/messages/getMessages`,
+			{
+				headers: {
+					Authorization: "Bearer " + token,
+				},
+			})
+			.then(async (res) => {
+				updateMessages(res.data);
+				await AsyncStorage.setItem("messages",JSON.stringify(res.data));
+				setLocalMessages(res.data);
+			}).catch((err) => {
+				console.log(err,"err");
+				if (Array.isArray(err.response.data.errors)) {
+					if (Platform.OS === 'android') {
+						ToastAndroid.show(err.response.data.errors[0].msg, ToastAndroid.SHORT);
+					}
+				}
+			})
+		// }
 	},[])
+
 
 	const renderer = ({item}) => {
 		const pressChatBox = () => {
@@ -156,7 +167,7 @@ const ChatScreen = ({navigation}) => {
 			<View>
 				<FlatList
 					keyExtractor={(item) => item._id}
-					data={messages}
+					data={localMessages}
 					renderItem={renderer}
 					showsVerticalScrollIndicator={false}
 				/>

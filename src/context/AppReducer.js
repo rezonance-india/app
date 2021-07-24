@@ -27,6 +27,11 @@ export default (state, action) => {
 				...state,
 				selectedTrack:state.selectedTrack+action.payload
 			}
+		case Actions.UPDATE_MESSAGES:
+			return{
+				...state,
+				messages:action.payload				
+			}
 		default:
 			return state;
 	}

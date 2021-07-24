@@ -63,18 +63,20 @@ export const GlobalProvider = ({children}) => {
 			})
 		}
 
-		// const fetchMessages = async () => {
-		// 	const messages = await retrieveItem("messages");
-		// 	dispatch({
-		// 		type:Actions.
-		// 	})
-		// }
+		const fetchMessages = async () => {
+			const messages = await retrieveItem("messages");
+			dispatch({
+				type:Actions.UPDATE_MESSAGES,
+				payload:messages
+			})
+		}
 
 		fetchUser();
 		fetchToken();
 		fetchQueue();
 		fetchPausedState();
 		fetchSelectedTrack();
+		fetchMessages();
 	}, []);
 
 	const updateUser = (userDetails) => {
@@ -119,6 +121,12 @@ export const GlobalProvider = ({children}) => {
 		})
 	}
 
+	const updateMessages = (messages) => {
+		dispatch({
+			type:Actions.UPDATE_MESSAGES,
+			payload:messages
+		})
+	}
 
 	return (
 		<GlobalContext.Provider
@@ -129,12 +137,14 @@ export const GlobalProvider = ({children}) => {
 				color: state.color,
 				pausedState:state.pausedState,
 				selectedTrack:state.selectedTrack,
+				messages:state.messages,
 				updateUser,
 				updateToken,
 				updateQueue,
 				updateColor,
 				updatePausedState,
 				updateSelectedTrack,
+				updateMessages
 			}}>
 			{children}
 		</GlobalContext.Provider>
