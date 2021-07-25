@@ -61,8 +61,8 @@ const MessagingScreen = ({route,navigation}) => {
     return (
         <LinearGradientComp
 			bgcolors={{
-				colorOne: 'rgba(0,0,0,1)',
-				colorTwo: 'rgba(0,0,0,1)',
+				colorOne: PRIMARY,
+				colorTwo: ACCENT,
 			}}>
                 
 				<View style={{

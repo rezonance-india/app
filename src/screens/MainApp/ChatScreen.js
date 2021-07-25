@@ -12,19 +12,41 @@ import { GlobalContext } from '../../context/GlobalState';
 const ChatScreen = ({navigation}) => {
 	const [searchQuery, setSearchQuery] = useState('');
 	const {token,user,updateMessages,messages} = useContext(GlobalContext);
-	const [localMessages,setLocalMessages] = useState([]);
 
 	const search = () => {
 		console.log('in search frands');
 	};
 	
-	// console.log([messages],"messages from gs");
+	console.log([messages],"messages from gs");
 
-	//?Todo persisting using server side data only as of now
-	//?Todo fix the popualting fields on sending first message(ykwim)
-	
+	const dateFunc = (dynamicDate) => {
+		const d = new Date(dynamicDate);
+		const today = new Date();
+
+		const diff = parseInt(((today - d)/60000));
+
+		if(diff>0 && diff<60){
+			return `${diff} mins ago`;
+		}
+		else if(diff > 60 && diff < 1440){
+			return `${parseInt(diff/60)} hrs ago`
+		}
+		else if(diff > 1440 && diff < 10800){
+			return `${parseInt(diff/1440)} days ago`
+		}
+		else if(diff > 10080 && diff < 43200){
+			return `${parseInt(diff/10080)} weeks ago`
+		}
+		else if(diff > 43200 && diff < 518400){
+			return `${parseInt(diff/43200)} months ago`
+		}
+		else{
+			return `${diff} secs ago`
+		}
+	}
+
 	useEffect(() => {
-		// if(!messages){
+		if(!messages){
 			console.log("lol")
 			axios.get(`${userApiUrl}/messages/getMessages`,
 			{
@@ -35,7 +57,6 @@ const ChatScreen = ({navigation}) => {
 			.then(async (res) => {
 				updateMessages(res.data);
 				await AsyncStorage.setItem("messages",JSON.stringify(res.data));
-				setLocalMessages(res.data);
 			}).catch((err) => {
 				console.log(err,"err");
 				if (Array.isArray(err.response.data.errors)) {
@@ -44,7 +65,7 @@ const ChatScreen = ({navigation}) => {
 					}
 				}
 			})
-		// }
+		}
 	},[])
 
 
@@ -123,10 +144,10 @@ const ChatScreen = ({navigation}) => {
 								<Text
 									style={{
 										...styles.options,
+										marginLeft:-10,
 										marginTop: -25,
 									}}>
-									{"1hr"}
-									{/* {`${Date.now() - new Date(item.chat[item.chat.length-1].messageSentAt)}`} */}
+									{dateFunc(item.chat[item.chat.length-1].messageSentAt)}
 								</Text>
 							</View>
 						</View>
@@ -167,7 +188,7 @@ const ChatScreen = ({navigation}) => {
 			<View>
 				<FlatList
 					keyExtractor={(item) => item._id}
-					data={localMessages}
+					data={[messages]}
 					renderItem={renderer}
 					showsVerticalScrollIndicator={false}
 				/>
