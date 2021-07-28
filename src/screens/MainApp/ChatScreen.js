@@ -17,6 +17,9 @@ const ChatScreen = ({navigation}) => {
 		console.log('in search frands');
 	};
 	
+	//?Todo On first login it wont get messages from global queue, so pass it from the messaging
+	//?Todo screen only
+
 	console.log([messages],"messages from gs");
 
 	const dateFunc = (dynamicDate) => {

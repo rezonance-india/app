@@ -10,6 +10,7 @@ import SearchBox from '../../components/Search/SearchBox';
 import {GlobalContext} from '../../context/GlobalState';
 import LinearGradientComp from '../Shared/LinearGradient';
 import {colors} from '../../constants/colors';
+import TrackPlayer from "react-native-track-player";
 
 const SongSearch = ({navigation}) => {
 	const [result, setResult] = useState([]);
@@ -26,24 +27,24 @@ const SongSearch = ({navigation}) => {
 				setSelectedSong(item);
 				if (disable) {
 				} else {
-					console.log('lol in queue');
 					const trackDetails = queue;
 					trackDetails[selectedTrack] = {
-						title: item.track_name,
-						artist: item.artist_name,
-						artwork: item.album_image,
-						url: item.track_url,
-						id: item.ref_id,
-					};
-					updateQueue(trackDetails);
-					const persistingData = async () => {
-						await AsyncStorage.setItem(
-							'queue',
-							JSON.stringify(trackDetails),
+							title: item.track_name,
+							artist: item.artist_name,
+							artwork: item.album_image,
+							url: item.track_url,
+							id: item.ref_id,
+						};
+						updateQueue(trackDetails);
+						const persistingData = async () => {
+							await AsyncStorage.setItem(
+								'queue',
+								JSON.stringify(trackDetails),
 						);
 					};
 					persistingData();
 					// setPlayerModalVisible(true);
+					
 					navigation.navigate('PlayerScreen');
 				}	
 			}}>
@@ -56,6 +57,7 @@ const SongSearch = ({navigation}) => {
 			/>
 		</TouchableOpacity>
 	);
+
 	const search = _.debounce((value) => {
 		console.log(value, 'value');
 		if (value.length === 0) {
@@ -83,6 +85,7 @@ const SongSearch = ({navigation}) => {
 				});
 		}
 	}, 500);
+
 	// const searchHeader = () => <Type>Search</Type>;
 	return (
 		<LinearGradientComp

@@ -10,6 +10,7 @@ import { GlobalContext } from "../../context/GlobalState";
 import { useTrackPlayerEvents, TrackPlayerEvents, STATE_PLAYING,useTrackPlayerProgress } from 'react-native-track-player';
 import NewSeekBar from "./NewSeekBar";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
 
 TrackPlayer.updateOptions({
 	capabilities: [
@@ -44,6 +45,7 @@ const NewPlayer = (props) => {
 	const [isSeeking, setIsSeeking] = useState(false); 
 	const {position, duration} = useTrackPlayerProgress(250);
 
+
 	const selectedSongData = {
 		track_name:queue[0].title,
 		album_image:queue[0].artwork,
@@ -58,42 +60,23 @@ const NewPlayer = (props) => {
 			console.log(err);
 		})
 
-		if(skipping){
-			TrackPlayer.add({...props.tracks[selectedTrack],duration},null).then((res) => {
-				// const autoPlay = async () => {
-				// 	if (await TrackPlayer.STATE_PLAYING)
-				// 	   {
-				// 		   console.log("playing from state");
-				// 		   await TrackPlayer.pause();
-				// 		   await TrackPlayer.seekTo(0);
-				// 	   	}
-				//    	await TrackPlayer.play()
-				// 	autoPlay();
-				// }
-			}).catch((err) => {
-				console.log(err);
-			})
-		}
-		else {
-			console.log("not skipping");
-			TrackPlayer.add({...props.tracks[selectedTrack],duration}).then((res) => {
-				// if(TrackPlayer.STATE_PLAYING)
-				// {
-				// 	TrackPlayer.pause()
-				// 	TrackPlayer.seekTo(0)
-				// 	TrackPlayer.play()
-				// }
-			}).catch((err) => {
-				console.log(err);
-			})
-		}
+		TrackPlayer.add(queue)
+		.then((res) => {
+			console.log(res);
+		}).catch((err) => {
+			console.log(err);
+		});
 	}
 
 	useEffect(() => {
-		setUpTrackPlayer();
-		// TrackPlayer.play();
-		return () => TrackPlayer.destroy();
-	},[props])
+		const unsubscribe = props.navig.addListener('focus', () => {
+			setUpTrackPlayer();
+			TrackPlayer.play();
+			console.log(queue,"queue from use");
+			return () => TrackPlayer.destroy();
+    	});
+    	return unsubscribe;
+	},[])
 
 	const track = props.tracks[selectedTrack];
 	
@@ -139,6 +122,7 @@ const NewPlayer = (props) => {
 			})
 			TrackPlayer.getCurrentTrack()
 			.then((curr) => {
+				console.log("curr track",curr);
 			}).catch((err) => {
 				console.log(err);
 			});
@@ -161,7 +145,12 @@ const NewPlayer = (props) => {
 				}
 				persistingData();
 			}, 0);
-			await TrackPlayer.skipToPrevious();
+			TrackPlayer.skipToPrevious()
+			.then((track) => {
+				console.log(track,"track");
+			}).catch((err) => {
+				console.log(err);
+			});
 		}
 	};
 
@@ -179,7 +168,12 @@ const NewPlayer = (props) => {
 				}
 				persistingData();
 			}, 0);
-			await TrackPlayer.skipToNext();
+			TrackPlayer.skipToNext()
+			.then((track) => {
+				console.log(track,"track");
+			}).catch((err) => {
+				console.log(err);
+			});
 		}
 	};
 

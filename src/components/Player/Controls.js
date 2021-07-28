@@ -31,7 +31,7 @@ const Controls = ({
 	return (
 		<View style={styles.container}>
 			<View>
-				<ChatModal
+				{/* <ChatModal
 					selectedSong={selectedSong}
 					toggleVisibility={setChatModalVisible}
 					modalVisible={chatModalVisible}
@@ -40,7 +40,7 @@ const Controls = ({
 					navig={navig}
 					toggleVisibility={setRecommendModalVisible}
 					modalVisible={recommendModalVisible}
-				/>
+				/> */}
 				<View
 					style={{
 						width: '100%',
