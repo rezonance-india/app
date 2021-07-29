@@ -1,105 +1,171 @@
-import React, { useEffect,useState,useContext} from "react";
-import Slider from '@react-native-community/slider';
-import TrackPlayer from "react-native-track-player";
-import { ACCENT } from "../../constants/colors";
-import LinearGradientComp from "../Shared/LinearGradient";
-import Controls from "./Controls";
+import React, {useState, useRef, useEffect, useContext} from 'react';
+import ScreenBuilder from '../../components/Shared/ScreenBuilder';
+import {Text, View, Image, StyleSheet, BackHandler} from 'react-native';
+import Video from 'react-native-video';
 import ImageColors from 'react-native-image-colors';
-import TrackDetails from "./TrackDetails";
-import { GlobalContext } from "../../context/GlobalState";
-import { useTrackPlayerEvents, TrackPlayerEvents, STATE_PLAYING,useTrackPlayerProgress } from 'react-native-track-player';
-import NewSeekBar from "./NewSeekBar";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import MusicControl, { Command } from 'react-native-music-control'
 
-TrackPlayer.updateOptions({
-	capabilities: [
-		TrackPlayer.CAPABILITY_PLAY,
-            TrackPlayer.CAPABILITY_PAUSE,
-            TrackPlayer.CAPABILITY_SKIP_TO_PREVIOUS,
-            TrackPlayer.CAPABILITY_SKIP_TO_NEXT,
-			TrackPlayer.CAPABILITY_SEEK_TO,
-        ],
-        compactCapabilities: [
-			TrackPlayer.CAPABILITY_PLAY,
-            TrackPlayer.CAPABILITY_PAUSE,
-			TrackPlayer.CAPABILITY_SKIP_TO_PREVIOUS,
-            TrackPlayer.CAPABILITY_SKIP_TO_NEXT,
-			TrackPlayer.CAPABILITY_SEEK_TO,
-        ],
-    });
-	
+//Colors
+import {ACCENT, PRIMARY} from '../../constants/colors';
+
+//Components
+import Controls from '../../components/Player/Controls';
+import SeekBar from '../../components/Player/SeekBar';
+import TrackDetails from '../../components/Player/TrackDetails';
+import LinearGradientComp from '../Shared/LinearGradient';
+import {GlobalContext} from '../../context/GlobalState';
+
 const Player = (props) => {
-		
-	const {updateColor,selectedTrack,updateSelectedTrack,queue} = useContext(GlobalContext);
-	
+	// const {album_image, artist_name, track_name} = props.route.params;
+
+	//Context
+	const {updateColor} = useContext(GlobalContext);
+
 	const [paused, setPaused] = useState(true);
+	const [totalLength, setTotalLength] = useState(1);
 	const [currentPosition, setCurrentPosition] = useState(0);
-	// const [selectedTrackLocal, setSelectedTrackLocal] = useState(0);
+	const [selectedTrack, setSelectedTrack] = useState(0);
 	const [repeatOn, setRepeatOn] = useState(false);
 	const [shuffleOn, setShuffleOn] = useState(false);
+	const [isChanging, setIsChanging] = useState(false);
 	const [color, setColor] = useState('');
 	const [liked, setLiked] = useState(false);
-	const [skipping,setSkipping] = useState(false);
-	const [sliderValue, setSliderValue] = useState(0);
-	const [isSeeking, setIsSeeking] = useState(false); 
-	const {position, duration} = useTrackPlayerProgress(250);
+	const {queue, updateQueue} = useContext(GlobalContext);
+	const audioElement = useRef(null);
 
-    //For using in chat modal
 	const selectedSongData = {
-		track_name:"Vertigo",
-		album_image:"https://i.scdn.co/image/ab67616d0000b273c43edd2cf01edf73bf0b97a3",
-		artist_name:"Khalid",
-		track_url:"https://sdlhivkecdnems06.cdnsrv.jio.com/jiosaavn.cdn.jio.com/385/a6fa35ad1a1313d8d3e412352fe9c51a_160.mp4"
+		track_name:queue[0].title,
+		album_image:queue[0].artwork,
+		artist_name:queue[0].artist,
+		track_url:queue[0].url
 	}
 
-	const setUpTrackPlayer =  () => {
-		console.log("in setup");
-		TrackPlayer.setupPlayer()
-		.then((res) => {
-			console.log(res,"Res");
-		}).catch((err) => {
-			console.log(err,"err");
-		})
-	}
+	const setDuration = (data) => {
+		// console.log(data.duration,"dur");
+		setTotalLength(Math.floor(data.duration));
+	};
 
-	useEffect(() => {
-		setUpTrackPlayer();
-		return () => TrackPlayer.destroy();
-	},[])
-	
-	// const track = props.tracks[selectedTrack];
-	
-    useEffect(() => {
-		TrackPlayer.getCurrentTrack()
-		.then((cur) => {
-			console.log(cur,"cur");
-		}).catch((err) => {
-			console.log(err);
-		})
-    },[])
+	// BackHandler.addEventListener("hardwareBackPress",() => {
+	// 	console.log(currentPosition,"dur");
+	//  	setIsChanging(false);
+	//  })
 
-	// useEffect(() => {
-	// 	if (!isSeeking && position && duration) {
-	// 		setSliderValue(position / duration);
-	// 	}
-	// },[position, duration]);
+	MusicControl.setNowPlaying({
+		title:queue[0].title,
+		artwork:queue[0].artwork,
+		artist:queue[0].artist,
+		description:"rezonance",
+		color:0xffffff,
+		rating: 84,
+		duration:totalLength,
+  		notificationIcon: 'my_custom_icon', 
+	})
+
+	MusicControl.on(Command.pause,() => {
+		MusicControl.updatePlayback({
+			state: MusicControl.STATE_PAUSED,
+		})
+		setPaused(true);
+	})
+
+	MusicControl.on(Command.closeNotification, ()=> {
+		console.log("true");
+	})
+	
+	MusicControl.on(Command.play,() => {
+		MusicControl.updatePlayback({
+			state: MusicControl.STATE_PLAYING,
+		})
+		setPaused(false);		
+	})
+
+	MusicControl.enableBackgroundMode(true);
+	MusicControl.enableControl('play', true);
+	MusicControl.enableControl('pause', true);
+	// MusicControl.enableControl('stop', true);
+	MusicControl.enableControl('nextTrack', true);
+	MusicControl.enableControl('previousTrack', false);
+
+	MusicControl.enableControl('changePlaybackPosition', true)
+
+	MusicControl.enableControl('seekForward', false) // iOS only
+	MusicControl.enableControl('seekBackward', false) // iOS only
+	MusicControl.enableControl('seek', false) // Android only
+
+	MusicControl.enableControl('setRating', false)
+	MusicControl.enableControl('volume', true) // Only affected when remoteVolume is enabled
+	MusicControl.enableControl('remoteVolume', false)
+	MusicControl.enableControl('closeNotification', true, { when: 'always' })
+
+	MusicControl.setNotificationId(10, 'channel');
+
+	const setTime = (data) => {
+		setCurrentPosition(Math.floor(data.currentTime));
+	};
+
+	const seek = (time) => {
+		time = Math.round(time);
+		audioElement.current && audioElement.current.seek(time);
+		setCurrentPosition(time);
+		setPaused(false);
+	};
+
+	const onBack = () => {
+		if (currentPosition < 10 && selectedTrack > 0) {
+			audioElement.current && audioElement.current.seek(0);
+			setIsChanging(true);
+
+			setTimeout(() => {
+				setCurrentPosition(0);
+				setPaused(false);
+				setTotalLength(1);
+				setIsChanging(false);
+				setSelectedTrack((track) => track - 1);
+			}, 0);
+		} else {
+			audioElement.current.seek(0);
+			setCurrentPosition(0);
+		}
+	};
+
+	const onForward = () => {
+		if (selectedTrack < props.tracks.length - 1) {
+			audioElement.current && audioElement.current.seek(0);
+			setIsChanging(true);
+			setTimeout(() => {
+				setCurrentPosition(0);
+				setPaused(false);
+				setTotalLength(1);
+				setIsChanging(false);
+				setSelectedTrack((track) => track + 1);
+			}, 0);
+		}
+	};
+
+	const videoError = (data) => {
+		console.log(data, 'error');
+	};
+
+	const popSongFromQueue = () => {
+		queue.shift();
+		updateQueue(queue);
+		const persistingData = async () => {
+			await AsyncStorage.setItem('queue', JSON.stringify(queue));
+		};
+		persistingData();
+	};
+
+	const track = props.tracks[selectedTrack];
 
 	useEffect(() => {
 		const getDominantColors = async () => {
-			const colors = await ImageColors.getColors("https://i.scdn.co/image/ab67616d0000b273c43edd2cf01edf73bf0b97a3", {
+			const colors = await ImageColors.getColors(track.artwork, {
 				fallback: '#7f8c8d',
 			});
 			if (colors.platform === 'android') {
-				const {lightVibrant,average} = colors;
-
-				if(lightVibrant === "#000000"){
-					averageColor = average;
-				}
-				else {
-					averageColor = lightVibrant;
-				}
+				averageColor = colors.average;
 				setColor(averageColor);
-				updateColor(averageColor)
+				updateColor(averageColor);
 			} else {
 				const backgroundColor = colors.background;
 				setColor(backgroundColor);
@@ -108,58 +174,25 @@ const Player = (props) => {
 			return averageColor;
 		};
 		getDominantColors();
-	}, []);
+	}, [track]);
 
-	const onBack = async () => {
-		// if (currentPosition < 10 && selectedTrack > 0) {
-			setTimeout(() => {
-				setPaused(false);
-				setSkipping(true);
-			}, 0);
-			TrackPlayer.skipToPrevious();
-		// }
-	};
-
-	const onForward = async () => {
-		// if (selectedTrack < props.tracks.length - 1) {
-			setTimeout(() => {
-				setPaused(false);
-				setSkipping(true);
-                TrackPlayer.skipToNext();
-			}, 0);
-			TrackPlayer.skipToNext();
-		// }
-	};
-
-	const events = [
-		TrackPlayerEvents.PLAYBACK_STATE,
-		TrackPlayerEvents.PLAYBACK_ERROR
-	];
-
-	useTrackPlayerEvents(events, (event) => {
-		if (event.type === TrackPlayerEvents.PLAYBACK_ERROR) {
-			console.warn('An error occured while playing the current track.');
-		}
-		if (event.type === TrackPlayerEvents.PLAYBACK_STATE) {
-			if(event.state === 2){
-				setPaused(true);
-			}
-			else if(event.state === 3) {
-				setPaused(false);
-			}
-		}
-	});
-
-	const slidingStarted = () => {
-		setIsSeeking(true);
-	};
-
-	//this function is called when the user stops sliding the seekbar
-	const slidingCompleted = async value => {
-		await TrackPlayer.seekTo(value * duration);
-		setSliderValue(value);
-		setIsSeeking(false);
-	};
+	const video = isChanging ? null : (
+		<Video
+			source={{uri: track.url}} // Can be a URL or a local file.
+			ref={audioElement}
+			playInBackground={true}
+			playWhenInactive={true}
+			paused={paused} // Pauses playback entirely.
+			resizeMode="cover" // Fill the whole screen at aspect ratio.
+			repeat={repeatOn} // Repeat forever.
+			onLoad={setDuration} // Callback when video loads
+			onProgress={setTime} // Callback every ~250ms with currentTime
+			// onEnd={onEnd} // Callback when playback finishes
+			onError={videoError} // Callback when video cannot be loaded
+			style={styles.audioElement}
+			onEnd={popSongFromQueue}
+		/>
+	);
 
 	return (
 		<LinearGradientComp
@@ -168,16 +201,15 @@ const Player = (props) => {
 				colorTwo: ACCENT,
 			}}>
 			<TrackDetails
-				track_name={"Vertigo"}
-				artist_name={"Khalid"}
-				album_image={"https://i.scdn.co/image/ab67616d0000b273c43edd2cf01edf73bf0b97a3"}
+				track_name={track.title}
+				artist_name={track.artist}
+				album_image={track.artwork}
 			/>
-			<NewSeekBar
-				onSlidingComplete={slidingCompleted}
-				trackLength={duration}
-				sliderValue={sliderValue}
-				onSlidingStart={slidingStarted}
-				currentPosition={position}
+			<SeekBar
+				onSeek={seek}
+				trackLength={totalLength}
+				onSlidingStart={() => setPaused(true)}
+				currentPosition={currentPosition}
 			/>
 			<Controls
 				selectedSong={selectedSongData}
@@ -186,24 +218,34 @@ const Player = (props) => {
 				onPressRepeat={() => setRepeatOn((repeatOn) => !repeatOn)}
 				repeatOn={repeatOn}
 				shuffleOn={shuffleOn}
-				backwardDisabled={false}
-                forwardDisabled={true}
+				backwardDisabled={selectedTrack === 0}
+				forwardDisabled={selectedTrack === props.tracks.length - 1}
 				onPressShuffle={() => setShuffleOn((shuffleOn) => !shuffleOn)}
-				onPressPlay={async () => {
-					await TrackPlayer.play();
+				onPressPlay={() => {
 					setPaused(false);
+					MusicControl.updatePlayback({
+						state: MusicControl.STATE_PLAYING,
+					})		
 				}}
-				onPressPause={async () => {
-					await TrackPlayer.pause();                    
+				onPressPause={() => {
 					setPaused(true);
+					MusicControl.updatePlayback({
+  						state: MusicControl.STATE_PAUSED,
+					})
 				}}
 				onBack={onBack}
 				onForward={onForward}
 				paused={paused}
-				navig={props.navig}
 			/>
+			{video}
 		</LinearGradientComp>
-	)
-}
+	);
+};
 
+const styles = StyleSheet.create({
+	audioElement: {
+		height: 0,
+		width: 0,
+	},
+});
 export default Player;

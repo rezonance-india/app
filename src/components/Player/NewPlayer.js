@@ -69,13 +69,13 @@ const NewPlayer = (props) => {
 	}
 
 	useEffect(() => {
-		const unsubscribe = props.navig.addListener('focus', () => {
+		// const unsubscribe = props.navig.addListener('focus', () => {
 			setUpTrackPlayer();
 			TrackPlayer.play();
 			console.log(queue,"queue from use");
 			return () => TrackPlayer.destroy();
-    	});
-    	return unsubscribe;
+    	// });
+    	// return unsubscribe;
 	},[])
 
 	const track = props.tracks[selectedTrack];

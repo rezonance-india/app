@@ -10,7 +10,6 @@ import SearchBox from '../../components/Search/SearchBox';
 import {GlobalContext} from '../../context/GlobalState';
 import LinearGradientComp from '../Shared/LinearGradient';
 import {colors} from '../../constants/colors';
-import TrackPlayer from "react-native-track-player";
 
 const SongSearch = ({navigation}) => {
 	const [result, setResult] = useState([]);
