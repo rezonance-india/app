@@ -43,7 +43,6 @@ const SongSearch = ({navigation}) => {
 					};
 					persistingData();
 					// setPlayerModalVisible(true);
-					
 					navigation.navigate('PlayerScreen');
 				}	
 			}}>

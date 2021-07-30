@@ -13,12 +13,11 @@ import SeekBar from '../../components/Player/SeekBar';
 import TrackDetails from '../../components/Player/TrackDetails';
 import LinearGradientComp from '../Shared/LinearGradient';
 import {GlobalContext} from '../../context/GlobalState';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Player = (props) => {
 	//Context
 	const {updateColor,selectedTrack,updateSelectedTrack} = useContext(GlobalContext);
-
-	console.log(selectedTrack,"selected");
 
 	const [paused, setPaused] = useState(true);
 	const [totalLength, setTotalLength] = useState(1);
@@ -30,8 +29,6 @@ const Player = (props) => {
 	const [liked, setLiked] = useState(false);
 	const {queue, updateQueue} = useContext(GlobalContext);
 	const audioElement = useRef(null);
-
-	console.log("data");
 
 	const selectedSongData = {
 		track_name:queue[selectedTrack].title,
@@ -53,6 +50,8 @@ const Player = (props) => {
 	//?Todo use useMemo in Controls' child components and you dont want them to rerender
 	//?todo when this parent component re renders(upon every 250ms of playing)
 
+	useEffect(() => {
+		console.log("in");
 		MusicControl.setNowPlaying({
 			title:queue[selectedTrack].title,
 			artwork:queue[selectedTrack].artwork,
@@ -98,10 +97,7 @@ const Player = (props) => {
 		MusicControl.enableControl('previousTrack', true);
 
 		MusicControl.enableControl('changePlaybackPosition', true)
-
-		MusicControl.enableControl('seekForward', false) // iOS only
-		MusicControl.enableControl('seekBackward', false) // iOS only
-		MusicControl.enableControl('seek', false) // Android only
+		MusicControl.enableControl('seek', true) // Android only
 
 		MusicControl.enableControl('setRating', false)
 		MusicControl.enableControl('volume', true) // Only affected when remoteVolume is enabled
@@ -109,6 +105,7 @@ const Player = (props) => {
 		MusicControl.enableControl('closeNotification', true, { when: 'always' })
 
 		MusicControl.setNotificationId(1, 'channel');
+	},[selectedTrack])
 
 	const setTime = (data) => {
 		setCurrentPosition(Math.floor(data.currentTime));
