@@ -2,6 +2,11 @@ import {Actions} from './ActionsOverview';
 
 export default (state, action) => {
 	switch (action.type) {
+		case Actions.UPDATE_QUEUE:
+			return{
+				...state,
+				queue:action.payload
+			}
 		case Actions.UPDATE_USER:
 			return{
 				...state,

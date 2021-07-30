@@ -1,5 +1,4 @@
 import React, {useState, useRef, useEffect, useContext} from 'react';
-import ScreenBuilder from '../../components/Shared/ScreenBuilder';
 import {Text, View, Image, StyleSheet, BackHandler} from 'react-native';
 import Video from 'react-native-video';
 import ImageColors from 'react-native-image-colors';
@@ -16,15 +15,14 @@ import LinearGradientComp from '../Shared/LinearGradient';
 import {GlobalContext} from '../../context/GlobalState';
 
 const Player = (props) => {
-	// const {album_image, artist_name, track_name} = props.route.params;
-
 	//Context
-	const {updateColor} = useContext(GlobalContext);
+	const {updateColor,selectedTrack,updateSelectedTrack} = useContext(GlobalContext);
+
+	console.log(selectedTrack,"selected");
 
 	const [paused, setPaused] = useState(true);
 	const [totalLength, setTotalLength] = useState(1);
 	const [currentPosition, setCurrentPosition] = useState(0);
-	const [selectedTrack, setSelectedTrack] = useState(0);
 	const [repeatOn, setRepeatOn] = useState(false);
 	const [shuffleOn, setShuffleOn] = useState(false);
 	const [isChanging, setIsChanging] = useState(false);
@@ -33,11 +31,13 @@ const Player = (props) => {
 	const {queue, updateQueue} = useContext(GlobalContext);
 	const audioElement = useRef(null);
 
+	console.log("data");
+
 	const selectedSongData = {
-		track_name:queue[0].title,
-		album_image:queue[0].artwork,
-		artist_name:queue[0].artist,
-		track_url:queue[0].url
+		track_name:queue[selectedTrack].title,
+		album_image:queue[selectedTrack].artwork,
+		artist_name:queue[selectedTrack].artist,
+		track_url:queue[selectedTrack].url
 	}
 
 	const setDuration = (data) => {
@@ -50,54 +50,65 @@ const Player = (props) => {
 	//  	setIsChanging(false);
 	//  })
 
-	MusicControl.setNowPlaying({
-		title:queue[0].title,
-		artwork:queue[0].artwork,
-		artist:queue[0].artist,
-		description:"rezonance",
-		color:0xffffff,
-		rating: 84,
-		duration:totalLength,
-  		notificationIcon: 'my_custom_icon', 
-	})
+	//?Todo use useMemo in Controls' child components and you dont want them to rerender
+	//?todo when this parent component re renders(upon every 250ms of playing)
 
-	MusicControl.on(Command.pause,() => {
-		MusicControl.updatePlayback({
-			state: MusicControl.STATE_PAUSED,
+		MusicControl.setNowPlaying({
+			title:queue[selectedTrack].title,
+			artwork:queue[selectedTrack].artwork,
+			artist:queue[selectedTrack].artist,
+			description:"rezonance",
+			color:0xffffff,
+			rating: 84,
+			duration:totalLength,
+			notificationIcon: 'my_custom_icon', 
 		})
-		setPaused(true);
-	})
 
-	MusicControl.on(Command.closeNotification, ()=> {
-		console.log("true");
-	})
-	
-	MusicControl.on(Command.play,() => {
-		MusicControl.updatePlayback({
-			state: MusicControl.STATE_PLAYING,
+		MusicControl.on(Command.pause,() => {
+			MusicControl.updatePlayback({
+				state: MusicControl.STATE_PAUSED,
+			})
+			setPaused(true);
 		})
-		setPaused(false);		
-	})
 
-	MusicControl.enableBackgroundMode(true);
-	MusicControl.enableControl('play', true);
-	MusicControl.enableControl('pause', true);
-	// MusicControl.enableControl('stop', true);
-	MusicControl.enableControl('nextTrack', true);
-	MusicControl.enableControl('previousTrack', false);
+		MusicControl.on(Command.closeNotification, ()=> {
+			console.log("true");
+		})
+		
+		MusicControl.on(Command.play,() => {
+			MusicControl.updatePlayback({
+				state: MusicControl.STATE_PLAYING,
+			})
+			setPaused(false);		
+		})
 
-	MusicControl.enableControl('changePlaybackPosition', true)
+		MusicControl.on(Command.nextTrack, ()=> {
+      		onForward();
+    	})
 
-	MusicControl.enableControl('seekForward', false) // iOS only
-	MusicControl.enableControl('seekBackward', false) // iOS only
-	MusicControl.enableControl('seek', false) // Android only
+		MusicControl.on(Command.previousTrack, ()=> {
+      		onBack();
+    	})
 
-	MusicControl.enableControl('setRating', false)
-	MusicControl.enableControl('volume', true) // Only affected when remoteVolume is enabled
-	MusicControl.enableControl('remoteVolume', false)
-	MusicControl.enableControl('closeNotification', true, { when: 'always' })
+		MusicControl.enableBackgroundMode(true);
+		MusicControl.enableControl('play', true);
+		MusicControl.enableControl('pause', true);
+		MusicControl.enableControl('stop', true);
+		MusicControl.enableControl('nextTrack', true);
+		MusicControl.enableControl('previousTrack', true);
 
-	MusicControl.setNotificationId(10, 'channel');
+		MusicControl.enableControl('changePlaybackPosition', true)
+
+		MusicControl.enableControl('seekForward', false) // iOS only
+		MusicControl.enableControl('seekBackward', false) // iOS only
+		MusicControl.enableControl('seek', false) // Android only
+
+		MusicControl.enableControl('setRating', false)
+		MusicControl.enableControl('volume', true) // Only affected when remoteVolume is enabled
+		MusicControl.enableControl('remoteVolume', false)
+		MusicControl.enableControl('closeNotification', true, { when: 'always' })
+
+		MusicControl.setNotificationId(1, 'channel');
 
 	const setTime = (data) => {
 		setCurrentPosition(Math.floor(data.currentTime));
@@ -120,7 +131,13 @@ const Player = (props) => {
 				setPaused(false);
 				setTotalLength(1);
 				setIsChanging(false);
-				setSelectedTrack((track) => track - 1);
+				updateSelectedTrack(-1);
+				const persistingData = async () => {
+					const currentSelectedTrack = await AsyncStorage.getItem("selectedTrack");
+					const previous = JSON.parse(currentSelectedTrack)-1;
+					await AsyncStorage.setItem('selectedTrack', JSON.stringify(previous));
+				}
+				persistingData();
 			}, 0);
 		} else {
 			audioElement.current.seek(0);
@@ -137,7 +154,13 @@ const Player = (props) => {
 				setPaused(false);
 				setTotalLength(1);
 				setIsChanging(false);
-				setSelectedTrack((track) => track + 1);
+				updateSelectedTrack(1);
+				const persistingData = async () => {
+					const currentSelectedTrack = await AsyncStorage.getItem("selectedTrack");
+					const next = JSON.parse(currentSelectedTrack)+1;
+					await AsyncStorage.setItem('selectedTrack', JSON.stringify(next));
+				}
+				persistingData();
 			}, 0);
 		}
 	};

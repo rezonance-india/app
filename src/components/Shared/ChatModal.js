@@ -17,8 +17,6 @@ const ChatModal = ({modalVisible, toggleVisibility,selectedSong}) => {
 	// 	id:null,
 	// 	text:"Send"
 	// });
-
-	console.log(selectedSong,"selee");
 	
 	const [searchResults,setSearchResults] = useState(user.friends);
 
