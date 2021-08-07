@@ -95,7 +95,7 @@ const LoginScreen = ({navigation}) => {
               if (Platform.OS === 'android') {
                 ToastAndroid.show('Login Successful', ToastAndroid.SHORT);
               }
-              navigation.navigate("HomeScreen");              
+                navigation.dispatch(StackActions.replace('MainApp'));                       
             }).catch((err) => {
               isSubmitting(false);
               if (Array.isArray(err.response.data.errors)) {

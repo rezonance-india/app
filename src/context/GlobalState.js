@@ -47,13 +47,13 @@ export const GlobalProvider = ({children}) => {
 			})
 		}
 
-		const fetchPausedState = async () => {
-			const pausedState = await retrieveItem("pausedState");
-			dispatch({
-				type:Actions.UPDATE_PAUSEDSTATE,
-				payload:pausedState
-			})
-		}
+		// const fetchPausedState = async () => {
+		// 	const pausedState = await retrieveItem("pausedState");
+		// 	dispatch({
+		// 		type:Actions.UPDATE_PAUSEDSTATE,
+		// 		payload:pausedState
+		// 	})
+		// }
 
 		const fetchSelectedTrack = async () => {
 			const selectedTrack = await retrieveItem("selectedTrack");
@@ -74,7 +74,7 @@ export const GlobalProvider = ({children}) => {
 		fetchUser();
 		fetchToken();
 		fetchQueue();
-		fetchPausedState();
+		// fetchPausedState();
 		fetchSelectedTrack();
 		fetchMessages();
 	}, []);

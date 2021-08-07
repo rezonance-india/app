@@ -20,7 +20,7 @@ const ChatScreen = ({navigation}) => {
 	//?Todo On first login it wont get messages from global queue, so pass it from the messaging
 	//?Todo screen only
 
-	console.log([messages],"messages from gs");
+	console.log(messages,"messages from gs");
 
 	const dateFunc = (dynamicDate) => {
 		const d = new Date(dynamicDate);
@@ -49,8 +49,8 @@ const ChatScreen = ({navigation}) => {
 	}
 
 	useEffect(() => {
-		if(!messages){
-			console.log("lol")
+		if(messages.length == 0){
+			console.log("in")
 			axios.get(`${userApiUrl}/messages/getMessages`,
 			{
 				headers: {
@@ -58,15 +58,16 @@ const ChatScreen = ({navigation}) => {
 				},
 			})
 			.then(async (res) => {
+				console.log(res.data,"from local messages");
 				updateMessages(res.data);
 				await AsyncStorage.setItem("messages",JSON.stringify(res.data));
 			}).catch((err) => {
 				console.log(err,"err");
-				if (Array.isArray(err.response.data.errors)) {
-					if (Platform.OS === 'android') {
-						ToastAndroid.show(err.response.data.errors[0].msg, ToastAndroid.SHORT);
-					}
-				}
+				// if (Array.isArray(err.response.data.errors)) {
+				// 	if (Platform.OS === 'android') {
+				// 		ToastAndroid.show(err.response.data.errors[0].msg, ToastAndroid.SHORT);
+				// 	}
+				// }
 			})
 		}
 	},[])
@@ -78,6 +79,8 @@ const ChatScreen = ({navigation}) => {
 				item
 			})
 		}
+
+		console.log(item,"id");
 
 		const sampleImage ="https://images.unsplash.com/photo-1624387832956-1a33ddb5f7f9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2735&q=80";
 
@@ -189,12 +192,20 @@ const ChatScreen = ({navigation}) => {
 				Messages
 			</Text>
 			<View>
-				<FlatList
-					keyExtractor={(item) => item._id}
-					data={[messages]}
-					renderItem={renderer}
-					showsVerticalScrollIndicator={false}
-				/>
+				{
+					messages.length > 0 ? (
+						<FlatList
+							keyExtractor={(item) => item._id}
+							data={messages}
+							renderItem={renderer}
+							showsVerticalScrollIndicator={false}
+						/>
+					)
+					:(
+						<>
+						</>
+					)
+				}
 			</View>
 		</LinearGradientComp>
 	);

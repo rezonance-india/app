@@ -7,48 +7,24 @@ import {
 	Dimensions,
 	Image,
 } from 'react-native';
-import { TrackPlayerEvents } from 'react-native-track-player';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {GlobalContext} from '../../context/GlobalState';
 import {defaultString} from '../Player/config';
-import TrackPlayer from "react-native-track-player";
-import { useTrackPlayerEvents} from 'react-native-track-player';
 
 const {width, height} = Dimensions.get('window');
 	
 const MiniPlayer = ({nav}) => {
 	const [paused, setPaused] = useState(true);
 	const [liked, setLiked] = useState(false);
-	const {queue,selectedTrack,pausedState} = useContext(GlobalContext);
+	const {queue,selectedTrack,updatePausedState,pausedState} = useContext(GlobalContext);
 		
-	const onPressPlay = async () => {
-		await TrackPlayer.play();
-		setPaused(false);
+	const onPressPlay = () => {
+		updatePausedState(false);
 	};
 	
-	const onPressPause = async () => {
-		await TrackPlayer.pause();
-		setPaused(true);
+	const onPressPause = () => {
+		updatePausedState(true);
 	}
-
-	const events = [
-		TrackPlayerEvents.PLAYBACK_STATE,
-		TrackPlayerEvents.PLAYBACK_ERROR
-	];
-
-	useTrackPlayerEvents(events, (event) => {
-		if (event.type === TrackPlayerEvents.PLAYBACK_ERROR) {
-			console.warn('An error occured while playing the current track.');
-		}
-		if (event.type === TrackPlayerEvents.PLAYBACK_STATE) {
-			if(event.state === 2){
-				setPaused(true);
-			}
-			else if(event.state === 3) {
-				setPaused(false);
-			}
-		}
-	});
 	
 	const onPressLike = () => {
 		setLiked((liked) => !liked);
@@ -128,7 +104,7 @@ const MiniPlayer = ({nav}) => {
 					)}
 				</TouchableOpacity>
 
-					{!paused ? 
+					{!pausedState ? 
 					(
 						<TouchableOpacity onPress={onPressPause}>
 							<Icon

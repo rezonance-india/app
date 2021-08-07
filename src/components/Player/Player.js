@@ -17,9 +17,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Player = (props) => {
 	//Context
-	const {updateColor,selectedTrack,updateSelectedTrack,queue,updateQueue} = useContext(GlobalContext);
+	const {updateColor,selectedTrack,updateSelectedTrack,queue,updateQueue,
+		updatePausedState,pausedState
+	} = useContext(GlobalContext);
 
-	const [paused, setPaused] = useState(true);
+	// const [paused, setPaused] = useState(true);
 	const [totalLength, setTotalLength] = useState(1);
 	const [currentPosition, setCurrentPosition] = useState(0);
 	const [repeatOn, setRepeatOn] = useState(false);
@@ -50,7 +52,7 @@ const Player = (props) => {
 	//?todo when this parent component re renders(upon every 250ms of playing)
 
 	useEffect(() => {
-		console.log("in");
+		console.log("in player");
 		MusicControl.setNowPlaying({
 			title:queue[selectedTrack].title,
 			artwork:queue[selectedTrack].artwork,
@@ -62,11 +64,11 @@ const Player = (props) => {
 			notificationIcon: 'my_custom_icon', 
 		})
 
-		MusicControl.on(Command.pause,() => {
+		MusicControl.on(Command.pause, () => {
 			MusicControl.updatePlayback({
 				state: MusicControl.STATE_PAUSED,
 			})
-			setPaused(true);
+			updatePausedState(true);
 		})
 
 		MusicControl.on(Command.closeNotification, ()=> {
@@ -77,7 +79,8 @@ const Player = (props) => {
 			MusicControl.updatePlayback({
 				state: MusicControl.STATE_PLAYING,
 			})
-			setPaused(false);		
+			updatePausedState(false);
+			// await AsyncStorage.setItem('pausedState',false);
 		})
 
 		MusicControl.on(Command.nextTrack, ()=> {
@@ -104,7 +107,7 @@ const Player = (props) => {
 		MusicControl.enableControl('closeNotification', true, { when: 'always' })
 
 		MusicControl.setNotificationId(1, 'channel');
-	},[selectedTrack])
+	},[selectedTrack,props])
 
 	const setTime = (data) => {
 		setCurrentPosition(Math.floor(data.currentTime));
@@ -114,7 +117,7 @@ const Player = (props) => {
 		time = Math.round(time);
 		audioElement.current && audioElement.current.seek(time);
 		setCurrentPosition(time);
-		setPaused(false);
+		updatePausedState(false);
 	};
 
 	const onBack = () => {
@@ -124,7 +127,7 @@ const Player = (props) => {
 
 			setTimeout(() => {
 				setCurrentPosition(0);
-				setPaused(false);
+				updatePausedState(false);
 				setTotalLength(1);
 				setIsChanging(false);
 				updateSelectedTrack(-1);
@@ -147,7 +150,7 @@ const Player = (props) => {
 			setIsChanging(true);
 			setTimeout(() => {
 				setCurrentPosition(0);
-				setPaused(false);
+				updatePausedState(false);
 				setTotalLength(1);
 				setIsChanging(false);
 				updateSelectedTrack(1);
@@ -201,7 +204,7 @@ const Player = (props) => {
 			ref={audioElement}
 			playInBackground={true}
 			playWhenInactive={true}
-			paused={paused} // Pauses playback entirely.
+			paused={pausedState} // Pauses playback entirely.
 			resizeMode="cover" // Fill the whole screen at aspect ratio.
 			repeat={repeatOn} // Repeat forever.
 			onLoad={setDuration} // Callback when video loads
@@ -228,7 +231,7 @@ const Player = (props) => {
 			<SeekBar
 				onSeek={seek}
 				trackLength={totalLength}
-				onSlidingStart={() => setPaused(true)}
+				onSlidingStart={() => updatePausedState(true)}
 				currentPosition={currentPosition}
 			/>
 			<Controls
@@ -242,21 +245,23 @@ const Player = (props) => {
 				forwardDisabled={selectedTrack === props.tracks.length - 1}
 				onPressShuffle={() => setShuffleOn((shuffleOn) => !shuffleOn)}
 				onPressPlay={() => {
-					setPaused(false);
 					MusicControl.updatePlayback({
 						state: MusicControl.STATE_PLAYING,
 					})		
+					updatePausedState(false);
+					// await AsyncStorage.setItem('pausedState',false);
 				}}
 				onPressPause={() => {
-					setPaused(true);
 					MusicControl.updatePlayback({
-  						state: MusicControl.STATE_PAUSED,
+						state: MusicControl.STATE_PAUSED,
 					})
+					updatePausedState(true);
+					// await AsyncStorage.setItem('pausedState',true);
 				}}
 				navig={props.navig}
 				onBack={onBack}
 				onForward={onForward}
-				paused={paused}
+				paused={pausedState}
 			/>
 			{video}
 		</LinearGradientComp>
