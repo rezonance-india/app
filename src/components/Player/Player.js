@@ -1,5 +1,5 @@
 import React, {useState, useRef, useEffect, useContext} from 'react';
-import {Text, View, Image, StyleSheet, BackHandler} from 'react-native';
+import {Text, View, Image, StyleSheet, BackHandler, TouchableOpacity} from 'react-native';
 import Video from 'react-native-video';
 import ImageColors from 'react-native-image-colors';
 import MusicControl, { Command } from 'react-native-music-control'
@@ -17,7 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Player = (props) => {
 	//Context
-	const {updateColor,selectedTrack,updateSelectedTrack} = useContext(GlobalContext);
+	const {updateColor,selectedTrack,updateSelectedTrack,queue,updateQueue} = useContext(GlobalContext);
 
 	const [paused, setPaused] = useState(true);
 	const [totalLength, setTotalLength] = useState(1);
@@ -27,8 +27,9 @@ const Player = (props) => {
 	const [isChanging, setIsChanging] = useState(false);
 	const [color, setColor] = useState('');
 	const [liked, setLiked] = useState(false);
-	const {queue, updateQueue} = useContext(GlobalContext);
 	const audioElement = useRef(null);
+
+	console.log(queue,"queue from player");
 
 	const selectedSongData = {
 		track_name:queue[selectedTrack].title,
@@ -58,7 +59,7 @@ const Player = (props) => {
 			artist:queue[selectedTrack].artist,
 			description:"rezonance",
 			color:0xffffff,
-			rating: 84,
+			rating: 1,
 			duration:totalLength,
 			notificationIcon: 'my_custom_icon', 
 		})
@@ -104,7 +105,7 @@ const Player = (props) => {
 		MusicControl.enableControl('remoteVolume', false)
 		MusicControl.enableControl('closeNotification', true, { when: 'always' })
 
-		MusicControl.setNotificationId(1, 'channel');
+		MusicControl.setNotificationId(0, 'channel');
 	},[selectedTrack])
 
 	const setTime = (data) => {
@@ -177,6 +178,8 @@ const Player = (props) => {
 
 	const track = props.tracks[selectedTrack];
 
+	console.log(track);
+
 	useEffect(() => {
 		const getDominantColors = async () => {
 			const colors = await ImageColors.getColors(track.artwork, {
@@ -223,8 +226,9 @@ const Player = (props) => {
 			<TrackDetails
 				track_name={track.title}
 				artist_name={track.artist}
-				album_image={track.artwork}
+				album_image={track.album}
 			/>
+
 			<SeekBar
 				onSeek={seek}
 				trackLength={totalLength}

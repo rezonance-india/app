@@ -10,13 +10,14 @@ import SearchBox from '../../components/Search/SearchBox';
 import {GlobalContext} from '../../context/GlobalState';
 import LinearGradientComp from '../Shared/LinearGradient';
 import {colors} from '../../constants/colors';
+import { CommonActions } from '@react-navigation/native';
 
 const SongSearch = ({navigation}) => {
 	const [result, setResult] = useState([]);
 	const [searchQuery, setSearchQuery] = useState('');
 	const [selectedSong, setSelectedSong] = useState({});
 	const [disable, setDisable] = useState(false);
-	const {queue, updateQueue,selectedTrack} = useContext(GlobalContext);
+	const {queue, updateQueue,selectedTrack,play} = useContext(GlobalContext);
 	const [playerModalVisible, setPlayerModalVisible] = useState(false);
 
 	const renderer = ({item}) => (
@@ -42,8 +43,8 @@ const SongSearch = ({navigation}) => {
 						);
 					};
 					persistingData();
-					// setPlayerModalVisible(true);
-					navigation.navigate('PlayerScreen');
+
+					navigation.navigate("PlayerScreen");
 				}	
 			}}>
 			<ListItem

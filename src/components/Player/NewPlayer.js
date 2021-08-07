@@ -10,7 +10,6 @@ import { GlobalContext } from "../../context/GlobalState";
 import { useTrackPlayerEvents, TrackPlayerEvents, STATE_PLAYING,useTrackPlayerProgress } from 'react-native-track-player';
 import NewSeekBar from "./NewSeekBar";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useFocusEffect } from '@react-navigation/native';
 
 TrackPlayer.updateOptions({
 	capabilities: [
@@ -71,12 +70,10 @@ const NewPlayer = (props) => {
 	useEffect(() => {
 		// const unsubscribe = props.navig.addListener('focus', () => {
 			setUpTrackPlayer();
-			TrackPlayer.play();
-			console.log(queue,"queue from use");
 			return () => TrackPlayer.destroy();
     	// });
     	// return unsubscribe;
-	},[])
+	},[queue])
 
 	const track = props.tracks[selectedTrack];
 	
@@ -117,6 +114,7 @@ const NewPlayer = (props) => {
 		() => {
 			TrackPlayer.getQueue()
 			.then((res) => {
+				console.log(res,"whole queue");
 			}).catch((err) => {
 				console.log("error",err);
 			})

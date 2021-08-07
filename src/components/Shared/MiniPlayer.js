@@ -70,7 +70,7 @@ const MiniPlayer = ({nav}) => {
 						marginLeft: 8,
 					}}
 					source={{
-						uri: queue[selectedTrack].artwork,
+						uri: queue[selectedTrack].album,
 					}}
 					/>
 				<View

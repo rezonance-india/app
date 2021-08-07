@@ -1,4 +1,4 @@
-import React, {createContext, useEffect, useReducer} from 'react';
+import React, {createContext, useEffect, useReducer,useState} from 'react';
 import AppReducer from './AppReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Actions} from './ActionsOverview';
@@ -10,7 +10,7 @@ const initialState = {
 	color: '',
 	pausedState:true,
 	selectedTrack:0,
-	messages:[]
+	messages:[],
 };
 
 const retrieveItem = async (key) => {

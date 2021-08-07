@@ -26,7 +26,7 @@ const Overlay = ({toggleVisibility, modalVisible, data, selectedSong,navig}) => 
 	const {queue, updateQueue} = useContext(GlobalContext);
 	const [recommendModalVisible, setRecommendModalVisible] = useState(false);
 	const [addToPlaylistModalVisible,setAddToPlaylistModalVisible] = useState(false);
-
+	
 	const options = [
 		{
 			name: 'Like',

@@ -17,8 +17,8 @@ const MainNavigator = () => {
 	const {user} = useContext(GlobalContext);
 
 	LogBox.ignoreAllLogs(true);
-
 	useEffect(() => {
+
 		//? when auth will be implemented
 		const checkToken = async () => {
 			const user = await AsyncStorage.getItem('user');
