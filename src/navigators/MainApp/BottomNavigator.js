@@ -58,7 +58,6 @@ const BottomNavigator = ({navigation}) => {
 				<Tab.Screen name="HomeScreen" component={HomeScreen} />
 				<Tab.Screen name="SearchScreen" component={SearchScreen} />
 				<Tab.Screen name="PlayerScreen" component={PlayerScreen} options={({navigation}) =>{
-					console.log(navigation,"player");
 					let tabBarVisible = false;
 					return {
 						tabBarVisible,

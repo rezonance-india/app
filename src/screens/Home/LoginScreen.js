@@ -35,7 +35,6 @@ import { GlobalContext } from '../../context/GlobalState';
 
 const {height, width} = Dimensions.get('window');
 
-
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

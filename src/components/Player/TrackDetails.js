@@ -7,13 +7,13 @@ const TrackDetails = (props) => {
 		<View
 			style={{
 				flex: 1,
-				marginTop: '20%',
+				marginTop: '15%',
 				alignItems: 'center',
 			}}>
 			<Image
 				source={{uri: album_image}}
 				style={{
-					flex: 0.7,
+					flex: 0.8,
 					aspectRatio: 1,
 					borderRadius: 20,
 				}}></Image>

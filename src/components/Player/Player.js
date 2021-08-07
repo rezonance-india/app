@@ -29,8 +29,6 @@ const Player = (props) => {
 	const [liked, setLiked] = useState(false);
 	const audioElement = useRef(null);
 
-	console.log(queue,"queue from player");
-
 	const selectedSongData = {
 		track_name:queue[selectedTrack].title,
 		album_image:queue[selectedTrack].artwork,
@@ -105,7 +103,7 @@ const Player = (props) => {
 		MusicControl.enableControl('remoteVolume', false)
 		MusicControl.enableControl('closeNotification', true, { when: 'always' })
 
-		MusicControl.setNotificationId(0, 'channel');
+		MusicControl.setNotificationId(1, 'channel');
 	},[selectedTrack])
 
 	const setTime = (data) => {
@@ -178,8 +176,6 @@ const Player = (props) => {
 
 	const track = props.tracks[selectedTrack];
 
-	console.log(track);
-
 	useEffect(() => {
 		const getDominantColors = async () => {
 			const colors = await ImageColors.getColors(track.artwork, {
@@ -226,7 +222,7 @@ const Player = (props) => {
 			<TrackDetails
 				track_name={track.title}
 				artist_name={track.artist}
-				album_image={track.album}
+				album_image={track.artwork}
 			/>
 
 			<SeekBar
@@ -257,6 +253,7 @@ const Player = (props) => {
   						state: MusicControl.STATE_PAUSED,
 					})
 				}}
+				navig={props.navig}
 				onBack={onBack}
 				onForward={onForward}
 				paused={paused}
