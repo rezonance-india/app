@@ -94,7 +94,6 @@ const Player = (props) => {
 		MusicControl.enableBackgroundMode(true);
 		MusicControl.enableControl('play', true);
 		MusicControl.enableControl('pause', true);
-		MusicControl.enableControl('stop', true);
 		MusicControl.enableControl('nextTrack', true);
 		MusicControl.enableControl('previousTrack', true);
 
@@ -104,7 +103,7 @@ const Player = (props) => {
 		MusicControl.enableControl('setRating', false)
 		MusicControl.enableControl('volume', true) // Only affected when remoteVolume is enabled
 		MusicControl.enableControl('remoteVolume', false)
-		MusicControl.enableControl('closeNotification', true, { when: 'always' })
+		MusicControl.enableControl('closeNotification', true, { when: 'paused' })
 
 		MusicControl.setNotificationId(1, 'channel');
 	},[selectedTrack,props])
