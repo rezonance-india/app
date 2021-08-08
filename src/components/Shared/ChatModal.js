@@ -12,6 +12,7 @@ import LinearGradient from './LinearGradient';
 const ChatModal = ({modalVisible, toggleVisibility,selectedSong}) => {
 	const [searchQuery, setSearchQuery] = useState('');	
 	const {user,updateUser,token,updateMessages} = useContext(GlobalContext);
+	const [isSending,setIsSending] = useState(false);
 
 	// const [messageDetails,setMessageDetails] = useState({
 	// 	id:null,
@@ -46,7 +47,8 @@ const ChatModal = ({modalVisible, toggleVisibility,selectedSong}) => {
 
 	const sendSong = (userId) => {
 		console.log(userId,"useriD");
-
+		setIsSending(true);
+		
 		axios.post(`${userApiUrl}/messages/send`,
         {
 			...playlistData,
@@ -58,15 +60,28 @@ const ChatModal = ({modalVisible, toggleVisibility,selectedSong}) => {
             },
         })
         .then(async (res) => {
-            console.log(res.data,"messages");
-			updateMessages(res.data);
-			await AsyncStorage.setItem("messages",JSON.stringify(res.data));
+			setIsSending(false);
 			ToastAndroid.show("Song sent", ToastAndroid.SHORT);
+			//?Todo remove this request later on and optimize in single request only
+			axios.get(`${userApiUrl}/messages/getMessages`,
+			{
+				headers: {
+					Authorization: "Bearer " + token,
+				},
+			})
+			.then(async (res) => {
+				console.log(res.data,"from local messages");
+				updateMessages(res.data);
+				await AsyncStorage.setItem("messages",JSON.stringify(res.data));
+			}).catch((err) => {
+				console.log(err,"err");
+			})
         }).catch((err) => {
             console.log(err,"err");
+			setIsSending(false);
             if (Array.isArray(err.response.data.errors)) {
                 if (Platform.OS === 'android') {
-                    ToastAndroid.show(err.response.data.errors[0].msg, ToastAndroid.SHORT);
+                    ToastAndroid.show("Error sending the message", ToastAndroid.SHORT);
                 }
             }
         })
@@ -132,7 +147,7 @@ const ChatModal = ({modalVisible, toggleVisibility,selectedSong}) => {
 											<TouchableOpacity onPress={() => sendSong(user._id)}>
 												<View style={styles.button}>
 													<Text style={styles.textButton}>
-														{"Send"}
+														{isSending ? "Sending.." : "Send"}
 													</Text>
 												</View>
 											</TouchableOpacity>
