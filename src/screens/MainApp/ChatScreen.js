@@ -1,7 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import React, {useState,useEffect,useContext} from 'react';
-import {Text, View, ScrollView, Image, StyleSheet,TouchableOpacity,FlatList, ToastAndroid} from 'react-native';
+import React, {useState,useEffect,useContext,useCallback} from 'react';
+import {
+	Text, View, ScrollView, Image, StyleSheet,TouchableOpacity,FlatList,
+	ToastAndroid,RefreshControl
+} from 'react-native';
 import SearchBox from '../../components/Search/SearchBox';
 import LinearGradientComp from '../../components/Shared/LinearGradient';
 import {ACCENT, PRIMARY} from '../../constants/colors';
@@ -12,6 +15,7 @@ import { GlobalContext } from '../../context/GlobalState';
 const ChatScreen = ({navigation}) => {
 	const [searchQuery, setSearchQuery] = useState('');
 	const {token,user,updateMessages,messages} = useContext(GlobalContext);
+	const [refreshing,setRefreshing] = useState(false);
 
 	const search = () => {
 		console.log('in search frands');
@@ -48,8 +52,12 @@ const ChatScreen = ({navigation}) => {
 		}
 	}
 
+	if(!messages){
+		console.log("no messages");
+	}
+
 	useEffect(() => {
-		if(messages.length == 0){
+		if(messages.length === 0 || refreshing){
 			console.log("in")
 			axios.get(`${userApiUrl}/messages/getMessages`,
 			{
@@ -60,18 +68,21 @@ const ChatScreen = ({navigation}) => {
 			.then(async (res) => {
 				console.log(res.data,"from local messages");
 				updateMessages(res.data);
+				setRefreshing(false);
 				await AsyncStorage.setItem("messages",JSON.stringify(res.data));
 			}).catch((err) => {
 				console.log(err,"err");
-				// if (Array.isArray(err.response.data.errors)) {
-				// 	if (Platform.OS === 'android') {
-				// 		ToastAndroid.show(err.response.data.errors[0].msg, ToastAndroid.SHORT);
-				// 	}
-				// }
+				setRefreshing(false);
+				if (Platform.OS === 'android') {
+					ToastAndroid.show("Network Error", ToastAndroid.SHORT);
+				}
 			})
 		}
-	},[])
+	},[refreshing])
 
+	const onRefresh = useCallback(() => {
+    	setRefreshing(true);
+  	}, []);
 
 	const renderer = ({item}) => {
 		const pressChatBox = () => {
@@ -79,8 +90,6 @@ const ChatScreen = ({navigation}) => {
 				item
 			})
 		}
-
-		console.log(item,"id");
 
 		const sampleImage ="https://images.unsplash.com/photo-1624387832956-1a33ddb5f7f9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2735&q=80";
 
@@ -168,45 +177,55 @@ const ChatScreen = ({navigation}) => {
 				colorOne: PRIMARY,
 				colorTwo: ACCENT,
 			}}>
-			<View
-				style={{
-					marginTop: 30,
-				}}>
-				<SearchBox
-					placeholder="Search Messages"
-					searchQuery={searchQuery}
-					setSearchQuery={search}
-				/>
-			</View>
+			<ScrollView 
+				 refreshControl={
+					<RefreshControl
+						refreshing={refreshing}
+						onRefresh={onRefresh}
+					/>
+        		}
+			>
 
-			<Text
-				style={{
-					top: 5,
-					fontSize: 18,
-					color: 'white',
-					marginBottom: 10,
-					marginLeft: 20,
-					letterSpacing: 0,
-					fontFamily: 'NotoSans-Regular',
-				}}>
-				Messages
-			</Text>
-			<View>
-				{
-					messages.length > 0 ? (
-						<FlatList
-							keyExtractor={(item) => item._id}
-							data={messages}
-							renderItem={renderer}
-							showsVerticalScrollIndicator={false}
-						/>
-					)
-					:(
-						<>
-						</>
-					)
-				}
-			</View>
+				<View
+					style={{
+						marginTop: 30,
+					}}>
+					<SearchBox
+						placeholder="Search Messages"
+						searchQuery={searchQuery}
+						setSearchQuery={search}
+					/>
+				</View>
+
+				<Text
+					style={{
+						top: 5,
+						fontSize: 18,
+						color: 'white',
+						marginBottom: 10,
+						marginLeft: 20,
+						letterSpacing: 0,
+						fontFamily: 'NotoSans-Regular',
+					}}>
+					Messages
+				</Text>
+				<View>
+					{
+						messages.length > 0 ? (
+							<FlatList
+								keyExtractor={(item) => item._id}
+								data={messages}
+								renderItem={renderer}
+								showsVerticalScrollIndicator={false}
+							/>
+						)
+						:(
+							<>
+							</>
+						)
+					}
+				</View>
+			</ScrollView>
 		</LinearGradientComp>
 	);
 };
