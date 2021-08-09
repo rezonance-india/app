@@ -14,6 +14,8 @@ import TrackDetails from '../../components/Player/TrackDetails';
 import LinearGradientComp from '../Shared/LinearGradient';
 import {GlobalContext} from '../../context/GlobalState';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { apiUrl } from '../../constants/config';
+import axios from 'axios';
 
 const Player = (props) => {
 	//Context
@@ -35,13 +37,70 @@ const Player = (props) => {
 		track_name:queue[selectedTrack].title,
 		album_image:queue[selectedTrack].artwork,
 		artist_name:queue[selectedTrack].artist,
-		track_url:queue[selectedTrack].url
+		track_url:queue[selectedTrack].url,
+		track_id:queue[selectedTrack].id
 	}
 
 	const setDuration = (data) => {
 		// console.log(data.duration,"dur");
+		console.log("load ends");
 		setTotalLength(Math.floor(data.duration));
 	};
+
+	const loadingStarts = () => {
+		console.log("loading");
+	}
+
+	// useEffect(() => {
+	// 	console.log("in recom end songs");
+	// 	if(!repeatOn && selectedTrack === queue.length-1){
+	// 		//Add simmilar songs to the queue
+	// 		console.log("in repeat");
+	// 		axios
+	// 			.post(
+	// 				`${apiUrl}recommend`,
+	// 				{
+	// 					ref_id: track.id
+	// 				},
+	// 				{
+	// 					headers: {
+	// 						'Content-Type': 'application/json',
+	// 					},
+	// 				},
+	// 			)
+	// 			.then((res) => {
+	// 				const result = res.data;
+	// 				console.log(result,"recom result");
+
+	// 				const tracks = queue;
+
+	// 				for(let i =3,j=1;i<res.data.length;i+=3,j++){
+	// 					tracks[selectedTrack+j] = {
+	// 						title : result[i].track_name,
+	// 						artist: result[i].artist_name,
+	// 						artwork: result[i].album_image,
+	// 						url: result[i].track_url,
+	// 						id: result[i].track_id,
+	// 					}
+	// 				}
+
+	// 				console.log(tracks,"tracks from recom");
+
+	// 				updateQueue(tracks);
+	// 					const persistingData = async () => {
+	// 						await AsyncStorage.setItem(
+	// 							'queue',
+	// 							JSON.stringify(tracks),
+	// 					);
+	// 				};
+	// 				persistingData();
+	// 				onForward();
+	// 			})
+	// 			.catch((err) => {
+	// 				console.log(err);
+	// 			});	
+	// 	}
+	// },[selectedTrack])
 
 	// BackHandler.addEventListener("hardwareBackPress",() => {
 	// 	console.log(currentPosition,"dur");
@@ -144,7 +203,7 @@ const Player = (props) => {
 	};
 
 	const onForward = () => {
-		if (selectedTrack < props.tracks.length - 1) {
+		// if (selectedTrack < props.tracks.length - 1) {
 			audioElement.current && audioElement.current.seek(0);
 			setIsChanging(true);
 			setTimeout(() => {
@@ -160,7 +219,7 @@ const Player = (props) => {
 				}
 				persistingData();
 			}, 0);
-		}
+		// }
 	};
 
 	const videoError = (data) => {
@@ -197,6 +256,10 @@ const Player = (props) => {
 		getDominantColors();
 	}, [track]);
 
+	const onEnd = () => {
+		console.log("in end");
+	}
+
 	const video = isChanging ? null : (
 		<Video
 			source={{uri: track.url}} // Can be a URL or a local file.
@@ -206,9 +269,10 @@ const Player = (props) => {
 			paused={pausedState} // Pauses playback entirely.
 			resizeMode="cover" // Fill the whole screen at aspect ratio.
 			repeat={repeatOn} // Repeat forever.
+			onLoadStart={loadingStarts}
 			onLoad={setDuration} // Callback when video loads
 			onProgress={setTime} // Callback every ~250ms with currentTime
-			// onEnd={onEnd} // Callback when playback finishes
+			onEnd={onEnd} // Callback when playback finishes
 			onError={videoError} // Callback when video cannot be loaded
 			style={styles.audioElement}
 			onEnd={popSongFromQueue}

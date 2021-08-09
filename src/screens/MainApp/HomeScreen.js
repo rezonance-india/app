@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect,useState} from 'react';
 import {
 	View,
 	Text,
@@ -12,26 +12,25 @@ import {
 import LinearGradient from '../../components/Shared/LinearGradient';
 import {ACCENT, PRIMARY} from '../../constants/colors';
 import SongContainer from '../../components/Home/SongContainer';
-import {rp, rfu, trending} from '../../constants/dummydata';
+// import {rp, rfu, trending} from '../../constants/dummydata';
 import MiniPlayer from '../../components/Shared/MiniPlayer';
 import {GlobalContext} from '../../context/GlobalState';
+import { apiUrl } from '../../constants/config';
+import axios from 'axios';
 
 const {width, height} = Dimensions.get('window');
 
 const HomeScreen = ({navigation}) => {
-	const titles = ['Recently Played', 'Recommended For You', 'Trending'];
+	const titles = ['Trending','Recommended For You','Recently Played'];
 	const {queue} = useContext(GlobalContext);
 
-	console.log(queue,"global queue");
+	console.log(queue,"queue");
 
 	const renderSongs = () => {
 		return titles.map((title, i) => (
 			<SongContainer
 				navigation={navigation}
 				songtitles={title}
-				rp={rp}
-				rfu={rfu}
-				trending={trending}
 				key={i}
 			/>
 		));
