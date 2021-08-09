@@ -10,22 +10,28 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import {GlobalContext} from '../../context/GlobalState';
 import {defaultString} from '../Player/config';
+import MusicControl from 'react-native-music-control'
 
 const {width, height} = Dimensions.get('window');
 	
 const MiniPlayer = ({nav}) => {
-	const [paused, setPaused] = useState(true);
 	const [liked, setLiked] = useState(false);
 	const {queue,selectedTrack,updatePausedState,pausedState} = useContext(GlobalContext);
-		
+	
 	const onPressPlay = () => {
 		updatePausedState(false);
+		MusicControl.updatePlayback({
+			state: MusicControl.STATE_PLAYING,
+		})
 	};
 	
 	const onPressPause = () => {
+		MusicControl.updatePlayback({
+			state: MusicControl.STATE_PAUSED,
+		})
 		updatePausedState(true);
 	}
-	
+
 	const onPressLike = () => {
 		setLiked((liked) => !liked);
 	};
@@ -33,6 +39,7 @@ const MiniPlayer = ({nav}) => {
 	const openMiniPlayer = () => {
 		nav.navigate('PlayerScreen');
 	};
+
 	return (
 		<View style={styles.container}>
 			<TouchableOpacity
