@@ -98,7 +98,8 @@ const ChatScreen = ({navigation}) => {
 				key={item._id}
 				style={{
 					flexDirection: 'column',
-					margin: '2%',
+					marginTop: '7.5%',
+					marginBottom: '7.5%',
 					height: '10%',
 				}}>
 			
@@ -159,7 +160,7 @@ const ChatScreen = ({navigation}) => {
 								<Text
 									style={{
 										...styles.options,
-										marginLeft:-10,
+										marginLeft: 5,
 										marginTop: -25,
 									}}>
 									{dateFunc(item.chat[item.chat.length-1].messageSentAt)}
@@ -174,7 +175,7 @@ const ChatScreen = ({navigation}) => {
 	return (
 		<LinearGradientComp
 			bgcolors={{
-				colorOne: PRIMARY,
+				colorOne: '#2c3e50',
 				colorTwo: ACCENT,
 			}}>
 			<ScrollView 
