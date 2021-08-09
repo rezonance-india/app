@@ -23,7 +23,7 @@ const FriendsModal = ({modalVisible, toggleVisibility,data}) => {
 
 			<LinearGradientComp
 				bgcolors={{
-					colorOne: 'rgba(0, 0, 0, 0.3)',
+					colorOne: '#7a7adb',
 					colorTwo: 'rgba(0, 0, 0, 1)',
 				}}>
 				<View>

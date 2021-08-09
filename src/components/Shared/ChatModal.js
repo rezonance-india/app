@@ -89,7 +89,7 @@ const ChatModal = ({modalVisible, toggleVisibility,selectedSong}) => {
 
 	return (
 		<Modal
-			animationType="fade"
+			animationType="slide"
 			transparent={true}
 			visible={modalVisible}
 			onRequestClose={() => {
@@ -97,7 +97,7 @@ const ChatModal = ({modalVisible, toggleVisibility,selectedSong}) => {
 			}}>
 			<LinearGradient
 				bgcolors={{
-					colorOne: 'rgba(0, 0, 0, 0.3)',
+					colorOne: 'rgba(0, 0, 0, 0.25)',
 					colorTwo: 'rgba(0, 0, 0, 1)',
 				}}>
 				<View>

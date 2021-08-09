@@ -118,7 +118,7 @@ const ProfileScreen = ({route,navigation}) => {
     return (
         <LinearGradientComp
 			bgcolors={{
-				colorOne: color ? color : '#7f8c8d',
+				colorOne: '#2b4162',
 				colorTwo: ACCENT,
 			}}>
 			
@@ -152,7 +152,7 @@ const ProfileScreen = ({route,navigation}) => {
 					flexDirection:"column",
 					justifyContent:"space-between",
 					alignItems:"center",
-					marginTop:"30%"
+					marginTop:"20%"
 				}}>
 					<Image
 						source={{uri: imageUrl}}
@@ -247,7 +247,7 @@ const ProfileScreen = ({route,navigation}) => {
 							marginTop:30
 						}}>
 							<Icon
-								name="create-outline"
+								name="add-outline"
 								size={60}
 								style={{marginHorizontal:15, color:"white"}}
 							/>
@@ -256,6 +256,7 @@ const ProfileScreen = ({route,navigation}) => {
 								style={{
 									flexDirection: 'row',
 									marginTop:15,
+									marginBottom: 10,
 									justifyContent: 'space-between',
 									flex: 1,
 									width: '100%',
