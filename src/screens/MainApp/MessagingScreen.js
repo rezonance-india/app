@@ -3,15 +3,15 @@ import {View,Text,Image,TouchableOpacity,ImageBackground,Dimensions,FlatList,Sty
 import LinearGradientComp from "../../components/Shared/LinearGradient";
 import { ACCENT, PRIMARY } from "../../constants/colors";
 import Icon from 'react-native-vector-icons/Ionicons';
-import messageData from "../../constants/messageData";
 import { GlobalContext } from "../../context/GlobalState";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const {width, height} = Dimensions.get('window');
 
 const MessagingScreen = ({route,navigation}) => {
 	const item = route.params.item;
     const {chat} = route.params.item;
-	const {user} = useContext(GlobalContext);
+	const {user,queue,selectedTrack,updateQueue} = useContext(GlobalContext);
 
 	console.log(chat,"chat");
 
@@ -20,38 +20,69 @@ const MessagingScreen = ({route,navigation}) => {
 	}
 
 	const renderer = ({item}) => {
+		
+		const playSong = () => {
+			const trackDetails = queue;
+
+			const {message} = item;
+
+			trackDetails[selectedTrack] = {
+				title: message.trackName,
+				artist: message.artistName,
+				artwork: message.albumArt,
+				url:message.trackUrl,
+				id: message.track_id,
+			};
+
+			updateQueue(trackDetails);
+
+			const persistingData = async () => {
+				await AsyncStorage.setItem(
+					'queue',
+					JSON.stringify(trackDetails),
+				);
+			};
+
+			persistingData();
+
+			navigation.navigate("PlayerScreen");		
+		}
+
 		return (
 			<View style={item.user._id === user._id ? {...styles.container,marginLeft:100} : styles.container}>
-				<ImageBackground
-					source={{uri: item.message.albumArt}}
-					style={styles.album}
-					imageStyle={{borderRadius: 10}}>
-					<View
-						style={{
-							height: '20%',
-							top: '80%',
-							width: '100%',
-							backgroundColor: 'rgba(0, 0, 0, 0.8)',
-							// opacity: 0.65,
-							borderBottomLeftRadius: 10,
-							borderBottomRightRadius: 10,
-						}}></View>
+				<TouchableOpacity onPress={playSong}>
 
-					<Text
-						style={{
-							...styles.text,
-							paddingTop: 8,
-							fontSize: 18,
-							fontFamily: '',
-							fontWeight: 'bold',
-						}}>
-						{/* {item.songDetails.track_name}  */}
-						{item.message.trackName.length > 30
-							? `${item.message.trackName.substring(0, 26)}....`
-							: item.message.trackName}
-					</Text>
-					<Text style={styles.text}>{item.message.artistName} </Text>
-				</ImageBackground>
+					<ImageBackground
+						source={{uri: item.message.albumArt}}
+						style={styles.album}
+						imageStyle={{borderRadius: 10}}>
+						<View
+							style={{
+								height: '20%',
+								top: '80%',
+								width: '100%',
+								backgroundColor: 'rgba(0, 0, 0, 0.8)',
+								// opacity: 0.65,
+								borderBottomLeftRadius: 10,
+								borderBottomRightRadius: 10,
+							}}></View>
+
+						<Text
+							style={{
+								...styles.text,
+								paddingTop: 8,
+								fontSize: 18,
+								fontFamily: '',
+								fontWeight: 'bold',
+							}}>
+							{/* {item.songDetails.track_name}  */}
+							{item.message.trackName.length > 30
+								? `${item.message.trackName.substring(0, 26)}....`
+								: item.message.trackName}
+						</Text>
+						<Text style={styles.text}>{item.message.artistName} </Text>
+					</ImageBackground>
+				</TouchableOpacity>
 			</View>
 		)
 	}

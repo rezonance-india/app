@@ -21,7 +21,7 @@ const ChatModal = ({modalVisible, toggleVisibility,selectedSong}) => {
 	
 	const [searchResults,setSearchResults] = useState(user.friends);
 
-	const {album_image,track_name,track_url,artist_name} = selectedSong;
+	const {album_image,track_name,track_url,artist_name,track_id} = selectedSong;
 
 	const search = (value) => {
         //Searching using regex
@@ -42,7 +42,8 @@ const ChatModal = ({modalVisible, toggleVisibility,selectedSong}) => {
 		artistName:artist_name,
 		albumArt:album_image,
 		to:"lol",
-		trackUrl:track_url
+		trackUrl:track_url,
+		track_id
 	}
 
 	const sendSong = (userId) => {
