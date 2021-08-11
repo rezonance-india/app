@@ -13,6 +13,9 @@
 		"@react-native-async-storage/async-storage": "^1.15.4",
 		"@react-native-community/blur": "^3.6.0",
 		"@react-native-community/slider": "^3.0.3",
+		"@react-native-firebase/app": "^12.4.0",
+		"@react-native-firebase/auth": "^12.4.0",
+		"@react-native-google-signin/google-signin": "^6.0.1",
 		"@react-navigation/bottom-tabs": "^5.11.8",
 		"@react-navigation/material-top-tabs": "^5.3.15",
 		"@react-navigation/native": "^5.9.3",
@@ -30,7 +33,6 @@
 		"react-native-safe-area-context": "^3.1.9",
 		"react-native-screens": "^2.18.0",
 		"react-native-tab-view": "^2.16.0",
-		"react-native-track-player": "^1.2.7",
 		"react-native-unimodules": "^0.12.0",
 		"react-native-vector-icons": "^8.1.0",
 		"react-native-video": "^5.1.1"

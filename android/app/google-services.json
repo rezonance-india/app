@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "645225631821",
+    "project_id": "rezonanceapp",
+    "storage_bucket": "rezonanceapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:645225631821:android:935e4573f0a8c2e6328c04",
+        "android_client_info": {
+          "package_name": "com.rezonanceapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "645225631821-k7km7ier700t1jpf9sgq3ukp1dpeo88o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rezonanceapp",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "645225631821-q2c3ucqautfnmgc0lb8ohk1br3eg1hl1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnLVRQWwKJOC2a11_tOzviyJ-6hehinS4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "645225631821-q2c3ucqautfnmgc0lb8ohk1br3eg1hl1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
