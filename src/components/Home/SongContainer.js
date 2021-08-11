@@ -16,7 +16,7 @@ const SongContainer = ({songtitles,navigation}) => {
 	const {queue} = useContext(GlobalContext);
 
 	useEffect(() => {
-		
+		console.log("in");
 		let rpArray = [];
 		
 		queue.map((song,i) => {
@@ -46,7 +46,7 @@ const SongContainer = ({songtitles,navigation}) => {
 		}).catch((err) => {
 			console.log(err);
 		})
-	},[])
+	},[queue])
 	
 	const renderItems = (songtitle) => {
 	

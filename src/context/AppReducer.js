@@ -37,6 +37,11 @@ export default (state, action) => {
 				...state,
 				messages:action.payload				
 			}
+		case Actions.UPDATE_ISAUTHENTICATED:
+			return {
+				...state,
+				isAuthenticated: action.payload
+			}
 		default:
 			return state;
 	}

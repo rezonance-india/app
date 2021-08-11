@@ -93,24 +93,44 @@ const Recommend = ({modalVisible, toggleVisibility,navig,selectedSong}) => {
 	// console.log("This should print queue 0", queue[0]);
 	useEffect(() => {
 		if(modalVisible){
-			axios
-				.post(
-					`${apiUrl}recommend`,
-					{
-						ref_id: selectedSong ? selectedSong.ref_id : queue[selectedTrack].id,
-					},
-					{
-						headers: {
-							'Content-Type': 'application/json',
+			if(queue[selectedTrack].id === "trending" || selectedSong.ref_id ==="trending"){
+				axios
+					.get(
+						`${apiUrl}trending/tracks`
+						)
+						.then((res) => {
+						let recommArray =[];
+						const ranNo = Math.floor(Math.random() * (res.data.length - 21)) +11;
+						
+						for(let i=ranNo;i<=ranNo+10;i++){
+							recommArray.push(res.data[i]);
+						}
+						setResult(recommArray);
+					})
+					.catch((err) => {
+						console.log(err);
+					});
+			}
+			else{
+				axios
+					.post(
+						`${apiUrl}recommend`,
+						{
+							ref_id: selectedSong ? selectedSong.ref_id : queue[selectedTrack].id,
 						},
-					},
-				)
-				.then((res) => {
-					setResult(res.data);
-				})
-				.catch((err) => {
-					console.log(err);
-				});
+						{
+							headers: {
+								'Content-Type': 'application/json',
+							},
+						},
+					)
+					.then((res) => {
+						setResult(res.data);
+					})
+					.catch((err) => {
+						console.log(err);
+					});
+			}
 		}
 	}, [modalVisible]);
 

@@ -25,7 +25,7 @@ const ViewProfileScreen = ({route}) => {
 	const [refreshing,setRefreshing] = useState(false);
 	const [isSent,setIsSent] = useState(false);
 	const [areFriends,setAreFriends] = useState(false);
-	const {updateUser,token,user} = useContext(GlobalContext);
+	const {updateUser,user} = useContext(GlobalContext);
 
 	const {item} = route.params;
 
@@ -105,12 +105,8 @@ const ViewProfileScreen = ({route}) => {
 		  if(!isSent){
 			//Send request
 			axios.post(`${userApiUrl}/friends/addFriend`,{
-				friendId:currentUser._id
-			},
-			{
-				headers: {
-					Authorization: "Bearer " + token,
-				},
+				friendId:currentUser._id,
+				userId:user._id
 			}).then((res) => {
 				setIsSent(true);
 				setAreFriends(false);
@@ -130,12 +126,8 @@ const ViewProfileScreen = ({route}) => {
 			//Remove from friends 
 			axios.post(`${userApiUrl}/friends/removeFriend`,
 			{
-				friendId:currentUser._id
-			},
-			{
-				headers: {
-					Authorization: "Bearer " + token,
-				},
+				friendId:currentUser._id,
+				userId:user._id
 			})
 			.then(async (res) => {
 				setAreFriends(false);

@@ -8,6 +8,7 @@ const initialState = {
 	token:null,
 	queue: [],
 	color: '',
+	isAuthenticated:false,
 	pausedState:true,
 	selectedTrack:0,
 	messages:[],
@@ -47,14 +48,6 @@ export const GlobalProvider = ({children}) => {
 			})
 		}
 
-		// const fetchPausedState = async () => {
-		// 	const pausedState = await retrieveItem("pausedState");
-		// 	dispatch({
-		// 		type:Actions.UPDATE_PAUSEDSTATE,
-		// 		payload:pausedState
-		// 	})
-		// }
-
 		const fetchSelectedTrack = async () => {
 			const selectedTrack = await retrieveItem("selectedTrack");
 			dispatch({
@@ -71,12 +64,20 @@ export const GlobalProvider = ({children}) => {
 			})
 		}
 
+		const fetchAuthenticatedState = async () => {
+			const authenticatedState = await retrieveItem("isAuthenticated");
+			dispatch({
+				type:Actions.updateIsAuthenticated,
+				payload:authenticatedState
+			})
+		}
+
 		fetchUser();
 		fetchToken();
 		fetchQueue();
-		// fetchPausedState();
 		fetchSelectedTrack();
 		fetchMessages();
+		fetchAuthenticatedState();
 	}, []);
 
 	const updateUser = (userDetails) => {
@@ -114,6 +115,13 @@ export const GlobalProvider = ({children}) => {
 		})
 	}
 
+	const updateIsAuthenticated = (authenticatedState) => {
+		dispatch({
+			type:Actions.UPDATE_ISAUTHENTICATED,
+			payload : authenticatedState
+		})
+	}
+
 	const updateSelectedTrack = (selectedIndex) => {
 		dispatch({
 			type: Actions.UPDATE_SELECTEDTRACK,
@@ -138,13 +146,15 @@ export const GlobalProvider = ({children}) => {
 				pausedState:state.pausedState,
 				selectedTrack:state.selectedTrack,
 				messages:state.messages,
+				isAuthenticated:state.isAuthenticated,
 				updateUser,
 				updateToken,
 				updateQueue,
 				updateColor,
 				updatePausedState,
 				updateSelectedTrack,
-				updateMessages
+				updateMessages,
+				updateIsAuthenticated
 			}}>
 			{children}
 		</GlobalContext.Provider>

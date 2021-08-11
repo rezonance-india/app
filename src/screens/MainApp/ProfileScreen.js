@@ -23,7 +23,7 @@ const ProfileScreen = ({route,navigation}) => {
 	const [listModalVisible,setListModalVisible] = useState(false);
 	const [result,setResult] = useState({});
 	const [refreshing,setRefreshing] = useState(false);
-	const {updateUser,token,user} = useContext(GlobalContext);
+	const {updateUser,user} = useContext(GlobalContext);
 
 	console.log(user,"user");
 
@@ -57,10 +57,8 @@ const ProfileScreen = ({route,navigation}) => {
 	useEffect(() => {
 		const fetchUser = () => {
 			console.log("chala");
-			axios.get(`${userApiUrl}/user/getUser`,{
-				headers: {
-					Authorization: "Bearer " + token,
-				},
+			axios.post(`${userApiUrl}/user/getUser`,{
+				userId:user._id
 			})
 			.then(async (res) => {
 				updateUser(res.data);
@@ -87,7 +85,7 @@ const ProfileScreen = ({route,navigation}) => {
 	useEffect(() => {
 		const getDominantColors = async () => {
 			
-			const colors = await ImageColors.getColors(imageUrl, {
+			const colors = await ImageColors.getColors(user.photo, {
 				fallback: '#7f8c8d',
 			});
 
@@ -155,14 +153,14 @@ const ProfileScreen = ({route,navigation}) => {
 					marginTop:"20%"
 				}}>
 					<Image
-						source={{uri: imageUrl}}
+						source={{uri: user.photo}}
 						style={{
 							borderRadius: 70,
 							width: 140,
 							height: 140,
 						}} />
 					<Text style={styles.text}>
-						{user.name}
+						{user.username}
 					</Text>
 				</View>
 

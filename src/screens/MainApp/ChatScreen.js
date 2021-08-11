@@ -14,7 +14,7 @@ import { GlobalContext } from '../../context/GlobalState';
 
 const ChatScreen = ({navigation}) => {
 	const [searchQuery, setSearchQuery] = useState('');
-	const {token,user,updateMessages,messages} = useContext(GlobalContext);
+	const {user,updateMessages,messages} = useContext(GlobalContext);
 	const [refreshing,setRefreshing] = useState(false);
 
 	const search = () => {
@@ -59,11 +59,9 @@ const ChatScreen = ({navigation}) => {
 	useEffect(() => {
 		if(messages.length === 0 || refreshing){
 			console.log("in")
-			axios.get(`${userApiUrl}/messages/getMessages`,
+			axios.post(`${userApiUrl}/messages/getMessages`,
 			{
-				headers: {
-					Authorization: "Bearer " + token,
-				},
+				userId:user._id
 			})
 			.then(async (res) => {
 				console.log(res.data,"from local messages");

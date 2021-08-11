@@ -9,8 +9,9 @@ import SearchBox from '../Search/SearchBox';
 import LinearGradientComp from '../Shared/LinearGradient';
 
 const AddToPlayListModal = ({modalVisible, toggleVisibility,selectedSong}) => {
-    const {user,updateUser,token} = useContext(GlobalContext);
-    
+    const {user,updateUser} = useContext(GlobalContext);
+	console.log(user,"user");
+
 	console.log(selectedSong,"selected song");
 
 	const {album_image,track_name,track_url,artist_name} = selectedSong
@@ -52,12 +53,8 @@ const AddToPlayListModal = ({modalVisible, toggleVisibility,selectedSong}) => {
 		axios.post(`${userApiUrl}/songs/addSong`,
         {
 			...playlistData,
-			playlistName:playlist
-        },
-        {
-            headers: {
-                Authorization: "Bearer " + token,
-            },
+			playlistName:playlist,
+			userId:user._id
         })
         .then(async (res) => {
             console.log(res.data,"add song in the playlist");

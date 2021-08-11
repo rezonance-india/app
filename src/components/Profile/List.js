@@ -13,18 +13,14 @@ const {width, height} = Dimensions.get('screen');
 
 const List = ({item,friends,pending}) => {
 
-    const {token,updateUser} = useContext(GlobalContext);
+    const {updateUser,user} = useContext(GlobalContext);
 	const [confirmationModalVisible,setConfirmationModalVisible] = useState(false);
 
     const acceptRequest = () => {
         axios.post(`${userApiUrl}/friends/acceptFriendRequest`,
         {
-            friendId:item._id
-        },
-        {
-            headers: {
-                Authorization: "Bearer " + token,
-            },
+            friendId:item._id,
+            userId:user._id
         })
         .then(async (res) => {
             console.log(res.data.friends,"accept user data");
@@ -48,12 +44,8 @@ const List = ({item,friends,pending}) => {
     const rejectRequest = () => {
         axios.post(`${userApiUrl}/friends/rejectRequest`,
         {
-            friendId:item._id
-        },
-        {
-            headers: {
-                Authorization: "Bearer " + token,
-            },
+            friendId:item._id,
+            userId:user._id
         })
         .then(async (res) => {
             console.log(res.data.friends,"remove friend user data");

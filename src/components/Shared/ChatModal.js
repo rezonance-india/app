@@ -11,7 +11,7 @@ import LinearGradient from './LinearGradient';
 
 const ChatModal = ({modalVisible, toggleVisibility,selectedSong}) => {
 	const [searchQuery, setSearchQuery] = useState('');	
-	const {user,updateUser,token,updateMessages} = useContext(GlobalContext);
+	const {user,updateUser,updateMessages} = useContext(GlobalContext);
 	const [isSending,setIsSending] = useState(false);
 
 	// const [messageDetails,setMessageDetails] = useState({
@@ -53,22 +53,16 @@ const ChatModal = ({modalVisible, toggleVisibility,selectedSong}) => {
 		axios.post(`${userApiUrl}/messages/send`,
         {
 			...playlistData,
-			to:userId
-        },
-        {
-            headers: {
-                Authorization: "Bearer " + token,
-            },
+			to:userId,
+			userId:user._id
         })
         .then(async (res) => {
 			setIsSending(false);
 			ToastAndroid.show("Song sent", ToastAndroid.SHORT);
 			//?Todo remove this request later on and optimize in single request only
-			axios.get(`${userApiUrl}/messages/getMessages`,
+			axios.post(`${userApiUrl}/messages/getMessages`,
 			{
-				headers: {
-					Authorization: "Bearer " + token,
-				},
+				userId:user._id
 			})
 			.then(async (res) => {
 				console.log(res.data,"from local messages");
