@@ -3,32 +3,26 @@ import {
   View,
   Text,
   Image,
-  Button,
-  TextInput,
-  KeyboardAvoidingView,
-  SafeAreaView,
   Dimensions,
   Platform,
   ToastAndroid,
-  StatusBar,
 } from 'react-native';
 import {StackActions} from '@react-navigation/native';
-import {enableScreens} from 'react-native-screens';
-import Icon from 'react-native-vector-icons/Ionicons';
 import ImageColors from 'react-native-image-colors';
-
+import auth from '@react-native-firebase/auth';
+import {
+  GoogleSignin,
+  GoogleSigninButton
+} from '@react-native-google-signin/google-signin';
 import LinearGradientComp from '../../components/Shared/LinearGradient';
-import Btn from "../../components/Shared/Btn";
-import InputBox from "../../components/Shared/InputBox"
 
 //Constants
+import { userApiUrl, webClientId } from '../../constants/config';
 
 //Assets
 import LOGO from "../../../assets/rezonance-logo-blue-sq.png"
 import BG from "../../../assets/bg.jpg"
 
-import { ACCENT, colors, GRAY, PRIMARY } from '../../constants/colors';
-import { userApiUrl } from '../../constants/config';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { GlobalContext } from '../../context/GlobalState';
@@ -36,23 +30,9 @@ import { GlobalContext } from '../../context/GlobalState';
 const {height, width} = Dimensions.get('window');
 
 const LoginScreen = ({navigation}) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [submitting, isSubmitting] = useState(false);
+
   const [color,setColor] = useState("");
-
-  const {updateUser,updateToken} = useContext(GlobalContext);
-
-  const handleEmailChange = (text) => setEmail(text);
-  const handlePasswordChange = (text) => setPassword(text);
-
-  const handleForgot = () => {
-    navigation.navigate('ForgotPasswordScene');
-  };
-
-  const handleSignUp = () => {
-    navigation.navigate("SignUpScreen");
-  };
+  const {updateUser,updateIsAuthenticated} = useContext(GlobalContext);
 
 	useEffect(() => {
 		const getDominantColors = async () => {
@@ -71,65 +51,70 @@ const LoginScreen = ({navigation}) => {
 		getDominantColors();
 	}, []);
 
-  const handleLogin = () => {
-	const re=/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    useEffect(() => {
+      GoogleSignin.configure({
+        webClientId
+      });
 
-     if (email) {
-      if (password) {
-        if (email.match(re)) {
-          isSubmitting(true);
-            axios.post(`${userApiUrl}/user/signin`,{
-              email,
-              password
-            }).then(async (result) => {
-              // const {user,token} = res.data;
-              const user = result.data.user;
-              const token = result.data.token;
+      auth().onAuthStateChanged(async(user) => {
+        if (user) {
+          console.log(user,"user");
+          axios.post(`${userApiUrl}/user/signup`,{
+            name:user.displayName,
+            email:user.email,
+            photo:user.photoURL
+          }).then(async (result) => {
+            console.log(result.data,"data");
+            
+            updateUser(result.data.user);
+            await AsyncStorage.setItem('user', JSON.stringify(result.data.user));  
 
-              updateUser(user);
-              updateToken(token);     
-              console.log(token,"from login");
-              await AsyncStorage.setItem('token',JSON.stringify(token));
-              await AsyncStorage.setItem('user', JSON.stringify(user));
-              isSubmitting(false);
-              if (Platform.OS === 'android') {
-                ToastAndroid.show('Login Successful', ToastAndroid.SHORT);
-              }
-                navigation.dispatch(StackActions.replace('MainApp'));                       
-            }).catch((err) => {
-              isSubmitting(false);
-              if (Array.isArray(err.response.data.errors)) {
-                if (Platform.OS === 'android') {
-                  ToastAndroid.show(err.response.data.errors[0].msg, ToastAndroid.SHORT);
-                }
-              }
-            })
-        } else {
-          if (Platform.OS === 'android') {
-            ToastAndroid.show('Invalid Email', ToastAndroid.SHORT);
-          }
+            updateIsAuthenticated(true);
+            await AsyncStorage.setItem('isAuthenticated',JSON.stringify(true));
+
+            if (Platform.OS === 'android') {
+              ToastAndroid.show('Login Successful', ToastAndroid.SHORT);
+            }
+
+            //If username present
+            if(result.data.user.username) {
+              navigation.dispatch(StackActions.replace('MainApp'));
+            }
+            else{
+              navigation.navigate("UsernameScreen");
+            }
+          
+          }).catch((err) => {
+            console.log(err);
+            
+            if (Platform.OS === 'android') {
+              ToastAndroid.show('Network Error', ToastAndroid.SHORT);
+            }
+          })
         }
-      } else {
-        if (Platform.OS === 'android') {
-          ToastAndroid.show('Password can not be empty', ToastAndroid.SHORT);
-        }
-      }
-    } else {
-      if (Platform.OS === 'android') {
-        ToastAndroid.show('Email can not be empty', ToastAndroid.SHORT);
-      }
+    });
+    }, []);
+
+    async function onGoogleButtonPress() {
+    // Get the users ID token
+        const { idToken } = await GoogleSignin.signIn();
+
+        // Create a Google credential with the token
+        const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+        // Sign-in the user with the credential
+        return auth().signInWithCredential(googleCredential);
     }
-  };
 
-  return (
-	    // <SafeAreaView style={{flex: 0.5,flexDirection:"column", justifyContent: 'center'}}>
+
+    return (
 
       <LinearGradientComp
 			  bgcolors={{
-				  // colorOne: PRIMARY,
 				  colorOne: "#004e92",
 				  colorTwo: "#000428",
 			}}>
+
       {/* <KeyboardAvoidingView
         keyboardVerticalOffset={-height / 2}
         style={{flex: 1, alignItems: 'center'}}
@@ -162,77 +147,13 @@ const LoginScreen = ({navigation}) => {
                   fontWeight:"bold"
                 }}>{"Sign In"}</Text>
             </View>
-            <InputBox
-              style={{
-                backgroundColor: "transparent",
-                color: "white",
-                fontSize: 16,
-                borderLeftWidth:0,
-                borderRightWidth:0,
-                borderTopWidth:0,
-                borderWidth: 1,
-              }}
-              label="Email"
-              value={email}
-              onChangeText={handleEmailChange}
-              autoCapitalize={'none'}
-              autoCompleteType={'email'}
-            />
-            <InputBox
-                style={{
-                  backgroundColor: "transparent",
-                  color: "white",
-                  borderLeftWidth:0,
-                  fontSize: 16,
-                  borderRightWidth:0,
-                  borderTopWidth:0,
-                  borderWidth: 1,
-                }}
-              label="Password"
-              value={password}
-              onChangeText={handlePasswordChange}
-              textContentType={'password'}
-              autoCompleteType={'password'}
-              secureTextEntry={true}
-              viewStyle={{marginBottom: 2}}
-            />
-
-            <View style={{flexDirection: 'row-reverse'}}>
-              <Text
-                onPress={handleForgot}
-                style={{
-                  marginTop:25,
-                  color: GRAY.T5,
-                  fontSize: 16,
-                  textDecorationLine: 'underline',
-                }}>
-                {"Forgot Password ?"}
-              </Text>
-            </View>
-
             <View style={{
-              flexDirection:"row",
               justifyContent:"center",
-              marginTop:50
+              alignItems:'center'
             }}>
-              <Btn
-                style={{
-                  width:width/3,
-                  color: "black",
-                  backgroundColor:"rgb(243, 244, 246)"
-                }}
-                title={"Login"}
-                onPress={handleLogin}
-                loading={submitting}
-                loadingText={"Loading"}
-              />
+              <GoogleSigninButton onPress={onGoogleButtonPress} />
 
             </View>
-
-            <Text onPress={handleSignUp} style={{textAlign: 'center', margin:30, color:"white", fontSize: 16}}>
-              {"Don't have an account? Sign Up"}
-              <Icon name="arrow-forward" style={{fontSize: 15}} />
-            </Text>
           </View>
       </LinearGradientComp>
   );
