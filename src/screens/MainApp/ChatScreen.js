@@ -107,7 +107,7 @@ const ChatScreen = ({navigation}) => {
 						}}>
 							
 						<Image
-							source={{uri: sampleImage}}
+							source={{uri: item.to._id !== user._id ? item.to.photo : item.user.photo}}
 							style={{
 								borderRadius: 20,
 								left: 10,
@@ -126,16 +126,16 @@ const ChatScreen = ({navigation}) => {
 								}}>
 								<Text style={styles.options}>
 									{item.to._id !== user._id ? 
-										item.to.name.length > 30
-										? item.to.name.substring(0, 30) +
+										item.to.username.length > 30
+										? item.to.username.substring(0, 30) +
 										'...'
-										: item.to.name
+										: item.to.username
 										: 
 										(
-										item.user.name.length > 30
-										? item.user.name.substring(0, 30) +
+										item.user.username.length > 30
+										? item.user.username.substring(0, 30) +
 										'...'
-										: item.user.name
+										: item.user.username
 										)
 									}
 								</Text>
@@ -153,7 +153,7 @@ const ChatScreen = ({navigation}) => {
 										marginTop: 2,
 										fontFamily: 'NotoSans-Regular',
 									}}>
-									{`${item.chat[item.chat.length-1].user._id === user._id ? "You" : item.chat[item.chat.length-1].user.name} shared ${item.chat[item.chat.length-1].message.trackName}, By ${item.chat[item.chat.length-1].message.artistName}`}.
+									{`${item.chat[item.chat.length-1].user._id === user._id ? "You" : item.chat[item.chat.length-1].user.username} shared ${item.chat[item.chat.length-1].message.trackName}, By ${item.chat[item.chat.length-1].message.artistName}`}.
 								</Text>
 								<Text
 									style={{

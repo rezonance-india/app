@@ -131,16 +131,16 @@ const MessagingScreen = ({route,navigation}) => {
 						fontWeight: '700',
 					}}>
 						{item.to._id !== user._id ? 
-							item.to.name.length > 30
-							? item.to.name.substring(0, 30) +
+							item.to.username.length > 30
+							? item.to.username.substring(0, 30) +
 							'...'
-							: item.to.name
+							: item.to.username
 							: 
 							(
-							item.user.name.length > 30
-							? item.user.name.substring(0, 30) +
+							item.user.username.length > 30
+							? item.user.username.substring(0, 30) +
 							'...'
-							: item.user.name
+							: item.user.username
 							)
 						}
 					</Text>

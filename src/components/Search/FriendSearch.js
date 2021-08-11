@@ -36,7 +36,7 @@ const FriendSearch = ({navigation}) => {
 						}}>
 						<Image
 							source={{
-								uri: "https://i.scdn.co/image/ab67616d0000b2734e4f7c7ec167ec30c1c66e69",
+								uri:item.photo 
 							}}
 							style={{
 								width: 50,
@@ -69,9 +69,9 @@ const FriendSearch = ({navigation}) => {
 									color: colors.text,
 									fontWeight: 'bold',
 								}}>
-								{item.name.length > 30
-									? `${item.name.substring(0, 20)}....`
-									: item.name}
+								{item.username.length > 30
+									? `${item.username.substring(0, 20)}....`
+									: item.username}
 							</Type>
 						</View>
 
