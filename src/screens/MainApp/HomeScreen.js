@@ -21,14 +21,49 @@ import axios from 'axios';
 const {width, height} = Dimensions.get('window');
 
 const HomeScreen = ({navigation}) => {
-	const titles = ['Trending','Recommended For You','Recently Played'];
+	
 	const {queue} = useContext(GlobalContext);
 
+	const titles = queue.length > 0 ? 
+	['Trending','Recommended For You','Recently Played'] : ['Trending','Recommended For You'];
+
 	console.log(queue,"queue");
+
+	const [rp,setRp] = useState([]);
+	const [rfu,setRfu] = useState([]);
+	const [trending,setTrending] = useState([]); 
+
+	useEffect(() => {
+		console.log("in");
+
+		axios
+		.get(
+			`${apiUrl}trending/tracks`
+		)
+		.then((res) => {
+			const result = res.data;
+			
+			const trendingName= [];
+			const rfuName= [];
+
+			for(let i=0,j=5;i<5,j<10;i++,j++){
+				trendingName[i] = result[i];
+				rfuName[j-5] = result[j];
+			}
+
+			setTrending(trendingName);
+			setRfu(rfuName);
+
+		}).catch((err) => {
+			console.log(err);
+		})
+	},[])
 
 	const renderSongs = () => {
 		return titles.map((title, i) => (
 			<SongContainer
+				trending={trending}
+				rfu={rfu}
 				navigation={navigation}
 				songtitles={title}
 				key={i}

@@ -203,7 +203,7 @@ const ViewProfileScreen = ({route}) => {
 					marginTop:"30%"
 				}}>
 					<Image
-						source={{uri: imageUrl}}
+						source={{uri: currentUser.photo}}
 						style={{
 							borderRadius: 70,
 							width: 140,
@@ -217,7 +217,7 @@ const ViewProfileScreen = ({route}) => {
 							...styles.text,
 							top:"-1%"
 						}}>
-                            {currentUser.name}
+                            {currentUser.username}
                         </Text>
                         {currentUser._id !== user._id ? (
                             <Button buttonStyle={{

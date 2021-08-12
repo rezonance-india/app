@@ -7,46 +7,9 @@ import SongCards from './SongCards';
 
 const {width, height} = Dimensions.get('window');
 
-const SongContainer = ({songtitles,navigation}) => {
+const SongContainer = ({songtitles,navigation,rfu,trending}) => {
 	
-	const [rp,setRp] = useState([]);
-	const [rfu,setRfu] = useState([]);
-	const [trending,setTrending] = useState([]); 
-
 	const {queue} = useContext(GlobalContext);
-
-	useEffect(() => {
-		console.log("in");
-		let rpArray = [];
-		
-		queue.map((song,i) => {
-			rpArray.push(song);
-		})
-	
-		setRp(rpArray);
-
-		axios
-		.get(
-			`${apiUrl}trending/tracks`
-		)
-		.then((res) => {
-			const result = res.data;
-			
-			const trendingName= [];
-			const rfuName= [];
-
-			for(let i=0,j=5;i<5,j<10;i++,j++){
-				trendingName[i] = result[i];
-				rfuName[j-5] = result[j];
-			}
-
-			setTrending(trendingName);
-			setRfu(rfuName);
-
-		}).catch((err) => {
-			console.log(err);
-		})
-	},[queue])
 	
 	const renderItems = (songtitle) => {
 	
@@ -63,7 +26,7 @@ const SongContainer = ({songtitles,navigation}) => {
 					})	
 				) :(
 					songtitle === "Recently Played" ? (
-						rp.map((songs,i) => {
+						queue.map((songs,i) => {
 							return <SongCards navigation = {navigation} rp={true} item={songs} key={i} />;
 						})	
 					):(
