@@ -22,7 +22,8 @@ const {width, height} = Dimensions.get('window');
 
 const HomeScreen = ({navigation}) => {
 	
-	const {queue} = useContext(GlobalContext);
+	const {queue,user} = useContext(GlobalContext);
+	// console.log(user,"user");
 
 	const titles = queue.length > 0 ? 
 	['Trending','Recommended For You','Recently Played'] : ['Trending','Recommended For You'];
@@ -87,7 +88,7 @@ const HomeScreen = ({navigation}) => {
 								flexDirection:"row",
 								justifyContent:"space-around"
 							}}>
-								<Text style={{...styles.greeting,marginLeft:-60}}>Good Evening!</Text>
+								<Text style={{...styles.greeting,marginLeft:-60}}>Greetings!</Text>
 							</View>
 						<Text
 							style={{
@@ -95,7 +96,7 @@ const HomeScreen = ({navigation}) => {
 								fontSize: 32,
 								fontFamily: 'NotoSans-Bold',
 							}}>
-							radioactive
+							{user ? user.username : ""}
 						</Text>
 					</View>
 					{renderSongs()}

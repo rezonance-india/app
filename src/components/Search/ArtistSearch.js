@@ -113,8 +113,8 @@ const ArtistSearch = ({navigation}) => {
 	return (
 		<LinearGradientComp
 			bgcolors={{
-				colorOne: colors.search,
-				colorTwo: colors.search,
+				colorOne: "rgb(15, 15, 15)",
+				colorTwo: "rgb(15, 15, 15)",
 			}}>
 			<View
 				style={{

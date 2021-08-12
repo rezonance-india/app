@@ -51,56 +51,75 @@ const Player = (props) => {
 		console.log("loading");
 	}
 
+	
+	useEffect(() => {
+		//Pausing song on coming to end
+		if(currentPosition === totalLength-1 && selectedTrack === queue.length - 1 && !repeatOn){
+			console.log("aagya")
+			MusicControl.updatePlayback({
+				state: MusicControl.STATE_PAUSED,
+			})
+			updatePausedState(true);
+						
+			//Add simmilar songs to the queue
+
+			axios
+				.post(
+					`${apiUrl}recommend`,
+					{
+						ref_id: track.id
+					},
+					{
+						headers: {
+							'Content-Type': 'application/json',
+						},
+					},
+				)
+				.then((res) => {
+					const result = res.data;
+					console.log(result,"recom result");
+
+					const tracks = queue;
+
+					// for(let i =3,j=1;i<res.data.length;i+=3,j++){
+						let i = 4;
+
+						tracks[selectedTrack+1] = {
+							title : result[i].track_name,
+							artist: result[i].artist_name,
+							artwork: result[i].album_image,
+							url: result[i].track_url,
+							id: result[i].track_id,
+						}
+					// }
+
+					console.log(tracks,"tracks from recom");
+
+					updateQueue(tracks);
+						const persistingData = async () => {
+							await AsyncStorage.setItem(
+								'queue',
+								JSON.stringify(tracks),
+						);
+					};
+					persistingData();
+
+					MusicControl.updatePlayback({
+						state: MusicControl.STATE_PLAYING,
+					})		
+					updatePausedState(false);
+				})
+				.catch((err) => {
+					console.log(err);
+				});	
+		}
+
+	},[currentPosition])
+
 	// useEffect(() => {
 	// 	console.log("in recom end songs");
-	// 	if(!repeatOn && selectedTrack === queue.length-1){
-	// 		//Add simmilar songs to the queue
-	// 		console.log("in repeat");
-	// 		axios
-	// 			.post(
-	// 				`${apiUrl}recommend`,
-	// 				{
-	// 					ref_id: track.id
-	// 				},
-	// 				{
-	// 					headers: {
-	// 						'Content-Type': 'application/json',
-	// 					},
-	// 				},
-	// 			)
-	// 			.then((res) => {
-	// 				const result = res.data;
-	// 				console.log(result,"recom result");
-
-	// 				const tracks = queue;
-
-	// 				for(let i =3,j=1;i<res.data.length;i+=3,j++){
-	// 					tracks[selectedTrack+j] = {
-	// 						title : result[i].track_name,
-	// 						artist: result[i].artist_name,
-	// 						artwork: result[i].album_image,
-	// 						url: result[i].track_url,
-	// 						id: result[i].track_id,
-	// 					}
-	// 				}
-
-	// 				console.log(tracks,"tracks from recom");
-
-	// 				updateQueue(tracks);
-	// 					const persistingData = async () => {
-	// 						await AsyncStorage.setItem(
-	// 							'queue',
-	// 							JSON.stringify(tracks),
-	// 					);
-	// 				};
-	// 				persistingData();
-	// 				onForward();
-	// 			})
-	// 			.catch((err) => {
-	// 				console.log(err);
-	// 			});	
-	// 	}
-	// },[selectedTrack])
+	
+	// },[])
 
 	// BackHandler.addEventListener("hardwareBackPress",() => {
 	// 	console.log(currentPosition,"dur");

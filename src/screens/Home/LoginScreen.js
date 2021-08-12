@@ -56,7 +56,7 @@ const LoginScreen = ({navigation}) => {
         webClientId
       });
 
-      auth().onAuthStateChanged(async(user) => {
+      const subscriber = auth().onAuthStateChanged(async(user) => {
         if (user) {
           console.log(user,"user");
           axios.post(`${userApiUrl}/user/signup`,{
@@ -93,6 +93,7 @@ const LoginScreen = ({navigation}) => {
           })
         }
     });
+    return subscriber;
     }, []);
 
     async function onGoogleButtonPress() {

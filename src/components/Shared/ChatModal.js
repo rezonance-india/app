@@ -25,12 +25,15 @@ const ChatModal = ({modalVisible, toggleVisibility,selectedSong}) => {
 
 	const search = (value) => {
         //Searching using regex
+
+		console.log(value);
         let re = new RegExp(`^${value}`);
         
 		let results = [];
 		
         user.friends.map((friend) => {
-            if(friend.name.match(re)){
+			console.log(friend);
+            if(friend.username.match(re)){
                 results.push(friend);
                 setSearchResults(results);
             }
@@ -121,7 +124,7 @@ const ChatModal = ({modalVisible, toggleVisibility,selectedSong}) => {
 											justifyContent: 'flex-start',
 										}}>
 										<Image
-											source={{"uri": "https://i.scdn.co/image/ab67616d0000b27388b3414802727efbacf8dc43"}}
+											source={{"uri": user.photo}}
 											style={{
 												borderRadius: 20,
 												left: 10,
@@ -130,7 +133,7 @@ const ChatModal = ({modalVisible, toggleVisibility,selectedSong}) => {
 											}}
 										/>
 										<Text style={styles.options}>
-											{user.name}
+											{user.username}
 										</Text>
 										<View
 											style={{

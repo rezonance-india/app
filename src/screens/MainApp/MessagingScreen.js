@@ -87,12 +87,10 @@ const MessagingScreen = ({route,navigation}) => {
 		)
 	}
 
-	const sampleImage = "https://images.unsplash.com/photo-1624387832956-1a33ddb5f7f9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2735&q=80"
-
     return (
         <LinearGradientComp
 			bgcolors={{
-				colorOne: PRIMARY,
+				colorOne: "rgb(16, 16, 16)",
 				colorTwo: ACCENT,
 			}}>
                 
@@ -113,7 +111,7 @@ const MessagingScreen = ({route,navigation}) => {
 
 					<Image
 						source={{
-							uri:sampleImage
+							uri:item.to._id !== user._id ? item.to.photo : item.user.photo
 						}}
 						style={{
 							borderRadius: 20,
