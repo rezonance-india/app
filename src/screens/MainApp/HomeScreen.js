@@ -39,7 +39,9 @@ const HomeScreen = ({navigation}) => {
 	return (
 		<LinearGradient
 			bgcolors={{
-				colorOne: PRIMARY,
+				// colorOne: PRIMARY,
+				// colorTwo: ACCENT,
+				colorOne: "rgb(16, 16, 16)",
 				colorTwo: ACCENT,
 			}}>
 			<ScrollView>

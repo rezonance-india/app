@@ -243,7 +243,7 @@ const Player = (props) => {
 				fallback: '#7f8c8d',
 			});
 			if (colors.platform === 'android') {
-				averageColor = colors.average;
+				averageColor = colors.vibrant;
 				setColor(averageColor);
 				updateColor(averageColor);
 			} else {

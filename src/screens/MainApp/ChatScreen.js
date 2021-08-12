@@ -174,7 +174,7 @@ const ChatScreen = ({navigation}) => {
 		<LinearGradientComp
 			bgcolors={{
 				colorOne: '#2c3e50',
-				colorTwo: ACCENT,
+				colorTwo: "rgb(15, 15, 15)",
 			}}>
 			<ScrollView 
 				 refreshControl={

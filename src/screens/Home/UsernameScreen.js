@@ -80,8 +80,8 @@ const UsernameScreen = ({navigation}) => {
 
       <LinearGradientComp
 			  bgcolors={{
-				  colorOne: "#004e92",
-				  colorTwo: "#000428",
+          colorOne: "#2d3436",
+				  colorTwo: "#000000",
 			}}>
 
       {/* <KeyboardAvoidingView
@@ -109,12 +109,12 @@ const UsernameScreen = ({navigation}) => {
               <Text style={{
                   color:"white",
                   fontSize:26,
-                  marginRight: "5%",
+                  // marginRight: "5%",
                   letterSpacing:1,
                   marginBottom:5,
                   alignContent: "center",
                   fontWeight:"bold"
-                }}>{"Add Username"}</Text>
+                }}>{"Pick a username"}</Text>
             </View>
             <InputBox
               style={{
@@ -144,7 +144,7 @@ const UsernameScreen = ({navigation}) => {
                   color: "black",
                   backgroundColor:"rgb(243, 244, 246)"
                 }}
-                title={"Submit"}
+                title={"Let's Go!"}
                 loading={submitting}
                 loadingText={"Loading"}
                 onPress={handleUpdateUsername}

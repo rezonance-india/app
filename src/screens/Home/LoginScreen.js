@@ -111,8 +111,8 @@ const LoginScreen = ({navigation}) => {
 
       <LinearGradientComp
 			  bgcolors={{
-				  colorOne: "#004e92",
-				  colorTwo: "#000428",
+				  colorOne: "#2d3436",
+				  colorTwo: "#000000",
 			}}>
 
       {/* <KeyboardAvoidingView
@@ -124,34 +124,39 @@ const LoginScreen = ({navigation}) => {
         {/* <View style={{backgroundColor:"white", paddingHorizontal: 10}}> */}
           <View
             style={{
-              flex: 0.5,
+              flex: 0.4,
               justifyContent: 'center',
-              marginTop:height/3,
+              marginTop:height/5,
               margin:30,
               minHeight: height / 10,
               maxHeight: height / 2.5,
             }}>
             <View
-              style={{flexDirection: 'column',marginBottom:60, alignItems:"center"}}> 
+              style={{flexDirection: 'column',marginBottom:50, alignItems:"center"}}> 
               <Image
                 source={LOGO}
-                style={{height:height/4, width: width/2}}
+                style={{height:height/4, width: width/2, marginBottom: 50}}
               />
               <Text style={{
                   color:"white",
                   fontSize:26,
-                  marginRight: "5%",
+                  // marginRight: "5%",
                   letterSpacing:1,
-                  marginBottom:5,
+                  marginBottom:20,
                   alignContent: "center",
                   fontWeight:"bold"
-                }}>{"Sign In"}</Text>
+                }}>{"Welcome Aboard!"}</Text>
             </View>
             <View style={{
               justifyContent:"center",
               alignItems:'center'
             }}>
-              <GoogleSigninButton onPress={onGoogleButtonPress} />
+              <GoogleSigninButton
+              style={{ width: 192, height: 48 }}
+              size={GoogleSigninButton.Size.Wide}
+              color={GoogleSigninButton.Color.Dark}
+              onPress={onGoogleButtonPress} 
+              />
 
             </View>
           </View>

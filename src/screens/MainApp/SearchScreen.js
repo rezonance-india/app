@@ -31,7 +31,7 @@ const SearchScreen = () => {
 				},
 				style: {
 					height: height / 12,
-					backgroundColor: colors.search,
+					backgroundColor: "rgb(15, 15, 15)",
 				},
 			}}>
 			<Tab.Screen name="Songs" component={SongSearch} />

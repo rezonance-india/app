@@ -145,8 +145,10 @@ const styles = StyleSheet.create({
 	container: {
 		paddingVertical: 5,
 		flexDirection: 'row',
-		backgroundColor: '#26282b',
-		borderRadius: 10,
+		backgroundColor: 'rgb(23, 23, 23)',
+		// borderRadius: 10,
+		borderTopLeftRadius: 10,
+		borderTopRightRadius: 10,
 		// marginBottom: 2,
 	},
 	mainContainer: {
