@@ -17,7 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const {width, height} = Dimensions.get('screen');
 
-const ViewProfileScreen = ({route}) => {
+const ViewProfileScreen = ({route,navigation}) => {
 	const [color,setColor] = useState(color);
 	const [friendModalVisible, setFriendModalVisible] = useState(false);
 	const [pendingModalVisible,setPendingModalVisible] = useState(false);
@@ -34,8 +34,15 @@ const ViewProfileScreen = ({route}) => {
 	const imageUrl = "https://images.unsplash.com/photo-1500048993953-d23a436266cf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1949&q=80";
 
 	const renderer = ({item}) => {
+		console.log(item,"item");
 		return(
-			<List item = {item} /> 
+			<TouchableOpacity onPress={() => {
+				navigation.navigate("PlaylistScreen",{
+					item
+				})
+			}}>
+				<List item = {item} /> 
+			</TouchableOpacity>
 		)
 	}
 
@@ -58,6 +65,7 @@ const ViewProfileScreen = ({route}) => {
 			})
 			.then(async (res) => {
                 setRefreshing(false);
+				console.log(res.data,"data");
 				setCurrentUser(res.data); 
 			}).catch((err) => {
                 setRefreshing(false);

@@ -226,7 +226,7 @@ const ProfileScreen = ({route,navigation}) => {
 								fontFamily:"NotoSans-Regular",
 								fontSize:20
 							}}>
-								0
+								{user.playlists.length}
 							</Text>
 							
 							<Text style={{

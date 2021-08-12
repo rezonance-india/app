@@ -13,6 +13,8 @@ const {width, height} = Dimensions.get('screen');
 
 const List = ({item,friends,pending}) => {
 
+    console.log(item);
+
     const {updateUser,user} = useContext(GlobalContext);
 	const [confirmationModalVisible,setConfirmationModalVisible] = useState(false);
 
@@ -82,7 +84,9 @@ const List = ({item,friends,pending}) => {
                 {/* <TouchableOpacity onPress = {}> */}
 				<Image
 					source={{
-						uri: "https://images.unsplash.com/photo-1624387832956-1a33ddb5f7f9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2735&q=80",
+						uri: item?.songs && item.songs.length > 0 ? item.songs[0].albumArt : (
+                            item.username ? item.photo : "https://images.unsplash.com/photo-1624387832956-1a33ddb5f7f9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2735&q=80"
+                        )
 					}}
 					style={{
 						width: 50,
@@ -119,14 +123,14 @@ const List = ({item,friends,pending}) => {
                                     marginTop:-6,
                                     fontFamily:"NotoSans-Bold"
                                 }}>
-                                {item.name.length > 30
-                                    ? `${item.name.substring(0, 30)}....`
-                                    : item.name}
+                                {
+                                    item.username ? item.username : item.name 
+                                }
                             </Type>
                         </View>
 					
                         {
-                            pending ? (
+                            pending && user._id === item._id ? (
                                 <View style={{
                                     flexDirection:"row",
                                     flex:1.2,
@@ -136,7 +140,7 @@ const List = ({item,friends,pending}) => {
                                 <Button backColor="transparent" title="Reject" borderColor="white" onPressFunction={rejectRequest}>Delete</Button>
                             </View>
                             ):(
-                                friends ?
+                                friends && user._id === item._id?
                                 (
                                     <Button title="remove" onPressFunction={removeFriend}>Remove</Button>
                                 ): (
