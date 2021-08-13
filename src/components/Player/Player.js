@@ -54,12 +54,11 @@ const Player = (props) => {
 	
 	useEffect(() => {
 		//Pausing song on coming to end
-		if(currentPosition === totalLength-1 && selectedTrack === queue.length - 1 && !repeatOn){
-			console.log("aagya")
-			MusicControl.updatePlayback({
-				state: MusicControl.STATE_PAUSED,
-			})
-			updatePausedState(true);
+		if(selectedTrack === queue.length - 1 && !repeatOn){
+			// MusicControl.updatePlayback({
+			// 	state: MusicControl.STATE_PAUSED,
+			// })
+			// updatePausedState(true);
 						
 			//Add simmilar songs to the queue
 
@@ -104,17 +103,17 @@ const Player = (props) => {
 					};
 					persistingData();
 
-					MusicControl.updatePlayback({
-						state: MusicControl.STATE_PLAYING,
-					})		
-					updatePausedState(false);
+					// MusicControl.updatePlayback({
+					// 	state: MusicControl.STATE_PLAYING,
+					// })		
+					// updatePausedState(false);
 				})
 				.catch((err) => {
 					console.log(err);
 				});	
 		}
 
-	},[currentPosition])
+	},[selectedTrack])
 
 	// useEffect(() => {
 	// 	console.log("in recom end songs");

@@ -4,8 +4,6 @@ import LinearGradientComp from '../../components/Shared/LinearGradient';
 import { ACCENT, colors } from '../../constants/colors';
 import ImageColors from 'react-native-image-colors';
 import List from "../../components/Profile/List"
-import Icon from 'react-native-vector-icons/Ionicons';
-import Type from "../../components/Shared/Type"
 import FriendsModal from '../../components/Profile/FriendsModal';
 import PendingRequestsModal from '../../components/Profile/PendingRequestsModal';
 import { GlobalContext } from '../../context/GlobalState';
@@ -29,12 +27,12 @@ const ViewProfileScreen = ({route,navigation}) => {
 
 	const {item} = route.params;
 
+	//Setting the initial state with the data coming from the route
 	const [currentUser,setCurrentUser] = useState(item);
 
 	const imageUrl = "https://images.unsplash.com/photo-1500048993953-d23a436266cf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1949&q=80";
 
 	const renderer = ({item}) => {
-		console.log(item,"item");
 		return(
 			<TouchableOpacity onPress={() => {
 				navigation.navigate("PlaylistScreen",{
@@ -78,6 +76,7 @@ const ViewProfileScreen = ({route,navigation}) => {
         }		
 	},[refreshing,isSent,areFriends])
 
+	//Function to set the bg gradient simmilar to profile pic's colors
 	useEffect(() => {
 		const getDominantColors = async () => {
 			
@@ -218,23 +217,24 @@ const ViewProfileScreen = ({route,navigation}) => {
 							height: 140,
 					}} />
                     <View style={{
-                        flexDirection:'row',
-						justifyContent:"space-between"
+						alignItems:"center",
+                        flexDirection:'column',
                     }}>
                         <Text style={{
 							...styles.text,
-							top:"-1%"
+							top:"-10%"
 						}}>
                             {currentUser.username}
                         </Text>
-                        {currentUser._id !== user._id ? (
                             <Button buttonStyle={{
-								marginTop:"35%",
-								width:80,
-								height:40,
+								width:100,
+								height:50,
+								marginRight:"15%",
+								borderRadius:8
 							}}
 							textStyles = {{
-								fontSize:18
+								fontSize:20,
+								marginTop:5,
 							}} 
 							title="Send" onPressFunction={genFunc}>
 								{
@@ -242,27 +242,9 @@ const ViewProfileScreen = ({route,navigation}) => {
 										isSent ? "Sent" : "Send"
 									)
 								}
-							</Button>
-                        ):(
-							areFriends ? (
-								<Button buttonStyle={{
-									marginTop:"35%",
-									width:80,
-									height:40,
-								}}
-								textStyles = {{
-									fontSize:18
-								}} 
-								title="Send" onPressFunction={sendRequest}>
-									{}
-							</Button>
-							) :(
-								<>
-								</>
-							)
-						)}    
-                    </View>
-				</View>
+							</Button>    
+                    	</View>
+					</View>
 
 					<View style={{
 						flexDirection:"row",
@@ -294,36 +276,6 @@ const ViewProfileScreen = ({route,navigation}) => {
 							</TouchableOpacity>
 
 						</View>
-
-						{currentUser._id === user._id ? (
-
-							<TouchableOpacity onPress={showPending}>
-
-								<View style={{
-									flexDirection:"column"
-								}}>
-
-									<Text style={{
-										...styles.text,
-										fontFamily:"NotoSans-Regular",
-										fontSize:20,
-										fontWeight:"bold"
-									}}>
-										{currentUser.pending.length}
-									</Text>
-									<Text style={{
-										...styles.text,
-										fontFamily:"NotoSans-Regular",
-										fontSize:20
-									}}>
-										Pending
-									</Text>
-								</View>
-							</TouchableOpacity>
-						):(
-							<>
-							</>
-						)}
 						
 							<View style={{
 								flexDirection:"column"
@@ -351,77 +303,50 @@ const ViewProfileScreen = ({route,navigation}) => {
 					</View>
 			</ScrollView>
 					
-					<ScrollView>
-							{user._id === currentUser._id ? (
-								<>
-								<View style={{
-									flexDirection:"row",
-									marginTop:10
-								}}>
-									<Icon
-										name="create-outline"
-										size={60}
-										style={{marginHorizontal:15, color:"white"}}
-									/>
-									<View
-										style={{
-											flexDirection: 'row',
-											marginTop:15,
-											justifyContent: 'space-between',
-											flex: 1,
-											width: '100%',
-									}}>
-										<TouchableOpacity onPress={createPlaylist}>
-										<Type
-											style={{
-												fontSize: width / 22,
-												width: '90%',
-												color: colors.text,
-												magintTop:-20,
-												fontFamily:"NotoSans-Bold"
-											}}>
-											{"Create Playlist"}
-										</Type>
-										</TouchableOpacity>
-									</View>
-								</View>
-								</>
-							):(
-								<>
-								</>
-							)}
-							
 						{currentUser.playlists.length > 0 ? (
 							<>
-								{user._id !== currentUser._id ? (
-									<Text style={{
-										...styles.text,
-										top:"-5%"
-									}}>
-									Public Playlists
-									</Text>
-								) :(
-									<>
-									</>
-								)} 
-
+							<Text style={{
+								...styles.text,
+								marginLeft:"5%",
+								marginBottom:"5%",
+								marginTop:"-20%"
+							}}>
+								Public Playlists</Text>
+							<ScrollView>	
 								<FlatList
 									keyExtractor={(item) => (item._id).toString()}
 									data= {currentUser.playlists}
 									renderItem={renderer}
 									showsVerticalScrollIndicator={false}
 								/>
+							</ScrollView>
 							</>
 						):(
-							<Text style={{
-								...styles.text,
-								marginHorizontal:"5%",
-								fontFamily:"Noto-Sans"
+							<View style={{
+								marginBottom:"40%",
+								alignItems:"center",
+								flexDirection:'column'
 							}}>
-								The User has no playlist! Send them a song maybe?
-							</Text>
+								<Text style={{
+									color:"white",
+									fontSize:24,
+									opacity:0.8,
+									fontFamily:"Noto-Sans"
+								}}>
+									The User has no playlist! 
+								</Text>
+								<Text style={{
+									color:"white",
+									fontSize:24,
+									opacity:0.8,
+									marginTop:"2%",
+									fontFamily:"Noto-Sans"
+								}}>
+									Send them a song maybe?
+								</Text>
+							</View>
+
 						)}
-					</ScrollView>
 		</LinearGradientComp>
     )
 };
@@ -431,7 +356,6 @@ const styles = StyleSheet.create({
 		fontSize:24,
 		color:"white",
 		marginTop:"10%",
-		marginLeft:"5%",
 		fontFamily:"NotoSans-Bold"
 	}
 })

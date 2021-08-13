@@ -17,11 +17,12 @@ import PlayListModal from '../../components/Profile/PlayListModal';
 const {width, height} = Dimensions.get('screen');
 
 const ProfileScreen = ({route,navigation}) => {
+	const {item} = route.params;
 	const [color,setColor] = useState(color);
 	const [friendModalVisible, setFriendModalVisible] = useState(false);
 	const [pendingModalVisible,setPendingModalVisible] = useState(false);
 	const [listModalVisible,setListModalVisible] = useState(false);
-	const [result,setResult] = useState({});
+	const [result,setResult] = useState(item ? item : {});
 	const [refreshing,setRefreshing] = useState(false);
 	const {updateUser,user} = useContext(GlobalContext);
 
@@ -53,10 +54,9 @@ const ProfileScreen = ({route,navigation}) => {
 		setListModalVisible(true);
 	}
 
-	//?Todo fix on server side, populate both fields name and id in pending 
+	//Fetches the user upon pull to refresh and on first mount
 	useEffect(() => {
 		const fetchUser = () => {
-			console.log("chala");
 			axios.post(`${userApiUrl}/user/getUser`,{
 				userId:user._id
 			})
@@ -82,6 +82,7 @@ const ProfileScreen = ({route,navigation}) => {
 		}
 	},[refreshing])
 
+	//Function to set the bg gradient simmilar to profile pic's colors
 	useEffect(() => {
 		const getDominantColors = async () => {
 			
@@ -172,6 +173,8 @@ const ProfileScreen = ({route,navigation}) => {
 						<View style={{
 							flexDirection:"column",
 						}}>
+
+							{/* Friends Modal*/}
 							<TouchableOpacity onPress={openModal}>
 								<Text style={{
 									...styles.text,
@@ -200,6 +203,8 @@ const ProfileScreen = ({route,navigation}) => {
 								flexDirection:"column"
 							}}>
 
+								{/* Pending Modal*/}
+
 								<Text style={{
 									...styles.text,
 									fontFamily:"NotoSans-Regular",
@@ -221,6 +226,7 @@ const ProfileScreen = ({route,navigation}) => {
 							flexDirection:"column"
 						}}>
 
+							{/* Playlist ( Needs to be removed tho) */}
 							<Text style={{
 								...styles.text,
 								fontFamily:"NotoSans-Regular",

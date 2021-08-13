@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useContext} from 'react';
 import {FlatList, View, Image, Dimensions} from 'react-native';
 import axios from 'axios';
 import {apiUrl, userApiUrl} from '../../constants/config';
@@ -8,20 +8,31 @@ import SearchBox from '../../components/Search/SearchBox';
 import LinearGradientComp from '../Shared/LinearGradient';
 import {colors} from '../../constants/colors';
 import Type from '../Shared/Type';
+import { GlobalContext } from '../../context/GlobalState';
 
 const {width, height} = Dimensions.get('screen');
 
 const FriendSearch = ({navigation}) => {
 	const [result, setResult] = useState([]);
 	const [searchQuery, setSearchQuery] = useState('');
+	
+	const {user} = useContext(GlobalContext); 
+
 	const renderer = ({item}) => {
 		return (
 			<TouchableOpacity
 				activeOpacity={0.75}
 				onPress={() => {
-					navigation.navigate("ViewProfileScreen",{
-                        item
-                    })
+					if(item._id === user._id) {
+						navigation.navigate("ProfileScreen",{
+							item
+						}) 
+					}
+					else{
+						navigation.navigate("ViewProfileScreen",{
+							item
+						})
+					}
 				}}>
 				<View style={{flexDirection: 'row', width: '100%'}}>
 					<View

@@ -6,7 +6,6 @@ import List from "./List"
 
 const FriendsModal = ({modalVisible, toggleVisibility,data}) => {
 
-
     const renderer = ({item}) => {
 		console.log(item);
         return (

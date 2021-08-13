@@ -130,7 +130,7 @@ const List = ({item,friends,pending}) => {
                         </View>
 					
                         {
-                            pending && user._id === item._id ? (
+                            pending  ? (
                                 <View style={{
                                     flexDirection:"row",
                                     flex:1.2,
