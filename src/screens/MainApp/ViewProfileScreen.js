@@ -232,6 +232,7 @@ const ViewProfileScreen = ({route,navigation}) => {
 								marginRight:"15%",
 								borderRadius:8
 							}}
+							backColor = {areFriends ? "red" : ""}
 							textStyles = {{
 								fontSize:20,
 								marginTop:5,

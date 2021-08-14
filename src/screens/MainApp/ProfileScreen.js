@@ -26,7 +26,7 @@ const ProfileScreen = ({route,navigation}) => {
 	const [refreshing,setRefreshing] = useState(false);
 	const {updateUser,user} = useContext(GlobalContext);
 
-	console.log(user,"user");
+	console.log(user.playlists,"user");
 
 	const {imageUrl} = route.params;
 
@@ -127,6 +127,7 @@ const ProfileScreen = ({route,navigation}) => {
 			/>
 
 			<FriendsModal
+				currentUser={user}
 				data={user.friends}
 				toggleVisibility={setFriendModalVisible}
 				modalVisible={friendModalVisible}

@@ -4,12 +4,13 @@ import { userData } from '../../constants/store';
 import LinearGradientComp from '../Shared/LinearGradient';
 import List from "./List"
 
-const FriendsModal = ({modalVisible, toggleVisibility,data}) => {
+const FriendsModal = ({modalVisible, toggleVisibility,data,currentUser}) => {
 
-    const renderer = ({item}) => {
-		console.log(item);
+	console.log(currentUser,"user from");
+
+	const renderer = ({item}) => {
         return (
-            <List friends={true} item = {item} />
+            <List friends={true} item = {item} currentUser={currentUser._id}/>
         )
     }
 	

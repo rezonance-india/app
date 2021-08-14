@@ -11,13 +11,13 @@ import RemoveFriendModal from "./RemoveFriendModal";
 
 const {width, height} = Dimensions.get('screen');
 
-const List = ({item,friends,pending}) => {
-
-    console.log(item);
+const List = ({item,friends,pending,currentUser}) => {
+    
+    console.log(currentUser,"user from");
 
     const {updateUser,user} = useContext(GlobalContext);
 	const [confirmationModalVisible,setConfirmationModalVisible] = useState(false);
-
+    
     const acceptRequest = () => {
         axios.post(`${userApiUrl}/friends/acceptFriendRequest`,
         {
@@ -140,9 +140,9 @@ const List = ({item,friends,pending}) => {
                                 <Button backColor="transparent" title="Reject" borderColor="white" onPressFunction={rejectRequest}>Delete</Button>
                             </View>
                             ):(
-                                friends && user._id === item._id?
+                                friends && currentUser === user._id?
                                 (
-                                    <Button title="remove" onPressFunction={removeFriend}>Remove</Button>
+                                    <Button title="remove" backColor = {friends ? "red" :""} onPressFunction={removeFriend}>Remove</Button>
                                 ): (
                                     <>
                                     </>
