@@ -2,8 +2,9 @@ import React, {Component, useState} from 'react';
 import {defaultString} from './config';
 import Icon from 'react-native-vector-icons/Ionicons';
 import OctIcon from 'react-native-vector-icons/Octicons';
+import RNFetchBlob from 'rn-fetch-blob';
 
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity,PermissionsAndroid, ToastAndroid} from 'react-native';
 import ChatModal from '../Shared/ChatModal';
 import Recommend from '../Shared/Recommend';
 
@@ -27,6 +28,78 @@ const Controls = ({
 	const [chatModalVisible, setChatModalVisible] = useState(false);
 	const [recommendModalVisible, setRecommendModalVisible] = useState(false);
 
+
+  const REMOTE_IMAGE_PATH =
+    selectedSong.track_url
+  	
+	const checkPermission = async () => {
+
+		if (Platform.OS === 'ios') {
+			downloadImage();
+		} else {
+			try {
+				const granted = await PermissionsAndroid.request(
+					PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+					{
+						title: 'Storage Permission Required',
+						message:
+						'App needs access to your storage to download Photos',
+					}
+				);
+
+				if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+					console.log('Storage Permission Granted.');
+					downloadImage();
+				}
+				else {
+					ToastAndroid.show("Storage Permission Not Granted", ToastAndroid.SHORT);
+				}
+			}
+			catch (err) {
+				console.warn(err);
+			}
+		}
+	};
+
+ 	const downloadImage = () => {
+
+    	let media_URL = REMOTE_IMAGE_PATH;    
+    
+    	let ext = getExtention(media_URL);
+    	
+		ext = '.' + ext[0];
+    
+		const { config, fs } = RNFetchBlob;
+		
+		let PictureDir = fs.dirs.PictureDir;
+
+		let options = {
+			fileCache: true,
+			addAndroidDownloads: {
+				useDownloadManager: true,
+				notification: true,
+				path:
+				PictureDir +
+				'/song_' + 
+				selectedSong.track_name +
+				ext,
+				description: 'Media',
+			},
+		};
+
+		config(options)
+			.fetch('GET', media_URL)
+			.then(res => {
+			console.log('res -> ', JSON.stringify(res));
+			ToastAndroid.show("Downloaded Successfully", ToastAndroid.SHORT);
+		});
+  	};
+
+  	const getExtention = filename => {
+    	return /[.]/.exec(filename) ?
+             /[^.]+$/.exec(filename) : undefined;
+  	};
+
 	return (
 		<View style={styles.container}>
 			<View>
@@ -49,13 +122,12 @@ const Controls = ({
 					}}>
 					<TouchableOpacity
 						activeOpacity={0}
-						onPress={onPressShuffle}>
+						onPress={checkPermission}>
 						<Icon
 							size={30}
 							name="download-outline"
 							style={[
-								{color: defaultString.darkColor},
-								shuffleOn ? [] : styles.off,
+								{color: defaultString.darkColor}
 							]}
 						/>
 					</TouchableOpacity>
