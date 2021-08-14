@@ -8,8 +8,9 @@ const SearchBox = ({setSearchQuery, searchQuery, navigation, placeholder}) => {
 	return (
 		<View
 			style={{
-				paddingLeft: 10,
-				marginRight: 20,
+				marginLeft:10,
+				paddingRight:5,
+				marginRight:-100,
 				flexDirection: 'row',
 			}}>
 			<InputBox
@@ -19,15 +20,14 @@ const SearchBox = ({setSearchQuery, searchQuery, navigation, placeholder}) => {
 				placeholder={placeholder}
 				style={{
 					borderRadius: 6,
-					flex:1,
+					flex:0.8,
 					color:"black",
-					opacity:0.6,
-					marginRight:-20,
-					paddingLeft:20,
+					opacity:0.5,
+					marginRight:-150,
 					borderColor:"transparent",
 				}}
 				autoFocus={true}
-				icon={'X'}
+				icon={true}
 				viewStyle={{
 					flex: 1,
 					flexDirection: 'row',

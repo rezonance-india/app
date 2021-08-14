@@ -2,6 +2,7 @@ import React, {useState, useRef} from 'react';
 import {View, Text, TextInput} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { ACCENT, GRAY, PRIMARY } from '../../constants/colors';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 // import {THEME, GRAY, PRIMARY, ACCENT} from '../../constants/colors';
 
@@ -56,29 +57,28 @@ const InputBox = (props) => {
       />
 
 		{props.icon ? (
-			<TouchableOpacity onPress={handleIconPress}>
-				<Text	
-					style={{
-						opacity: 0.8,
-						top: 4,
-						fontSize: 20,
-						color: 'black',
-					}}>
-					{props.icon}
-				</Text>
+			<TouchableOpacity style={{
+        justifyContent:"center",
+        alignItems:"center",
+      }}onPress={handleIconPress}>
+        <Icon
+            size={30}
+            name="close-circle-outline"
+            style={[
+              {
+                marginTop:"20%",
+                color: "black",
+              },
+            ]}
+        />
 			</TouchableOpacity>
 			) : (
-				// <View style={{
-				// 	marginTop:-5
-				// }}>
-				// </View>
-				<>
-				</>
+        <>
+        </>
 		)}
 
       <Text
         style={{
-
           position: 'absolute',
           left:8,
           top: !isFocused && value === '' ? 13 : -20,

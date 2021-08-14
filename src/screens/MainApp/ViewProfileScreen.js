@@ -109,7 +109,7 @@ const ViewProfileScreen = ({route,navigation}) => {
 		
 	  const genFunc = () => {
 		  
-		  if(!isSent){
+		  if(!isSent && !areFriends){
 			//Send request
 			axios.post(`${userApiUrl}/friends/addFriend`,{
 				friendId:currentUser._id,

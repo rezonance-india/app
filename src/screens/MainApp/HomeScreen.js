@@ -22,13 +22,11 @@ const {width, height} = Dimensions.get('window');
 
 const HomeScreen = ({navigation}) => {
 	
-	const {queue,user} = useContext(GlobalContext);
+	const {queue,user,selectedTrack} = useContext(GlobalContext);
 	// console.log(user,"user");
 
 	const titles = queue.length > 0 ? 
 	['Trending','Recommended For You','Recently Played'] : ['Trending','Recommended For You'];
-
-	console.log(queue,"queue");
 
 	const [rp,setRp] = useState([]);
 	const [rfu,setRfu] = useState([]);
@@ -36,6 +34,8 @@ const HomeScreen = ({navigation}) => {
 
 	useEffect(() => {
 		console.log("in");
+
+		const rfuName= [];
 
 		axios
 		.get(
@@ -45,7 +45,6 @@ const HomeScreen = ({navigation}) => {
 			const result = res.data;
 			
 			const trendingName= [];
-			const rfuName= [];
 
 			for(let i=0,j=5;i<5,j<10;i++,j++){
 				trendingName[i] = result[i];
@@ -53,12 +52,40 @@ const HomeScreen = ({navigation}) => {
 			}
 
 			setTrending(trendingName);
-			setRfu(rfuName);
 
 		}).catch((err) => {
 			console.log(err);
 		})
-	},[])
+
+		if(queue.length > 0) {
+			if(queue[selectedTrack].id === "trending"){
+				setRfu(rfuName);
+			}
+			else{
+				axios
+					.post(
+						`${apiUrl}recommend`,
+						{
+							ref_id: queue[selectedTrack].id,
+						},
+						{
+							headers: {
+								'Content-Type': 'application/json',
+							},
+						},
+					)
+					.then((res) => {
+						setRfu(res.data);
+					})
+					.catch((err) => {
+						console.log(err);
+					});
+			}
+		}else{
+			setRfu(rfuName);
+		}
+
+	},[queue])
 
 	const renderSongs = () => {
 		return titles.map((title, i) => (
