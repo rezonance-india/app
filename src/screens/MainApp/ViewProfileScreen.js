@@ -172,7 +172,7 @@ const ViewProfileScreen = ({route,navigation}) => {
     return (
         <LinearGradientComp
 			bgcolors={{
-				colorOne: color ? color : '#7f8c8d',
+				colorOne: '#2b4162',
 				colorTwo: ACCENT,
 			}}>
 			
@@ -207,7 +207,7 @@ const ViewProfileScreen = ({route,navigation}) => {
 					flexDirection:"column",
 					justifyContent:"space-between",
 					alignItems:"center",
-					marginTop:"30%"
+					marginTop:"20%"
 				}}>
 					<Image
 						source={{uri: currentUser.photo}}
@@ -222,14 +222,14 @@ const ViewProfileScreen = ({route,navigation}) => {
                     }}>
                         <Text style={{
 							...styles.text,
-							top:"-10%"
+							top:"-15%"
 						}}>
                             {currentUser.username}
                         </Text>
                             <Button buttonStyle={{
 								width:100,
 								height:50,
-								marginRight:"15%",
+								marginRight:"17.5%",
 								borderRadius:8
 							}}
 							backColor = {areFriends ? "red" : ""}
@@ -310,7 +310,7 @@ const ViewProfileScreen = ({route,navigation}) => {
 								...styles.text,
 								marginLeft:"5%",
 								marginBottom:"5%",
-								marginTop:"-20%"
+								marginTop:"-45%"
 							}}>
 								Public Playlists</Text>
 							<ScrollView>	
