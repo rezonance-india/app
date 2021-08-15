@@ -13,7 +13,6 @@ const {width, height} = Dimensions.get('screen');
 
 const List = ({item,friends,pending,currentUser}) => {
     
-    console.log(currentUser,"user from");
 
     const {updateUser,user} = useContext(GlobalContext);
 	const [confirmationModalVisible,setConfirmationModalVisible] = useState(false);

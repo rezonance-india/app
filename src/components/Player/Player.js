@@ -278,6 +278,8 @@ const Player = (props) => {
 		console.log("in end");
 	}
 
+	console.log(queue,"queue");
+
 	const video = isChanging ? null : (
 		<Video
 			source={{uri: track.url}} // Can be a URL or a local file.

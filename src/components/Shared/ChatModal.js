@@ -12,12 +12,7 @@ import LinearGradient from './LinearGradient';
 const ChatModal = ({modalVisible, toggleVisibility,selectedSong}) => {
 	const [searchQuery, setSearchQuery] = useState('');	
 	const {user,updateUser,updateMessages} = useContext(GlobalContext);
-	const [isSending,setIsSending] = useState(false);
-
-	// const [messageDetails,setMessageDetails] = useState({
-	// 	id:null,
-	// 	text:"Send"
-	// });
+	const [isSending,setIsSending] = useState({});
 	
 	const [searchResults,setSearchResults] = useState(user.friends);
 
@@ -26,13 +21,13 @@ const ChatModal = ({modalVisible, toggleVisibility,selectedSong}) => {
 	const search = (value) => {
         //Searching using regex
 
-		console.log(value);
-        let re = new RegExp(`^${value}`);
-        
+        let re = new RegExp(value, "i")
+
+		console.log(re);
+
 		let results = [];
 		
         user.friends.map((friend) => {
-			console.log(friend);
             if(friend.username.match(re)){
                 results.push(friend);
                 setSearchResults(results);
@@ -50,17 +45,22 @@ const ChatModal = ({modalVisible, toggleVisibility,selectedSong}) => {
 	}
 
 	const sendSong = (userId) => {
-		console.log(userId,"useriD");
-		setIsSending(true);
+		setIsSending({
+			id:userId._id,
+			switch:true
+		});
 		
 		axios.post(`${userApiUrl}/messages/send`,
         {
 			...playlistData,
-			to:userId,
+			to:userId._id,
 			userId:user._id
         })
         .then(async (res) => {
-			setIsSending(false);
+			setIsSending({
+				id:userId._id,
+				switch:false
+			});
 			ToastAndroid.show("Song sent", ToastAndroid.SHORT);
 			//?Todo remove this request later on and optimize in single request only
 			axios.post(`${userApiUrl}/messages/getMessages`,
@@ -76,7 +76,10 @@ const ChatModal = ({modalVisible, toggleVisibility,selectedSong}) => {
 			})
         }).catch((err) => {
             console.log(err,"err");
-			setIsSending(false);
+			setIsSending({
+				id:userId._id,
+				switch:false
+			});
             if (Array.isArray(err.response.data.errors)) {
                 if (Platform.OS === 'android') {
                     ToastAndroid.show("Error sending the message", ToastAndroid.SHORT);
@@ -84,6 +87,8 @@ const ChatModal = ({modalVisible, toggleVisibility,selectedSong}) => {
             }
         })
 	}
+
+	console.log(isSending,"sending");
 
 	return (
 		<Modal
@@ -142,10 +147,12 @@ const ChatModal = ({modalVisible, toggleVisibility,selectedSong}) => {
 												justifyContent: 'flex-end',
 												marginRight: 20,
 											}}>
-											<TouchableOpacity onPress={() => sendSong(user._id)}>
+											<TouchableOpacity onPress={() => sendSong(user)}>
 												<View style={styles.button}>
 													<Text style={styles.textButton}>
-														{isSending ? "Sending.." : "Send"}
+														{
+															isSending.id === user._id && isSending.switch ? "Sending" : "Send"
+														}
 													</Text>
 												</View>
 											</TouchableOpacity>

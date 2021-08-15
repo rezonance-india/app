@@ -6,8 +6,6 @@ import List from "./List"
 
 const FriendsModal = ({modalVisible, toggleVisibility,data,currentUser}) => {
 
-	console.log(currentUser,"user from");
-
 	const renderer = ({item}) => {
         return (
             <List friends={true} item = {item} currentUser={currentUser._id}/>
