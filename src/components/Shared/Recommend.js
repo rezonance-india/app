@@ -93,7 +93,7 @@ const Recommend = ({modalVisible, toggleVisibility,navig,selectedSong}) => {
 	// console.log("This should print queue 0", queue[0]);
 	useEffect(() => {
 		if(modalVisible){
-			if(queue[selectedTrack].id === "trending" || selectedSong.ref_id ==="trending"){
+			if(queue[selectedTrack].id === "trending" || selectedSong?.ref_id ==="trending"){
 				axios
 					.get(
 						`${apiUrl}trending/tracks`
@@ -184,6 +184,7 @@ const styles = StyleSheet.create({
   },
 	modalView:{
 		marginTop:"20%",
+		marginBottom:"20%"
 	},
 	album: {
 		width: (width * 5) / 6.5,
