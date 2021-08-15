@@ -76,13 +76,13 @@ const Recommend = ({modalVisible, toggleVisibility,navig,selectedSong}) => {
 									blurType="regular"
 									blurAmount={60}
 								/> */}
-							{item.track_name.length > 40
-								? `${item.track_name.substring(0, 35)}...`
+							{item.track_name.length > 30
+								? `${item.track_name.substring(0, 30)}...`
 								: item.track_name}
 						</Text>
 						<Text style={{...styles.text, fontSize: 14}}>
 							{item.artist_name.length > 30
-								? `${item.artist_name.substring(0, 25)}...`
+								? `${item.artist_name.substring(0, 30)}...`
 								: item.artist_name}
 						</Text>
 					</ImageBackground>
@@ -154,7 +154,20 @@ const Recommend = ({modalVisible, toggleVisibility,navig,selectedSong}) => {
 						fontSize:24,
 						marginHorizontal:"20%",
 						marginBottom: "10%"
-					}}>Songs like {selectedSong ? selectedSong.track_name : queue[selectedTrack].title}</Text>
+					}}>Songs like {selectedSong ? 
+						selectedSong.track_name.length > 30
+						? selectedSong.track_name.substring(0, 30) +
+						'...'
+						: selectedSong.track_name
+						: 
+						(
+						 queue[selectedTrack].title.length> 30
+						? queue[selectedTrack].title.substring(0, 30) +
+						'...'
+						: queue[selectedTrack].title
+						)
+					}
+					</Text>
 				<FlatList
 					keyExtractor={(item) => item.track_id}
 					data={result}
