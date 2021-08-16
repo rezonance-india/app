@@ -116,7 +116,7 @@ const Player = (props) => {
 				});	
 		}
 
-	},[selectedTrack,loading])
+	},[selectedTrack, loading, repeatOn])
 
 	// useEffect(() => {
 	// 	console.log("in recom end songs");
