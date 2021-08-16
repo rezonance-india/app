@@ -12,6 +12,7 @@ const initialState = {
 	pausedState:true,
 	selectedTrack:0,
 	messages:[],
+	likedSongs:[]
 };
 
 const retrieveItem = async (key) => {
@@ -67,8 +68,16 @@ export const GlobalProvider = ({children}) => {
 		const fetchAuthenticatedState = async () => {
 			const authenticatedState = await retrieveItem("isAuthenticated");
 			dispatch({
-				type:Actions.updateIsAuthenticated,
+				type:Actions.UPDATE_ISAUTHENTICATED,
 				payload:authenticatedState
+			})
+		}
+
+		const fetchLikedSongs = async () => {
+			const likedSongs = await retrieveItem("likedSongs");
+			dispatch({
+				type:Actions.UPDATE_LIKEDSONGS,
+				payload:likedSongs
 			})
 		}
 
@@ -77,6 +86,7 @@ export const GlobalProvider = ({children}) => {
 		fetchQueue();
 		fetchSelectedTrack();
 		fetchMessages();
+		fetchLikedSongs();
 		fetchAuthenticatedState();
 	}, []);
 
@@ -136,6 +146,13 @@ export const GlobalProvider = ({children}) => {
 		})
 	}
 
+	const updateLikedSongs = (likedSongs) => {
+		dispatch({
+			type:Actions.UPDATE_LIKEDSONGS,
+			payload:likedSongs
+		})
+	}
+ 
 	return (
 		<GlobalContext.Provider
 			value={{
@@ -147,6 +164,7 @@ export const GlobalProvider = ({children}) => {
 				selectedTrack:state.selectedTrack,
 				messages:state.messages,
 				isAuthenticated:state.isAuthenticated,
+				likedSongs:state.likedSongs,
 				updateUser,
 				updateToken,
 				updateQueue,
@@ -154,6 +172,7 @@ export const GlobalProvider = ({children}) => {
 				updatePausedState,
 				updateSelectedTrack,
 				updateMessages,
+				updateLikedSongs,
 				updateIsAuthenticated
 			}}>
 			{children}

@@ -42,6 +42,11 @@ export default (state, action) => {
 				...state,
 				isAuthenticated: action.payload
 			}
+		case Actions.UPDATE_LIKEDSONGS:
+			return{
+				...state,
+				likedSongs:action.payload
+			}
 		default:
 			return state;
 	}

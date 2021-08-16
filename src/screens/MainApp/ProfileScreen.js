@@ -24,9 +24,7 @@ const ProfileScreen = ({route,navigation}) => {
 	const [listModalVisible,setListModalVisible] = useState(false);
 	const [result,setResult] = useState(item ? item : {});
 	const [refreshing,setRefreshing] = useState(false);
-	const {updateUser,user} = useContext(GlobalContext);
-
-	console.log(user.playlists,"user");
+	const {updateUser,user,likedSongs} = useContext(GlobalContext);
 
 	const {imageUrl} = route.params;
 
@@ -41,6 +39,11 @@ const ProfileScreen = ({route,navigation}) => {
 			</TouchableOpacity>	
 		)
 	}
+
+	console.log(likedSongs,"likedsongs");
+
+
+	console.log(user.playlists,"user");
 
 	const openModal = () => {
 		setFriendModalVisible(true);
@@ -288,6 +291,91 @@ const ProfileScreen = ({route,navigation}) => {
 							renderItem={renderer}
 							showsVerticalScrollIndicator={false}
 						/>
+
+						{/* Liked Songs (Need to use with resuable code only) */}
+						
+						<TouchableOpacity onPress={() => {
+
+							const item = {_id:123,songs:likedSongs,name:"Liked Songs"};
+
+							navigation.navigate("PlaylistScreen",{
+								item
+							})
+						}}>
+
+        				<View style={{flexDirection: 'row', width: '100%'}}>
+
+						<View
+						style={{
+							width: width / 7,
+							height: width / 7,
+							marginVertical: 7,
+							marginHorizontal: 15,
+							justifyContent: 'center',
+							alignItems: 'center',
+						}}>
+
+						<Image
+							source={{
+								uri: likedSongs?.length > 0 ? likedSongs[0].albumArt : "https://images.unsplash.com/photo-1624387832956-1a33ddb5f7f9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2735&q=80"
+							}}
+							style={{
+								width: 50,
+								height: 50,
+								borderRadius: 6,
+								overflow: 'hidden',
+							}}
+							/>
+					</View>
+						<View
+							style={{
+								marginVertical: 10,
+								marginHorizontal: 15,
+								justifyContent: 'space-around',
+							flex: 1,
+						}}>
+
+						<View
+							style={{
+								flexDirection: 'row',
+								marginTop: 5,
+								justifyContent: 'space-between',
+								flex:1,
+								width: '100%',
+							}}>
+
+							<View style={{
+								flex:1
+							}}>
+
+								<Type
+									style={{
+										fontSize: width / 22,
+										width: '80%',
+										color: "white",
+										marginTop:-6,
+										fontFamily:"NotoSans-Bold"
+									}}>
+									{"Liked Songs"}
+								</Type>
+                        	</View>
+						</View>
+						
+					<Type
+						style={{
+							fontSize: width / 24,
+							color: '#D3D3D3',
+							marginTop:-12,
+							fontFamily:"NotoSans"
+						}}
+						>
+					{
+						`${likedSongs.length} ${likedSongs.length> 1 ? "songs" : "song"}`
+                    }
+					</Type>
+				</View>
+					</View>
+				</TouchableOpacity>
 					</ScrollView>
 			</ScrollView>
 		</LinearGradientComp>

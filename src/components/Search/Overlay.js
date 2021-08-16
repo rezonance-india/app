@@ -23,7 +23,7 @@ const Overlay = ({toggleVisibility, modalVisible, data, selectedSong,navig}) => 
 	const [liked, setLiked] = useState(false);
 	const [heartIcon, setHeartIcon] = useState('heart-outline');
 	const [chatModalVisible, setChatModalVisible] = useState(false);
-	const {queue, updateQueue} = useContext(GlobalContext);
+	const {queue, updateQueue,likedSongs,updateLikedSongs} = useContext(GlobalContext);
 	const [recommendModalVisible, setRecommendModalVisible] = useState(false);
 	const [addToPlaylistModalVisible,setAddToPlaylistModalVisible] = useState(false);
 	
@@ -33,9 +33,30 @@ const Overlay = ({toggleVisibility, modalVisible, data, selectedSong,navig}) => 
 			icon_name: heartIcon,
 			onPress: () => {
 				//Todo Async State updates
+
 				setLiked(!liked);
 				liked ? setHeartIcon('heart') : setHeartIcon('heart-outline');
 				if(liked) {
+					const trackDetails = likedSongs;
+					trackDetails.push({
+						trackName: selectedSong.track_name,
+						artistName: selectedSong.artist_name,
+						albumArt: selectedSong.album_image,
+						trackUrl: selectedSong.track_url,
+						_id:selectedSong.ref_id
+					});
+
+					updateLikedSongs(trackDetails);
+
+					const persistingData = async () => {
+						await AsyncStorage.setItem(
+							'likedSongs',
+							JSON.stringify(trackDetails),
+						);
+					};
+
+					persistingData();
+
 					ToastAndroid.show("Added to liked songs",ToastAndroid.SHORT);
 				}
 				else {
