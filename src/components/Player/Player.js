@@ -31,6 +31,7 @@ const Player = (props) => {
 	const [isChanging, setIsChanging] = useState(false);
 	const [color, setColor] = useState('');
 	const [liked, setLiked] = useState(false);
+	const [loading,setLoading] = useState(false);
 	const audioElement = useRef(null);
 
 	const selectedSongData = {
@@ -42,6 +43,7 @@ const Player = (props) => {
 	}
 
 	const setDuration = (data) => {
+		setLoading(false);
 		// console.log(data.duration,"dur");
 		console.log("load ends");
 		setTotalLength(Math.floor(data.duration));
@@ -49,12 +51,13 @@ const Player = (props) => {
 
 	const loadingStarts = () => {
 		console.log("loading");
+		setLoading(true);
 	}
 
 	
 	useEffect(() => {
 		//Pausing song on coming to end
-		if(selectedTrack === queue.length - 1 && !repeatOn){
+		if(selectedTrack === queue.length - 1 && !repeatOn && loading){
 			// MusicControl.updatePlayback({
 			// 	state: MusicControl.STATE_PAUSED,
 			// })
@@ -113,7 +116,7 @@ const Player = (props) => {
 				});	
 		}
 
-	},[selectedTrack])
+	},[selectedTrack,loading])
 
 	// useEffect(() => {
 	// 	console.log("in recom end songs");
