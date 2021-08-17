@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useContext} from 'react';
 
 import {Dimensions, Text} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -13,12 +13,15 @@ import ChatScreen from '../../screens/MainApp/ChatScreen';
 import SearchScreen from '../../screens/MainApp/SearchScreen';
 import PlayerScreen from '../../screens/MainApp/PlayerScreen';
 import ProfileScreen from '../../screens/MainApp/ProfileScreen';
+import { GlobalContext } from '../../context/GlobalState';
 
 const Tab = createBottomTabNavigator();
 
 const {width, height} = Dimensions.get('window');
 
+
 const BottomNavigator = ({navigation}) => {
+	const {queue} = useContext(GlobalContext);
 	return (
 		<>
 			<Tab.Navigator
@@ -57,7 +60,14 @@ const BottomNavigator = ({navigation}) => {
 				}}>
 				<Tab.Screen name="HomeScreen" component={HomeScreen} />
 				<Tab.Screen name="SearchScreen" component={SearchScreen} />
-				<Tab.Screen name="PlayerScreen" component={PlayerScreen}/>
+				{
+					queue.length > 0 ? (
+						<Tab.Screen name="PlayerScreen" component={PlayerScreen} />
+					):(
+						<>
+						</>
+					)
+				}
 				<Tab.Screen name="ChatScreen" component={ChatScreen} />
 				<Tab.Screen name="ProfileScreen" component={ProfileScreen} initialParams={{
 					imageUrl:"https://images.unsplash.com/photo-1500048993953-d23a436266cf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1949&q=80"
