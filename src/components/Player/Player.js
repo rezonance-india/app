@@ -1,5 +1,5 @@
 import React, {useState, useRef, useEffect, useContext} from 'react';
-import {Text, View, Image, StyleSheet, BackHandler, TouchableOpacity} from 'react-native';
+import {Text, View, Image, StyleSheet, BackHandler, TouchableOpacity, ToastAndroid} from 'react-native';
 import Video from 'react-native-video';
 import ImageColors from 'react-native-image-colors';
 import MusicControl, { Command } from 'react-native-music-control'
@@ -20,7 +20,7 @@ import axios from 'axios';
 const Player = (props) => {
 	//Context
 	const {updateColor,selectedTrack,updateSelectedTrack,queue,updateQueue,
-		updatePausedState,pausedState
+		updatePausedState,pausedState,likedSongs,updateLikedSongs
 	} = useContext(GlobalContext);
 
 	// const [paused, setPaused] = useState(true);
@@ -44,24 +44,25 @@ const Player = (props) => {
 
 	const setDuration = (data) => {
 		setLoading(false);
-		// console.log(data.duration,"dur");
-		console.log("load ends");
 		setTotalLength(Math.floor(data.duration));
 	};
 
 	const loadingStarts = () => {
-		console.log("loading");
 		setLoading(true);
 	}
 
-	
+	useEffect(() => {
+		likedSongs.map((song) => {
+			if(song._id == queue[selectedTrack].id){
+				setLiked(true);
+				return;
+			}
+		})
+	},[])
+
 	useEffect(() => {
 		//Pausing song on coming to end
 		if(selectedTrack === queue.length - 1 && !repeatOn && loading){
-			// MusicControl.updatePlayback({
-			// 	state: MusicControl.STATE_PAUSED,
-			// })
-			// updatePausedState(true);
 						
 			//Add simmilar songs to the queue
 
@@ -79,7 +80,6 @@ const Player = (props) => {
 				)
 				.then((res) => {
 					const result = res.data;
-					console.log(result,"recom result");
 
 					const tracks = queue;
 
@@ -95,8 +95,6 @@ const Player = (props) => {
 						}
 					// }
 
-					console.log(tracks,"tracks from recom");
-
 					updateQueue(tracks);
 						const persistingData = async () => {
 							await AsyncStorage.setItem(
@@ -105,11 +103,6 @@ const Player = (props) => {
 						);
 					};
 					persistingData();
-
-					// MusicControl.updatePlayback({
-					// 	state: MusicControl.STATE_PLAYING,
-					// })		
-					// updatePausedState(false);
 				})
 				.catch((err) => {
 					console.log(err);
@@ -118,15 +111,6 @@ const Player = (props) => {
 
 	},[selectedTrack, loading, repeatOn])
 
-	// useEffect(() => {
-	// 	console.log("in recom end songs");
-	
-	// },[])
-
-	// BackHandler.addEventListener("hardwareBackPress",() => {
-	// 	console.log(currentPosition,"dur");
-	//  	setIsChanging(false);
-	//  })
 
 	//?Todo use useMemo in Controls' child components and you dont want them to rerender
 	//?todo when this parent component re renders(upon every 250ms of playing)
@@ -243,6 +227,56 @@ const Player = (props) => {
 		// }
 	};
 
+	const pressLike = () => {
+		if(!liked) {
+			setLiked(true);
+			
+			const trackDetails = likedSongs;
+			trackDetails.push({
+				trackName: queue[selectedTrack].title,
+				artistName: queue[selectedTrack].artist,
+				albumArt: queue[selectedTrack].artwork,
+				trackUrl: queue[selectedTrack].url,
+				_id:queue[selectedTrack].id
+			});
+
+			updateLikedSongs(trackDetails);
+
+			const persistingData = async () => {
+				await AsyncStorage.setItem(
+					'likedSongs',
+					JSON.stringify(trackDetails),
+				);
+			};
+
+			persistingData();
+
+			ToastAndroid.show("Added to liked songs",ToastAndroid.SHORT);
+		}
+		else {
+			setLiked(false);
+
+			let trackDetails = likedSongs;
+		
+			let newLikedSongs  = trackDetails.filter((song) => {
+				song._id == queue[selectedTrack].id
+			})
+
+			updateLikedSongs(newLikedSongs);
+
+			const persistingData = async () => {
+				await AsyncStorage.setItem(
+					'likedSongs',
+					JSON.stringify(newLikedSongs),
+				);
+			};
+
+			persistingData();
+
+			ToastAndroid.show("Removed from liked songs",ToastAndroid.SHORT);
+		}
+	}
+
 	const videoError = (data) => {
 		console.log(data, 'error');
 	};
@@ -280,8 +314,6 @@ const Player = (props) => {
 	const onEnd = () => {
 		console.log("in end");
 	}
-
-	console.log(queue,"queue");
 
 	const video = isChanging ? null : (
 		<Video
@@ -322,7 +354,7 @@ const Player = (props) => {
 			/>
 			<Controls
 				selectedSong={selectedSongData}
-				onPressLike={() => setLiked((liked) => !liked)}
+				onPressLike={pressLike}
 				liked={liked}
 				onPressRepeat={() => setRepeatOn((repeatOn) => !repeatOn)}
 				repeatOn={repeatOn}

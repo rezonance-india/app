@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext,useEffect} from 'react';
 import {
 	Modal,
 	View,
@@ -27,16 +27,29 @@ const Overlay = ({toggleVisibility, modalVisible, data, selectedSong,navig}) => 
 	const [recommendModalVisible, setRecommendModalVisible] = useState(false);
 	const [addToPlaylistModalVisible,setAddToPlaylistModalVisible] = useState(false);
 	
+	useEffect(() => {
+		if(modalVisible){
+			likedSongs.map((song) => {
+				if(song._id == selectedSong.ref_id){
+					setLiked(true);
+					setHeartIcon("heart");
+					return;
+				}
+			})
+		}
+	},[modalVisible,selectedSong])
+
 	const options = [
 		{
-			name: 'Like',
+			name: liked ? 'Remove from Liked Songs' : 'Add to Liked Songs',
 			icon_name: heartIcon,
 			onPress: () => {
 				//Todo Async State updates
-
-				setLiked(!liked);
-				liked ? setHeartIcon('heart') : setHeartIcon('heart-outline');
-				if(liked) {
+				
+				if(!liked) {
+					setLiked(true);
+					setHeartIcon('heart'); 
+					
 					const trackDetails = likedSongs;
 					trackDetails.push({
 						trackName: selectedSong.track_name,
@@ -60,9 +73,33 @@ const Overlay = ({toggleVisibility, modalVisible, data, selectedSong,navig}) => 
 					ToastAndroid.show("Added to liked songs",ToastAndroid.SHORT);
 				}
 				else {
+					setLiked(false);
+					setHeartIcon('heart-outline');
+
+					let trackDetails = likedSongs;
+				
+					console.log(trackDetails,"current liked");
+
+					let newLikedSongs  = trackDetails.filter((song) => {
+						song._id == selectedSong.ref_id
+					})
+
+					console.log(newLikedSongs,"new liked songs");
+
+					updateLikedSongs(newLikedSongs);
+
+					const persistingData = async () => {
+						await AsyncStorage.setItem(
+							'likedSongs',
+							JSON.stringify(newLikedSongs),
+						);
+					};
+
+					persistingData();
+
 					ToastAndroid.show("Removed from liked songs",ToastAndroid.SHORT);
 				}
-			},
+			}
 		},
 		{
 			name: 'Add to queue',

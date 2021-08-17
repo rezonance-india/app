@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {defaultString} from './config';
 import Icon from 'react-native-vector-icons/Ionicons';
 import OctIcon from 'react-native-vector-icons/Octicons';
@@ -7,6 +7,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 import {View, Text, StyleSheet, Image, TouchableOpacity,PermissionsAndroid, ToastAndroid} from 'react-native';
 import ChatModal from '../Shared/ChatModal';
 import Recommend from '../Shared/Recommend';
+import { GlobalContext } from '../../context/GlobalState';
 
 const Controls = ({
 	selectedSong,
@@ -28,9 +29,7 @@ const Controls = ({
 	const [chatModalVisible, setChatModalVisible] = useState(false);
 	const [recommendModalVisible, setRecommendModalVisible] = useState(false);
 
-
-  const REMOTE_IMAGE_PATH =
-    selectedSong.track_url
+  	const REMOTE_IMAGE_PATH = selectedSong.track_url
   	
 	const checkPermission = async () => {
 
@@ -133,10 +132,7 @@ const Controls = ({
 					</TouchableOpacity>
 
 					<TouchableOpacity
-						onPress={() => {
-							console.log('lol');
-							onPressLike();
-						}}>
+						onPress={onPressLike}>
 						{liked ? (
 							<Icon
 								size={30}

@@ -6,17 +6,19 @@ import {
 	TouchableOpacity,
 	Dimensions,
 	Image,
+	ToastAndroid,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {GlobalContext} from '../../context/GlobalState';
 import {defaultString} from '../Player/config';
 import MusicControl from 'react-native-music-control'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const {width, height} = Dimensions.get('window');
 	
 const MiniPlayer = ({nav}) => {
 	const [liked, setLiked] = useState(false);
-	const {queue,selectedTrack,updatePausedState,pausedState} = useContext(GlobalContext);
+	const {queue,selectedTrack,updatePausedState,pausedState,likedSongs,updateLikedSongs} = useContext(GlobalContext);
 	
 	const onPressPlay = () => {
 		updatePausedState(false);
@@ -33,7 +35,57 @@ const MiniPlayer = ({nav}) => {
 	}
 
 	const onPressLike = () => {
-		setLiked((liked) => !liked);
+		if(!liked) {
+			setLiked(true);
+			
+			const trackDetails = likedSongs;
+			trackDetails.push({
+				trackName: queue[selectedTrack].title,
+				artistName: queue[selectedTrack].artist,
+				albumArt: queue[selectedTrack].artwork,
+				trackUrl: queue[selectedTrack].url,
+				_id:queue[selectedTrack].id
+			});
+
+			updateLikedSongs(trackDetails);
+
+			const persistingData = async () => {
+				await AsyncStorage.setItem(
+					'likedSongs',
+					JSON.stringify(trackDetails),
+				);
+			};
+
+			persistingData();
+
+			ToastAndroid.show("Added to liked songs",ToastAndroid.SHORT);
+		}
+		else {
+			setLiked(false);
+
+			let trackDetails = likedSongs;
+		
+			console.log(trackDetails,"current liked");
+
+			let newLikedSongs  = trackDetails.filter((song) => {
+				song._id == queue[selectedTrack].id
+			})
+
+			console.log(newLikedSongs,"new liked songs");
+
+			updateLikedSongs(newLikedSongs);
+
+			const persistingData = async () => {
+				await AsyncStorage.setItem(
+					'likedSongs',
+					JSON.stringify(newLikedSongs),
+				);
+			};
+
+			persistingData();
+
+			ToastAndroid.show("Removed from liked songs",ToastAndroid.SHORT);
+		}
 	};
 	
 	const openMiniPlayer = () => {
