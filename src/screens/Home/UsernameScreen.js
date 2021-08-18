@@ -68,10 +68,10 @@ const UsernameScreen = ({navigation}) => {
         }
         navigation.dispatch(StackActions.replace('MainApp'));   
       }).catch((err) => {
-        console.log(err.response.data,"error");
+        console.log(err.response.data.message,"error");
         isSubmitting(false);
         if (Platform.OS === 'android') {
-          ToastAndroid.show("network", ToastAndroid.SHORT);
+          ToastAndroid.show(err?.response?.data?.message, ToastAndroid.SHORT);
         }
       })        
   };

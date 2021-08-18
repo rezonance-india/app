@@ -58,6 +58,9 @@ const Player = (props) => {
 				return;
 			}
 		})
+		if(queue[selectedTrack]?.url.slice((queue[selectedTrack].url.length)-11,queue[selectedTrack.length]) == "None_96.mp4") {
+			ToastAndroid.show("This song is currently not available", ToastAndroid.LONG);		
+		}
 	},[])
 
 	useEffect(() => {

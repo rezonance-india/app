@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import { result } from 'lodash';
 import React, {useState,useContext} from 'react';
 import {Modal, Text, View, StyleSheet, Image, ScrollView, TouchableOpacity, ToastAndroid} from 'react-native';
 import { userApiUrl } from '../../constants/config';
@@ -32,6 +33,13 @@ const ChatModal = ({modalVisible, toggleVisibility,selectedSong}) => {
                 results.push(friend);
                 setSearchResults(results);
             }
+			else if(value == ""){
+				results.push(friend);
+                setSearchResults(results);
+			}
+			else{
+				console.log("lol");
+			}
         })
 	};
 
