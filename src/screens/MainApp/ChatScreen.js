@@ -33,19 +33,19 @@ const ChatScreen = ({navigation}) => {
 		const diff = parseInt(((today - d)/60000));
 
 		if(diff>0 && diff<60){
-			return `${diff} mins ago`;
+			return `${diff}mins`;
 		}
 		else if(diff > 60 && diff < 1440){
-			return `${parseInt(diff/60)} hrs ago`
+			return `${parseInt(diff/60)} hours`
 		}
 		else if(diff > 1440 && diff < 10800){
-			return `${parseInt(diff/1440)} days ago`
+			return `${parseInt(diff/1440)} days`
 		}
 		else if(diff > 10080 && diff < 43200){
-			return `${parseInt(diff/10080)} weeks ago`
+			return `${parseInt(diff/10080)} weeks`
 		}
 		else if(diff > 43200 && diff < 518400){
-			return `${parseInt(diff/43200)} months ago`
+			return `${parseInt(diff/43200)} months`
 		}
 		else{
 			return `${diff} secs ago`
@@ -89,15 +89,12 @@ const ChatScreen = ({navigation}) => {
 			})
 		}
 
-		const sampleImage ="https://images.unsplash.com/photo-1624387832956-1a33ddb5f7f9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2735&q=80";
-
 		return (
 			<View
 				key={item._id}
 				style={{
 					flexDirection: 'column',
-					marginTop: '7.5%',
-					marginBottom: '7.5%',
+					marginVertical:"7%",
 					height: '10%',
 				}}>
 			
@@ -124,7 +121,10 @@ const ChatScreen = ({navigation}) => {
 								style={{
 									flexDirection: 'row',
 								}}>
-								<Text style={styles.options}>
+								<Text style={{
+									...styles.options,
+									marginLeft:30
+								}}>
 									{item.to._id !== user._id ? 
 										item.to.username.length > 30
 										? item.to.username.substring(0, 30) +
@@ -150,6 +150,7 @@ const ChatScreen = ({navigation}) => {
 									style={{
 										...styles.options,
 										fontSize: 14,
+										marginLeft:30,
 										marginTop: 2,
 										fontFamily: 'NotoSans-Regular',
 									}}>
@@ -158,7 +159,8 @@ const ChatScreen = ({navigation}) => {
 								<Text
 									style={{
 										...styles.options,
-										marginLeft: 5,
+										marginRight:5,
+										opacity:0.75,
 										marginTop: -25,
 									}}>
 									{dateFunc(item.chat[item.chat.length-1].messageSentAt)}
@@ -241,7 +243,6 @@ const styles = StyleSheet.create({
 		color: 'white',
 		fontFamily: 'NotoSans-Bold',
 		fontSize: 16,
-		marginLeft: 30,
 	},
 	button: {
 		backgroundColor: '#09a0eb',
