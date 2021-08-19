@@ -16,7 +16,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const {width, height} = Dimensions.get('window');
 	
-const MiniPlayer = ({nav}) => {
+const MiniPlayer = (props) => {
 	const [liked, setLiked] = useState(false);
 	const {queue,selectedTrack,updatePausedState,pausedState,likedSongs,updateLikedSongs} = useContext(GlobalContext);
 	
@@ -33,6 +33,25 @@ const MiniPlayer = ({nav}) => {
 		})
 		updatePausedState(true);
 	}
+
+	useEffect(() => {
+			let c=0;
+			
+			console.log("in mini");
+
+			likedSongs.map((song) => {
+				if(song._id == queue[selectedTrack]?.id){
+					setLiked(true);
+					c++;
+					return;
+				}	
+			})
+
+			if(c==0){
+				setLiked(false);
+			}
+	},[props])
+
 
 	const onPressLike = () => {
 		if(!liked) {
@@ -68,7 +87,7 @@ const MiniPlayer = ({nav}) => {
 			console.log(trackDetails,"current liked");
 
 			let newLikedSongs  = trackDetails.filter((song) => {
-				song._id == queue[selectedTrack].id
+				return song._id !== queue[selectedTrack].id
 			})
 
 			console.log(newLikedSongs,"new liked songs");
@@ -89,7 +108,7 @@ const MiniPlayer = ({nav}) => {
 	};
 	
 	const openMiniPlayer = () => {
-		nav.navigate('PlayerScreen');
+		props.nav.navigate('PlayerScreen');
 	};
 
 	return (

@@ -96,7 +96,6 @@ const ChatModal = ({modalVisible, toggleVisibility,selectedSong}) => {
         })
 	}
 
-	console.log(isSending,"sending");
 
 	return (
 		<Modal

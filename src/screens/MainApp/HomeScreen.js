@@ -33,7 +33,6 @@ const HomeScreen = ({navigation}) => {
 	const [trending,setTrending] = useState([]); 
 
 	useEffect(() => {
-		console.log("in");
 
 		const rfuName= [];
 

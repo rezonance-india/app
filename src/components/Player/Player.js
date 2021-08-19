@@ -52,16 +52,31 @@ const Player = (props) => {
 	}
 
 	useEffect(() => {
+		let c=0;
+		
 		likedSongs.map((song) => {
-			if(song._id == queue[selectedTrack].id){
+			if(song._id == queue[selectedTrack]?.id){
 				setLiked(true);
+				c++;
 				return;
-			}
+			}	
 		})
+
+		if(c==0){
+			setLiked(false);
+		}
+
+
 		if(queue[selectedTrack]?.url.slice((queue[selectedTrack].url.length)-11,queue[selectedTrack.length]) == "None_96.mp4") {
 			ToastAndroid.show("This song is currently not available", ToastAndroid.LONG);		
 		}
-	},[])
+	},[selectedTrack,props])
+
+	useEffect(() => {
+		if(queue[selectedTrack]?.url.slice((queue[selectedTrack].url.length)-11,queue[selectedTrack.length]) == "None_96.mp4") {
+			ToastAndroid.show("This song is currently not available", ToastAndroid.LONG);		
+		}
+	},[selectedTrack])
 
 	useEffect(() => {
 		//Pausing song on coming to end
@@ -119,7 +134,6 @@ const Player = (props) => {
 	//?todo when this parent component re renders(upon every 250ms of playing)
 
 	useEffect(() => {
-		console.log("in player");
 		MusicControl.setNowPlaying({
 			title:queue[selectedTrack].title,
 			artwork:queue[selectedTrack].artwork,
@@ -190,7 +204,6 @@ const Player = (props) => {
 		if (currentPosition < 10 && selectedTrack > 0) {
 			audioElement.current && audioElement.current.seek(0);
 			setIsChanging(true);
-
 			setTimeout(() => {
 				setCurrentPosition(0);
 				updatePausedState(false);
@@ -262,8 +275,10 @@ const Player = (props) => {
 			let trackDetails = likedSongs;
 		
 			let newLikedSongs  = trackDetails.filter((song) => {
-				song._id == queue[selectedTrack].id
+				return song._id !== queue[selectedTrack].id
 			})
+
+			console.log(newLikedSongs,"removed liked songs");
 
 			updateLikedSongs(newLikedSongs);
 
