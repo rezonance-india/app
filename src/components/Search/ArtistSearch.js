@@ -1,16 +1,16 @@
 import React, {useState} from 'react';
-import {FlatList, Text, View, Image} from 'react-native';
+import {FlatList,StyleSheet, Text, View, Image} from 'react-native';
 import axios from 'axios';
 import {apiUrl} from '../../constants/config';
 import _ from 'lodash';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import SearchBox from '../../components/Search/SearchBox';
 import LinearGradientComp from '../Shared/LinearGradient';
-import {colors} from '../../constants/colors';
 
 const ArtistSearch = ({navigation}) => {
 	const [result, setResult] = useState([]);
 	const [searchQuery, setSearchQuery] = useState('');
+	const [filler,setFiller] = useState(true);
 
 	//Renderer function
 	const renderer = ({item}) => {
@@ -40,7 +40,6 @@ const ArtistSearch = ({navigation}) => {
 				.catch((err) => {
 					console.log(err);
 				});
-			// console.log('ok');
 		};
 		return (
 			<TouchableOpacity onPress={viewArtist}>
@@ -85,8 +84,8 @@ const ArtistSearch = ({navigation}) => {
 	const search = _.debounce((value) => {
 		console.log(value, 'value');
 		if (value.length === 0) {
-			console.log('empty');
 			setResult([]);
+			setFiller(true);
 		}
 		if (value.length !== 0) {
 			axios
@@ -102,6 +101,7 @@ const ArtistSearch = ({navigation}) => {
 					},
 				)
 				.then((res) => {
+					setFiller(false);
 					setResult(res.data);
 				})
 				.catch((err) => {
@@ -128,15 +128,47 @@ const ArtistSearch = ({navigation}) => {
 				/>
 			</View>
 
-			<FlatList
-				keyExtractor={(item) => item.artist_id}
-				data={result}
-				renderItem={renderer}
-				numColumns={2}
-				showsVerticalScrollIndicator={false}
-			/>
+			{
+				result.length === 0 && !filler ? (		
+					<View style={styles.styleView}>
+							<Text style={styles.text}>No search results</Text>
+					</View>			
+				):(
+					filler ? (
+						<>
+						<View style={styles.styleView}>
+							<Text style={styles.text}>Nothing to show</Text>
+							<Text style={styles.text}>Search Something maybe?</Text>
+						</View>
+						</>
+					):(
+						<>
+							<FlatList
+								keyExtractor={(item) => item.artist_id}
+								data={result}
+								renderItem={renderer}
+								numColumns={2}
+								showsVerticalScrollIndicator={false}
+							/>
+						</>
+					)
+				)
+			}
 		</LinearGradientComp>
 	);
 };
 
 export default ArtistSearch;
+
+const styles = StyleSheet.create({
+	styleView:{
+		justifyContent:'center',
+		alignContent:'center',
+	},
+	text:{
+		marginTop:"20%",
+		marginLeft:"20%",
+		fontSize:24,
+		color:"white"
+	}
+})

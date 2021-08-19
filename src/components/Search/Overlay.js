@@ -29,13 +29,22 @@ const Overlay = ({toggleVisibility, modalVisible, data, selectedSong,navig}) => 
 	
 	useEffect(() => {
 		if(modalVisible){
+			let c=0;
+			
 			likedSongs.map((song) => {
 				if(song._id == selectedSong.ref_id){
 					setLiked(true);
 					setHeartIcon("heart");
+					c++;
 					return;
-				}
+				}	
 			})
+
+			if(c==0){
+				console.log("in");
+				setHeartIcon("heart-outline");
+				setLiked(false);
+			}
 		}
 	},[modalVisible,selectedSong])
 
@@ -79,9 +88,8 @@ const Overlay = ({toggleVisibility, modalVisible, data, selectedSong,navig}) => 
 					let trackDetails = likedSongs;
 				
 					console.log(trackDetails,"current liked");
-
 					let newLikedSongs  = trackDetails.filter((song) => {
-						song._id == selectedSong.ref_id
+						return song._id !== selectedSong.ref_id
 					})
 
 					console.log(newLikedSongs,"new liked songs");

@@ -1,5 +1,5 @@
 import React, {useState,useContext} from 'react';
-import {FlatList, View, Image, Dimensions} from 'react-native';
+import {FlatList, View, Image,Text, Dimensions,StyleSheet} from 'react-native';
 import axios from 'axios';
 import {apiUrl, userApiUrl} from '../../constants/config';
 import _ from 'lodash';
@@ -9,13 +9,15 @@ import LinearGradientComp from '../Shared/LinearGradient';
 import {colors} from '../../constants/colors';
 import Type from '../Shared/Type';
 import { GlobalContext } from '../../context/GlobalState';
+import Search from "../../../assets/search.png"
 
 const {width, height} = Dimensions.get('screen');
 
 const FriendSearch = ({navigation}) => {
 	const [result, setResult] = useState([]);
 	const [searchQuery, setSearchQuery] = useState('');
-	
+	const [filler,setFiller] = useState(true);
+
 	const {user} = useContext(GlobalContext); 
 
 	const renderer = ({item}) => {
@@ -102,10 +104,11 @@ const FriendSearch = ({navigation}) => {
 	const search = _.debounce((value) => {
 		console.log(value, 'value');
 		if (value.length === 0) {
-			console.log('empty');
 			setResult([]);
+			setFiller(true);
 		}
 		if (value.length !== 0) {
+			setFiller(false);
 			axios
 				.post(
 					`${userApiUrl}/friends/getAllUsers`,
@@ -145,14 +148,50 @@ const FriendSearch = ({navigation}) => {
 					navigation={navigation}
 				/>
 			</View>
-			<FlatList
-				keyExtractor={(item) => item._id}
-				data={result}
-				renderItem={renderer}
-				showsVerticalScrollIndicator={false}
-			/>
+			{
+				result.length === 0 && !filler ? (		
+					<View style={styles.styleView}>
+						{/* <Image
+                			source={Search}
+                			style={{height:height/4, width: width/2, marginBottom: 50}}
+              			/> */}
+							<Text style={styles.text}>No search results</Text>
+					</View>			
+				):(
+					filler ? (
+						<>
+						<View style={styles.styleView}>
+							<Text style={styles.text}>Nothing to show</Text>
+							<Text style={styles.text}>Search Something maybe?</Text>
+						</View>
+						</>
+					):(
+						<>
+							<FlatList
+								keyExtractor={(item) => item._id}
+								data={result}
+								renderItem={renderer}
+								showsVerticalScrollIndicator={false}
+							/>
+						</>
+					)
+				)
+			}
 		</LinearGradientComp>
 	);
 };
 
 export default FriendSearch;
+
+const styles = StyleSheet.create({
+	styleView:{
+		justifyContent:'center',
+		alignContent:'center',
+	},
+	text:{
+		marginTop:"20%",
+		marginLeft:"20%",
+		fontSize:24,
+		color:"white"
+	}
+})

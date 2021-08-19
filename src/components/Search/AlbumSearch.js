@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {FlatList, View, Image, Dimensions} from 'react-native';
+import {FlatList, Text,View, Image, Dimensions,StyleSheet} from 'react-native';
 import axios from 'axios';
 import {apiUrl} from '../../constants/config';
 import _ from 'lodash';
@@ -14,6 +14,8 @@ const {width, height} = Dimensions.get('screen');
 const AlbumSearch = ({navigation}) => {
 	const [result, setResult] = useState([]);
 	const [searchQuery, setSearchQuery] = useState('');
+	const [filler,setFiller] = useState(true);
+
 	const renderer = ({item}) => {
 		return (
 			<TouchableOpacity
@@ -119,10 +121,11 @@ const AlbumSearch = ({navigation}) => {
 	const search = _.debounce((value) => {
 		console.log(value, 'value');
 		if (value.length === 0) {
-			console.log('empty');
 			setResult([]);
+			setFiller(true);
 		}
 		if (value.length !== 0) {
+			setFiller(false);
 			axios
 				.post(
 					`${apiUrl}search/albums`,
@@ -161,14 +164,48 @@ const AlbumSearch = ({navigation}) => {
 					navigation={navigation}
 				/>
 			</View>
-			<FlatList
-				keyExtractor={(item) => item.album_id}
-				data={result}
-				renderItem={renderer}
-				showsVerticalScrollIndicator={false}
-			/>
+			
+			{
+				result.length === 0 && !filler ? (		
+					<View style={styles.styleView}>
+							<Text style={styles.text}>No search results</Text>
+					</View>			
+				):(
+					filler ? (
+						<>
+						<View style={styles.styleView}>
+							<Text style={styles.text}>Nothing to show</Text>
+							<Text style={styles.text}>Search Something maybe?</Text>
+						</View>
+						</>
+					):(
+						<>
+							<FlatList
+								keyExtractor={(item) => item.album_id}
+								data={result}
+								renderItem={renderer}
+								showsVerticalScrollIndicator={false}
+							/>
+						</>
+					)
+				)
+			}
 		</LinearGradientComp>
 	);
 };
 
+
 export default AlbumSearch;
+
+const styles = StyleSheet.create({
+	styleView:{
+		justifyContent:'center',
+		alignContent:'center',
+	},
+	text:{
+		marginTop:"20%",
+		marginLeft:"20%",
+		fontSize:24,
+		color:"white"
+	}
+})

@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {ScrollView, FlatList, Text, View, TextInput} from 'react-native';
+import {ScrollView, FlatList, Text, View,StyleSheet, TextInput} from 'react-native';
 import ListItem from '../../components/Search/ListItem';
 import axios from 'axios';
 import {apiUrl} from '../../constants/config';
@@ -9,8 +9,6 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import SearchBox from '../../components/Search/SearchBox';
 import {GlobalContext} from '../../context/GlobalState';
 import LinearGradientComp from '../Shared/LinearGradient';
-import {colors} from '../../constants/colors';
-import { CommonActions } from '@react-navigation/native';
 
 const SongSearch = ({navigation}) => {
 	const [result, setResult] = useState([]);
@@ -18,7 +16,7 @@ const SongSearch = ({navigation}) => {
 	const [selectedSong, setSelectedSong] = useState({});
 	const [disable, setDisable] = useState(false);
 	const {queue, updateQueue,selectedTrack,play} = useContext(GlobalContext);
-	const [playerModalVisible, setPlayerModalVisible] = useState(false);
+	const [filler,setFiller] = useState(true);
 
 	const renderer = ({item}) => (
 		<TouchableOpacity
@@ -60,10 +58,11 @@ const SongSearch = ({navigation}) => {
 	const search = _.debounce((value) => {
 		console.log(value, 'value');
 		if (value.length === 0) {
-			console.log('empty');
 			setResult([]);
+			setFiller(true);
 		}
 		if (value.length !== 0) {
+			setFiller(false);
 			axios
 				.post(
 					`${apiUrl}search/tracks`,
@@ -85,18 +84,12 @@ const SongSearch = ({navigation}) => {
 		}
 	}, 500);
 
-	// const searchHeader = () => <Type>Search</Type>;
 	return (
 		<LinearGradientComp
 			bgcolors={{
 				colorOne: "rgb(15, 15, 15)",
 				colorTwo: "rgb(15, 15, 15)",
 			}}> 
-
-			{/* <PlayerModal
-				toggleVisibility={setPlayerModalVisible}
-				modalVisible={playerModalVisible} 
-			/> */}
 			<View
 				style={{
 					marginTop: 20,
@@ -108,14 +101,46 @@ const SongSearch = ({navigation}) => {
 					navigation={navigation}
 				/>
 			</View>
-			<FlatList
-				keyExtractor={(item) => item.ref_id}
-				data={result}
-				renderItem={renderer}
-				showsVerticalScrollIndicator={false}
-			/>
+			{
+				result.length === 0 && !filler ? (		
+					<View style={styles.styleView}>
+							<Text style={styles.text}>No search results</Text>
+					</View>			
+				):(
+					filler ? (
+						<>
+						<View style={styles.styleView}>
+							<Text style={styles.text}>Nothing to show</Text>
+							<Text style={styles.text}>Search Something maybe?</Text>
+						</View>
+						</>
+					):(
+						<>
+							<FlatList
+								keyExtractor={(item) => item.ref_id}
+								data={result}
+								renderItem={renderer}
+								showsVerticalScrollIndicator={false}
+							/>
+						</>
+					)
+				)
+			}
 		</LinearGradientComp>
 	);
 };
 
 export default SongSearch;
+
+const styles = StyleSheet.create({
+	styleView:{
+		justifyContent:'center',
+		alignContent:'center',
+	},
+	text:{
+		marginTop:"20%",
+		marginLeft:"20%",
+		fontSize:24,
+		color:"white"
+	}
+})
