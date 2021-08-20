@@ -9,7 +9,7 @@ import SearchBox from '../Search/SearchBox';
 import LinearGradientComp from '../Shared/LinearGradient';
 
 const AddToPlayListModal = ({modalVisible, toggleVisibility,selectedSong}) => {
-    const {user,updateUser} = useContext(GlobalContext);
+    const {user,updateUser,token} = useContext(GlobalContext);
 	console.log(user,"user");
 
 	console.log(selectedSong,"selected song");
@@ -54,8 +54,11 @@ const AddToPlayListModal = ({modalVisible, toggleVisibility,selectedSong}) => {
         {
 			...playlistData,
 			playlistName:playlist,
-			userId:user._id
-        })
+        },{
+			headers: {
+				Authorization: "Bearer " + token,
+			},
+		})
         .then(async (res) => {
             console.log(res.data,"add song in the playlist");
             updateUser(res.data);

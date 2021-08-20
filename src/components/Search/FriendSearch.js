@@ -9,15 +9,13 @@ import LinearGradientComp from '../Shared/LinearGradient';
 import {colors} from '../../constants/colors';
 import Type from '../Shared/Type';
 import { GlobalContext } from '../../context/GlobalState';
-import Search from "../../../assets/search.png"
-
-const {width, height} = Dimensions.get('screen');
+import FillerContent from '../Shared/FillerContent';
 
 const FriendSearch = ({navigation}) => {
 	const [result, setResult] = useState([]);
 	const [searchQuery, setSearchQuery] = useState('');
 	const [filler,setFiller] = useState(true);
-
+ 
 	const {user} = useContext(GlobalContext); 
 
 	const renderer = ({item}) => {
@@ -150,26 +148,11 @@ const FriendSearch = ({navigation}) => {
 			</View>
 			{
 				result.length === 0 && !filler ? (		
-					<View style={styles.styleView}>
-						<Image
-                			source={Search}
-                			style={{
-								height:height/4,
-								width: width/2,
-								marginBottom: 50,
-								marginLeft:width/6,
-								marginTop:height/8
-							}}
-              			/>
-							<Text style={styles.text}>No search results</Text>
-					</View>			
+					<FillerContent text = {"No Search Results"} />
 				):(
 					filler ? (
 						<>
-						<View style={styles.styleView}>
-							<Text style={styles.text}>Nothing to show</Text>
-							<Text style={styles.text}>Search Something maybe?</Text>
-						</View>
+							<FillerContent text = {"Nothing to Search"} />
 						</>
 					):(
 						<>
@@ -189,15 +172,3 @@ const FriendSearch = ({navigation}) => {
 
 export default FriendSearch;
 
-const styles = StyleSheet.create({
-	styleView:{
-		justifyContent:'center',
-		alignContent:'center',
-	},
-	text:{
-		marginTop:"20%",
-		marginLeft:"20%",
-		fontSize:24,
-		color:"white"
-	}
-})

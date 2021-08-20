@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
-import {FlatList,StyleSheet, Text, View, Image} from 'react-native';
+import {FlatList,StyleSheet,Dimensions, Text, View, Image} from 'react-native';
 import axios from 'axios';
 import {apiUrl} from '../../constants/config';
 import _ from 'lodash';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import SearchBox from '../../components/Search/SearchBox';
 import LinearGradientComp from '../Shared/LinearGradient';
+import FillerContent from '../Shared/FillerContent';
 
 const ArtistSearch = ({navigation}) => {
 	const [result, setResult] = useState([]);
@@ -130,16 +131,11 @@ const ArtistSearch = ({navigation}) => {
 
 			{
 				result.length === 0 && !filler ? (		
-					<View style={styles.styleView}>
-							<Text style={styles.text}>No search results</Text>
-					</View>			
+					<FillerContent text={"No Search Results"} />		
 				):(
 					filler ? (
 						<>
-						<View style={styles.styleView}>
-							<Text style={styles.text}>Nothing to show</Text>
-							<Text style={styles.text}>Search Something maybe?</Text>
-						</View>
+							<FillerContent text={"Nothing to Search"} />
 						</>
 					):(
 						<>
@@ -159,16 +155,3 @@ const ArtistSearch = ({navigation}) => {
 };
 
 export default ArtistSearch;
-
-const styles = StyleSheet.create({
-	styleView:{
-		justifyContent:'center',
-		alignContent:'center',
-	},
-	text:{
-		marginTop:"20%",
-		marginLeft:"20%",
-		fontSize:24,
-		color:"white"
-	}
-})
