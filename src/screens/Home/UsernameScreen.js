@@ -32,9 +32,9 @@ const UsernameScreen = ({navigation}) => {
   const [submitting, isSubmitting] = useState(false);
   const [color,setColor] = useState("");
 
-  const {user,updateUser} = useContext(GlobalContext);
+  const {user,updateUser,token} = useContext(GlobalContext);
 
-  const  handleUsernameChange= (text) => setUsername(text);
+  const handleUsernameChange= (text) => setUsername(text);
 
 	useEffect(() => {
 		const getDominantColors = async () => {
@@ -58,6 +58,10 @@ const UsernameScreen = ({navigation}) => {
     axios.post(`${userApiUrl}/user/updateUsername`,{
         username,
         email:user.email,
+      },{
+        headers: {
+					Authorization: "Bearer " + token,
+				},
       }).then(async (result) => {
         console.log(result.data,"data");
         isSubmitting(false);

@@ -12,14 +12,17 @@ const {width, height} = Dimensions.get('window');
 
 const RemoveFriendModal = ({modalVisible,toggleVisibility,id}) => {
 
-    const {updateUser,user} = useContext(GlobalContext);
+    const {updateUser,user,token} = useContext(GlobalContext);
 
     const removeFriend = () => {
         console.log(id,"in remove");
         axios.post(`${userApiUrl}/friends/removeFriend`,
         {
             friendId:id,
-            userId:user._ids
+        },{
+            headers: {
+				Authorization: "Bearer " + token,
+			},
         })
         .then(async (res) => {
             console.log(res.data,"remove user data");

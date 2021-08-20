@@ -32,7 +32,7 @@ const {height, width} = Dimensions.get('window');
 const LoginScreen = ({navigation}) => {
 
   const [color,setColor] = useState("");
-  const {updateUser,updateIsAuthenticated} = useContext(GlobalContext);
+  const {updateUser,updateIsAuthenticated,updateToken} = useContext(GlobalContext);
 
 	useEffect(() => {
 		const getDominantColors = async () => {
@@ -68,7 +68,10 @@ const LoginScreen = ({navigation}) => {
             
             updateUser(result.data.user);
             await AsyncStorage.setItem('user', JSON.stringify(result.data.user));  
-
+            
+            updateToken(result.data.token);     
+            await AsyncStorage.setItem('token',JSON.stringify(result.data.token));
+            
             updateIsAuthenticated(true);
             await AsyncStorage.setItem('isAuthenticated',JSON.stringify(true));
 

@@ -12,7 +12,7 @@ const {width, height} = Dimensions.get('window');
 
 const PlayListModal = ({modalVisible,toggleVisibility}) => {
 
-    const {updateUser,user} = useContext(GlobalContext);
+    const {updateUser,user,token} = useContext(GlobalContext);
     const [name,setName] = useState("");
 
     const handleNameChange = (text) => {
@@ -21,8 +21,11 @@ const PlayListModal = ({modalVisible,toggleVisibility}) => {
 
     const createPlaylist = () => {
         axios.post(`${userApiUrl}/songs/newPlaylist`,{
-            playlistName:name,
-            userId:user._id
+            playlistName:name
+        },{
+            headers: {
+				Authorization: "Bearer " + token,
+			},
         })
         .then(async (res) => {
             console.log(res.data,"data log");

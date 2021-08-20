@@ -6,6 +6,7 @@ import {
 	ToastAndroid,RefreshControl
 } from 'react-native';
 import SearchBox from '../../components/Search/SearchBox';
+import FillerContent from '../../components/Shared/FillerContent';
 import LinearGradientComp from '../../components/Shared/LinearGradient';
 import {ACCENT, PRIMARY} from '../../constants/colors';
 import { userApiUrl } from '../../constants/config';
@@ -14,7 +15,7 @@ import { GlobalContext } from '../../context/GlobalState';
 
 const ChatScreen = ({navigation}) => {
 	const [searchQuery, setSearchQuery] = useState('');
-	const {user,updateMessages,messages} = useContext(GlobalContext);
+	const {user,updateMessages,messages,token} = useContext(GlobalContext);
 	const [refreshing,setRefreshing] = useState(false);
 
 	const search = () => {
@@ -52,17 +53,13 @@ const ChatScreen = ({navigation}) => {
 		}
 	}
 
-	if(!messages){
-		console.log("no messages");
-	}
-
-
 	useEffect(() => {
 		if(messages.length === 0 || refreshing){
 			console.log("in")
-			axios.post(`${userApiUrl}/messages/getMessages`,
-			{
-				userId:user._id
+			axios.get(`${userApiUrl}/messages/getMessages`,{
+				headers: {
+					Authorization: "Bearer " + token,
+				}
 			})
 			.then(async (res) => {
 				console.log(res.data,"from local messages");
@@ -78,46 +75,6 @@ const ChatScreen = ({navigation}) => {
 			})
 		}
 	},[refreshing])
-
-	const toBeSorted = [{
-		name: 'Apple',
-		trades: [{
-			date: '2017.01.01',
-			volume: 100
-		}, {
-			date: '2008.01.01',
-			volume: 250
-		}, {
-			date: '1995.02.01',
-			volume: 150
-		}]
-	},
-	{
-		name: 'Apple',
-		trades: [{
-			date: '2017.01.01',
-			volume: 100
-		}, {
-			date: '2008.01.01',
-			volume: 250
-		}, {
-			date: '1995.02.01',
-			volume: 150
-		}]
-	},{
-		name: 'Apple',
-		trades: [{
-			date: '2017.01.01',
-			volume: 100
-		}, {
-			date: '2008.01.01',
-			volume: 250
-		}, {
-			date: '1995.02.01',
-			volume: 150
-		}]
-	}
-	]
 
 	const onRefresh = useCallback(() => {
     	setRefreshing(true);
@@ -236,7 +193,7 @@ const ChatScreen = ({navigation}) => {
 				<Text
 					style={{
 						marginTop:"15%",
-						fontSize: 18,
+						fontSize: 26,
 						color: 'white',
 						marginBottom: 10,
 						marginLeft: 20,
@@ -259,6 +216,7 @@ const ChatScreen = ({navigation}) => {
 						)
 						:(
 							<>
+								<FillerContent extraStyles={true} text={"No messages to Show"} />
 							</>
 						)
 					}

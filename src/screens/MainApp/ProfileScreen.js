@@ -24,7 +24,7 @@ const ProfileScreen = ({route,navigation}) => {
 	const [listModalVisible,setListModalVisible] = useState(false);
 	const [result,setResult] = useState(item ? item : {});
 	const [refreshing,setRefreshing] = useState(false);
-	const {updateUser,user,likedSongs} = useContext(GlobalContext);
+	const {updateUser,user,likedSongs,token} = useContext(GlobalContext);
 
 	const {imageUrl} = route.params;
 
@@ -60,8 +60,10 @@ const ProfileScreen = ({route,navigation}) => {
 	//Fetches the user upon pull to refresh and on first mount
 	useEffect(() => {
 		const fetchUser = () => {
-			axios.post(`${userApiUrl}/user/getUser`,{
-				userId:user._id
+			axios.get(`${userApiUrl}/user/getUser`,{
+				headers: {
+					Authorization: "Bearer " + token,
+				}
 			})
 			.then(async (res) => {
 				updateUser(res.data);
