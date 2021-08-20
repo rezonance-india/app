@@ -56,6 +56,7 @@ const ChatScreen = ({navigation}) => {
 		console.log("no messages");
 	}
 
+
 	useEffect(() => {
 		if(messages.length === 0 || refreshing){
 			console.log("in")
@@ -78,6 +79,46 @@ const ChatScreen = ({navigation}) => {
 		}
 	},[refreshing])
 
+	const toBeSorted = [{
+		name: 'Apple',
+		trades: [{
+			date: '2017.01.01',
+			volume: 100
+		}, {
+			date: '2008.01.01',
+			volume: 250
+		}, {
+			date: '1995.02.01',
+			volume: 150
+		}]
+	},
+	{
+		name: 'Apple',
+		trades: [{
+			date: '2017.01.01',
+			volume: 100
+		}, {
+			date: '2008.01.01',
+			volume: 250
+		}, {
+			date: '1995.02.01',
+			volume: 150
+		}]
+	},{
+		name: 'Apple',
+		trades: [{
+			date: '2017.01.01',
+			volume: 100
+		}, {
+			date: '2008.01.01',
+			volume: 250
+		}, {
+			date: '1995.02.01',
+			volume: 150
+		}]
+	}
+	]
+
 	const onRefresh = useCallback(() => {
     	setRefreshing(true);
   	}, []);
@@ -94,7 +135,7 @@ const ChatScreen = ({navigation}) => {
 				key={item._id}
 				style={{
 					flexDirection: 'column',
-					marginVertical:"7%",
+					marginVertical:"5%",
 					height: '10%',
 				}}>
 			
@@ -114,7 +155,7 @@ const ChatScreen = ({navigation}) => {
 						/>
 
 						<View
-							styel={{
+							style={{
 								flex: 1,
 							}}>
 							<View
@@ -145,8 +186,10 @@ const ChatScreen = ({navigation}) => {
 									maxWidth: '80%',
 									flexDirection: 'row',
 								}}>
-								<Text
-
+									<View style={{
+										width:"90%"
+									}}>
+											<Text
 									style={{
 										...styles.options,
 										fontSize: 14,
@@ -155,13 +198,16 @@ const ChatScreen = ({navigation}) => {
 										fontFamily: 'NotoSans-Regular',
 									}}>
 									{`${item.chat[item.chat.length-1].user._id === user._id ? "You" : item.chat[item.chat.length-1].user.username} shared ${item.chat[item.chat.length-1].message.trackName}, By ${item.chat[item.chat.length-1].message.artistName}`}.
-								</Text>
+								</Text>		
+									</View>
+
+								
 								<Text
 									style={{
 										...styles.options,
-										marginRight:5,
 										opacity:0.75,
 										marginTop: -25,
+										marginLeft:10,
 									}}>
 									{dateFunc(item.chat[item.chat.length-1].messageSentAt)}
 								</Text>
@@ -187,20 +233,9 @@ const ChatScreen = ({navigation}) => {
         		}
 			>
 
-				<View
-					style={{
-						marginTop: 30,
-					}}>
-					<SearchBox
-						placeholder="Search Messages"
-						searchQuery={searchQuery}
-						setSearchQuery={search}
-					/>
-				</View>
-
 				<Text
 					style={{
-						top: 5,
+						marginTop:"15%",
 						fontSize: 18,
 						color: 'white',
 						marginBottom: 10,
@@ -210,7 +245,9 @@ const ChatScreen = ({navigation}) => {
 					}}>
 					Messages
 				</Text>
-				<View>
+				<View style={{
+					marginBottom:20
+				}}>
 					{
 						messages.length > 0 ? (
 							<FlatList

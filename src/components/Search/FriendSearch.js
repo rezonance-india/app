@@ -151,10 +151,16 @@ const FriendSearch = ({navigation}) => {
 			{
 				result.length === 0 && !filler ? (		
 					<View style={styles.styleView}>
-						{/* <Image
+						<Image
                 			source={Search}
-                			style={{height:height/4, width: width/2, marginBottom: 50}}
-              			/> */}
+                			style={{
+								height:height/4,
+								width: width/2,
+								marginBottom: 50,
+								marginLeft:width/6,
+								marginTop:height/8
+							}}
+              			/>
 							<Text style={styles.text}>No search results</Text>
 					</View>			
 				):(
