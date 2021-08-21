@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useContext} from 'react';
 import {FlatList,StyleSheet,Dimensions, Text, View, Image} from 'react-native';
 import axios from 'axios';
 import {apiUrl} from '../../constants/config';
@@ -7,12 +7,17 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import SearchBox from '../../components/Search/SearchBox';
 import LinearGradientComp from '../Shared/LinearGradient';
 import FillerContent from '../Shared/FillerContent';
+import MiniPlayer from '../Shared/MiniPlayer';
+import { GlobalContext } from '../../context/GlobalState';
+
+const {width,height} = Dimensions.get('screen');
 
 const ArtistSearch = ({navigation}) => {
 
 	const [result, setResult] = useState([]);
 	const [searchQuery, setSearchQuery] = useState('');
 	const [filler,setFiller] = useState(true);
+	const {queue} = useContext(GlobalContext);
 
 	//Renderer function
 	const renderer = ({item}) => {
@@ -153,6 +158,11 @@ const ArtistSearch = ({navigation}) => {
 					)
 				)
 			}
+			<View style={{
+				marginTop:height/7
+			}}>
+				{queue && queue.length > 0 ? <MiniPlayer nav={navigation} /> : null}
+			</View>
 		</LinearGradientComp>
 	);
 };

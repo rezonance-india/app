@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useContext} from 'react';
 import {FlatList, Text,View, Image, Dimensions,StyleSheet} from 'react-native';
 import axios from 'axios';
 import {apiUrl} from '../../constants/config';
@@ -9,6 +9,8 @@ import LinearGradientComp from '../Shared/LinearGradient';
 import {colors} from '../../constants/colors';
 import Type from '../Shared/Type';
 import FillerContent from '../Shared/FillerContent';
+import MiniPlayer from '../Shared/MiniPlayer';
+import { GlobalContext } from '../../context/GlobalState';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -16,6 +18,7 @@ const AlbumSearch = ({navigation}) => {
 	const [result, setResult] = useState([]);
 	const [searchQuery, setSearchQuery] = useState('');
 	const [filler,setFiller] = useState(true);
+	const {queue} = useContext(GlobalContext);
 
 	const renderer = ({item}) => {
 		return (
@@ -187,6 +190,12 @@ const AlbumSearch = ({navigation}) => {
 					)
 				)
 			}
+			
+			<View style={{
+				marginTop:height/7
+			}}>
+				{queue && queue.length > 0 ? <MiniPlayer nav={navigation} /> : null}
+			</View>
 		</LinearGradientComp>
 	);
 };

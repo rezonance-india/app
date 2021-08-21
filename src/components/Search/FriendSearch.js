@@ -10,6 +10,7 @@ import {colors} from '../../constants/colors';
 import Type from '../Shared/Type';
 import { GlobalContext } from '../../context/GlobalState';
 import FillerContent from '../Shared/FillerContent';
+import MiniPlayer from '../Shared/MiniPlayer';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -18,7 +19,7 @@ const FriendSearch = ({navigation}) => {
 	const [searchQuery, setSearchQuery] = useState('');
 	const [filler,setFiller] = useState(true);
  
-	const {user,token} = useContext(GlobalContext); 
+	const {user,token,queue} = useContext(GlobalContext); 
 
 	const renderer = ({item}) => {
 		return (
@@ -169,6 +170,11 @@ const FriendSearch = ({navigation}) => {
 					)
 				)
 			}
+			<View style={{
+				marginTop:height/7
+			}}>
+				{queue && queue.length > 0 ? <MiniPlayer nav={navigation} /> : null}
+			</View>
 		</LinearGradientComp>
 	);
 };
