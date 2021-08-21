@@ -5,22 +5,21 @@ import Search from "../../../assets/search.png"
 
 const {width, height} = Dimensions.get('screen');
 
-const FillerContent = ({text,extraStyles}) => {
+const FillerContent = ({text,extraStyles,fillerImage}) => {
     return (
         <View style={styles.styleView}>
             <Image
-                    source={Search}
+                    source={fillerImage ? fillerImage : Search}
                     style={{
                         height:height/4,
                         width: width/2,
                         marginBottom: 30,
-                        marginLeft:width/6,
+                        marginRight:fillerImage ? 0 : width/10,
                         marginTop:height/7
                     }}
                 />
             <Text style={{
-                ...styles.text,
-		        marginLeft:extraStyles ? width/6 : width/4,
+                ...styles.text
             }}>{text}</Text>
         </View>
     )
@@ -28,11 +27,12 @@ const FillerContent = ({text,extraStyles}) => {
 
 const styles = StyleSheet.create({
 	styleView:{
+        display:'flex',
 		justifyContent:'center',
-		alignContent:'center',
+		alignItems:'center',
 	},
 	text:{
-		fontWeight:"bold",
+		fontFamily:"NotoSans-Regular",
 		fontSize:28,
 		color:"white",
 	}

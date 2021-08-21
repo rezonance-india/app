@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { result } from 'lodash';
-import React, {useState,useContext} from 'react';
+import React, {useState,useContext,useEffect} from 'react';
 import {Modal, Text, View, StyleSheet, Image, ScrollView, TouchableOpacity, ToastAndroid} from 'react-native';
 import { userApiUrl } from '../../constants/config';
 import {userData} from '../../constants/store';
@@ -11,24 +11,30 @@ import InputBox from './InputBox';
 import LinearGradient from './LinearGradient';
 
 const ChatModal = ({modalVisible, toggleVisibility,selectedSong}) => {
-	const [searchQuery, setSearchQuery] = useState('');	
+	const [searchQuery, setSearchQuery] = useState(null);	
 	const {user,updateUser,updateMessages,token} = useContext(GlobalContext);
 	const [isSending,setIsSending] = useState({});
 	
-	const [searchResults,setSearchResults] = useState(user.friends);
-
+	const [searchResults,setSearchResults] = useState([]);
+	
 	const {album_image,track_name,track_url,artist_name,track_id} = selectedSong;
+	
+	useEffect(() => {
+		if(searchQuery == null){
+			setSearchResults(user.friends);
+		}
+	},[])
 
+	
 	const search = (value) => {
         //Searching using regex
 
         let re = new RegExp(value, "i")
 
-		console.log(re);
-
 		let results = [];
 		
         user.friends.map((friend) => {
+			console.log("lol");
             if(friend.username.match(re)){
                 results.push(friend);
                 setSearchResults(results);
@@ -38,6 +44,7 @@ const ChatModal = ({modalVisible, toggleVisibility,selectedSong}) => {
                 setSearchResults(results);
 			}
 			else{
+				setSearchResults([]);
 				console.log("lol");
 			}
         })
@@ -188,11 +195,10 @@ const styles = StyleSheet.create({
 	options: {
 		color: 'white',
 		left: 70,
-		fontWeight: 'bold',
-		fontFamily: 'Open Sans',
-		fontSize: 16,
+		fontFamily: 'NotoSans-Bold',
+		fontSize: 18,
 		marginTop: 7.5,
-		marginLeft: -10,
+		marginLeft: -20,
 	},
 	button: {
 		backgroundColor: '#09a0eb',

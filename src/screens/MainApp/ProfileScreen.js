@@ -40,9 +40,6 @@ const ProfileScreen = ({route,navigation}) => {
 		)
 	}
 
-	console.log(likedSongs,"likedsongs");
-
-
 	console.log(user.playlists,"user");
 
 	const openModal = () => {

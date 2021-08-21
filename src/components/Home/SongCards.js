@@ -62,18 +62,17 @@ const SongCards = ({item, navigation,rp}) => {
 						style={{
 							...styles.text,
 							fontSize: 15,
-							fontFamily: 'NotoSans',
 							fontWeight: 'bold',
 						}}>
 						{rp  ? 
-							title.length > 20
-							? title.substring(0, 20) +
+							title.length > 15
+							? title.substring(0, 15) +
 							'...'
 							: title
 							: 
 							(
-							track_name.length > 20
-							? track_name.substring(0, 20) +
+							track_name.length > 15
+							? track_name.substring(0, 15) +
 							'...'
 							: track_name
 							)
@@ -115,8 +114,8 @@ const styles = StyleSheet.create({
 		top: '52%',
 		color: 'white',
 		fontFamily: 'NotoSans-Regular',
-		marginHorizontal: 8,
-		marginTop: 2,
+		marginHorizontal: width/20,
+		marginTop:2,
 	},
 });
 

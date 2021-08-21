@@ -20,10 +20,9 @@ const TrackDetails = (props) => {
 			<Text
 				style={{
 					...styles.text,
-					width: '100%',
+					width: '80%',
 					textAlign: 'center',
 					paddingTop: '5%',
-					fontWeight: 'bold',
 					fontSize: 22,
 					fontFamily: 'NotoSans-Bold',
 					letterSpacing: 1,

@@ -10,9 +10,8 @@ import {
 	TouchableOpacity
 } from 'react-native';
 import LinearGradient from '../../components/Shared/LinearGradient';
-import {ACCENT, PRIMARY} from '../../constants/colors';
+import {ACCENT} from '../../constants/colors';
 import SongContainer from '../../components/Home/SongContainer';
-// import {rp, rfu, trending} from '../../constants/dummydata';
 import MiniPlayer from '../../components/Shared/MiniPlayer';
 import {GlobalContext} from '../../context/GlobalState';
 import { apiUrl } from '../../constants/config';
@@ -23,7 +22,6 @@ const {width, height} = Dimensions.get('window');
 const HomeScreen = ({navigation}) => {
 	
 	const {queue,user,selectedTrack} = useContext(GlobalContext);
-	// console.log(user,"user");
 
 	const titles = queue.length > 0 ? 
 	['Trending','Recommended For You','Recently Played'] : ['Trending','Recommended For You'];
@@ -137,8 +135,8 @@ const HomeScreen = ({navigation}) => {
 const styles = StyleSheet.create({
 	greetingContainer: {
 		flex: 0.08,
-		marginTop: 50,
-		marginBottom: 20,
+		marginTop: height/15,
+		marginBottom: height/50,
 		paddingLeft: width / 12,
 	},
 	greeting: {
