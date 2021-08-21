@@ -31,7 +31,6 @@ const HomeScreen = ({navigation}) => {
 	const [trending,setTrending] = useState([]); 
 
 	useEffect(() => {
-
 		const rfuName= [];
 
 		axios
@@ -113,7 +112,7 @@ const HomeScreen = ({navigation}) => {
 								flexDirection:"row",
 								justifyContent:"space-around"
 							}}>
-								<Text style={{...styles.greeting,marginLeft:-60}}>Greetings!</Text>
+								<Text style={{...styles.greeting,marginLeft:-60}}>Greetings ✨</Text>
 							</View>
 						<Text
 							style={{

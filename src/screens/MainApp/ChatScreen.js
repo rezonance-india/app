@@ -8,6 +8,7 @@ import {
 import SearchBox from '../../components/Search/SearchBox';
 import FillerContent from '../../components/Shared/FillerContent';
 import LinearGradientComp from '../../components/Shared/LinearGradient';
+import MiniPlayer from '../../components/Shared/MiniPlayer';
 import {ACCENT, PRIMARY} from '../../constants/colors';
 import { userApiUrl } from '../../constants/config';
 import {userData} from '../../constants/store';
@@ -15,7 +16,7 @@ import { GlobalContext } from '../../context/GlobalState';
 
 const ChatScreen = ({navigation}) => {
 	const [searchQuery, setSearchQuery] = useState('');
-	const {user,updateMessages,messages,token} = useContext(GlobalContext);
+	const {user,updateMessages,messages,token,queue} = useContext(GlobalContext);
 	const [refreshing,setRefreshing] = useState(false);
 
 	const search = () => {
@@ -178,7 +179,7 @@ const ChatScreen = ({navigation}) => {
 	return (
 		<LinearGradientComp
 			bgcolors={{
-				colorOne: '#2c3e50',
+				colorOne: "rgb(15, 15, 15)",
 				colorTwo: "rgb(15, 15, 15)",
 			}}>
 			<ScrollView 
@@ -222,6 +223,7 @@ const ChatScreen = ({navigation}) => {
 					}
 				</View>
 			</ScrollView>
+			{queue && queue.length > 0 ? <MiniPlayer nav={navigation} /> : null}
 		</LinearGradientComp>
 	);
 };

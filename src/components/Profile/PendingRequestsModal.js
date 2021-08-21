@@ -43,7 +43,7 @@ const PendingRequestsModal = ({modalVisible, toggleVisibility,data}) => {
 											fontSize:28,
 											fontWeight:"bold"
 										}}>
-											Friends
+											Pending Requests
 										</Text>
 									</View>
 

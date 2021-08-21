@@ -13,6 +13,7 @@ import axios from 'axios';
 import { userApiUrl } from "../../constants/config";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PlayListModal from '../../components/Profile/PlayListModal';
+import MiniPlayer from '../../components/Shared/MiniPlayer';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -24,7 +25,7 @@ const ProfileScreen = ({route,navigation}) => {
 	const [listModalVisible,setListModalVisible] = useState(false);
 	const [result,setResult] = useState(item ? item : {});
 	const [refreshing,setRefreshing] = useState(false);
-	const {updateUser,user,likedSongs,token} = useContext(GlobalContext);
+	const {updateUser,user,likedSongs,token,queue} = useContext(GlobalContext);
 
 	const {imageUrl} = route.params;
 
@@ -377,6 +378,7 @@ const ProfileScreen = ({route,navigation}) => {
 				</TouchableOpacity>
 					</ScrollView>
 			</ScrollView>
+			{queue && queue.length > 0 ? <MiniPlayer nav={navigation} /> : null}
 		</LinearGradientComp>
     )
 };
