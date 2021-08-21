@@ -94,6 +94,7 @@ const Recommend = ({modalVisible, toggleVisibility,navig,selectedSong}) => {
 	useEffect(() => {
 		if(modalVisible){
 			if(queue[selectedTrack].id === "trending" || selectedSong?.ref_id ==="trending"){
+				console.log("in trending");
 				axios
 					.get(
 						`${apiUrl}trending/tracks`
@@ -108,10 +109,11 @@ const Recommend = ({modalVisible, toggleVisibility,navig,selectedSong}) => {
 						setResult(recommArray);
 					})
 					.catch((err) => {
-						console.log(err);
+						console.log(err,"error");
 					});
 			}
 			else{
+				console.log("else trending");
 				axios
 					.post(
 						`${apiUrl}recommend`,
@@ -128,7 +130,8 @@ const Recommend = ({modalVisible, toggleVisibility,navig,selectedSong}) => {
 						setResult(res.data);
 					})
 					.catch((err) => {
-						console.log(err);
+						console.log("in error vala cheez");
+						console.log(err,"errorsss");
 					});
 			}
 		}

@@ -73,53 +73,91 @@ const Player = (props) => {
 		}
 	},[selectedTrack])
 
+	console.log(queue,"queue");
 	useEffect(() => {
 		//Pausing song on coming to end
 		if(selectedTrack === queue.length - 1 && !repeatOn && loading){
-						
+
 			//Add simmilar songs to the queue
+			if(queue[selectedTrack].id !== "trending"){
 
-			axios
-				.post(
-					`${apiUrl}recommend`,
-					{
-						ref_id: track.id
-					},
-					{
-						headers: {
-							'Content-Type': 'application/json',
+				axios
+					.post(
+						`${apiUrl}recommend`,
+						{
+							ref_id: track.id
 						},
-					},
-				)
-				.then((res) => {
-					const result = res.data;
-
-					const tracks = queue;
-
-					// for(let i =3,j=1;i<res.data.length;i+=3,j++){
-						let i = 4;
-
-						tracks[selectedTrack+1] = {
-							title : result[i].track_name,
-							artist: result[i].artist_name,
-							artwork: result[i].album_image,
-							url: result[i].track_url,
-							id: result[i].track_id,
-						}
-					// }
-
-					updateQueue(tracks);
-						const persistingData = async () => {
-							await AsyncStorage.setItem(
-								'queue',
-								JSON.stringify(tracks),
-						);
-					};
-					persistingData();
-				})
-				.catch((err) => {
-					console.log(err);
-				});	
+						{
+							headers: {
+								'Content-Type': 'application/json',
+							},
+						},
+					)
+					.then((res) => {
+						const result = res.data;
+						console.log(result,"result");
+						const tracks = queue;
+	
+						// for(let i =3,j=1;i<res.data.length;i+=3,j++){
+							let i = 4;
+	
+							tracks[selectedTrack+1] = {
+								title : result[i].track_name,
+								artist: result[i].artist_name,
+								artwork: result[i].album_image,
+								url: result[i].track_url,
+								id: result[i].track_id,
+							}
+						// }
+	
+						updateQueue(tracks);
+							const persistingData = async () => {
+								await AsyncStorage.setItem(
+									'queue',
+									JSON.stringify(tracks),
+							);
+						};
+						persistingData();
+					})
+					.catch((err) => {
+						console.log("lol");
+						console.log(err,"err");
+					});	
+			}
+			else{
+				console.log("in trending");
+				axios
+					.get(
+						`${apiUrl}trending/tracks`,
+					)
+					.then((res) => {
+						const result = res.data;
+						console.log(result,"result");
+						const tracks = queue;
+	
+							let i = 4;
+	
+							tracks[selectedTrack+1] = {
+								title : result[i].track_name,
+								artist: result[i].artist_name,
+								artwork: result[i].album_image,
+								url: result[i].track_url,
+								id: result[i].ref_id,
+							}
+	
+							updateQueue(tracks);
+								const persistingData = async () => {
+									await AsyncStorage.setItem(
+										'queue',
+										JSON.stringify(tracks),
+								);
+							};
+							persistingData();
+					})
+					.catch((err) => {
+						console.log(err,"err");
+					});
+			}
 		}
 
 	},[selectedTrack, loading, repeatOn])

@@ -59,6 +59,7 @@ const HomeScreen = ({navigation}) => {
 		if(queue.length > 0) {
 			if(queue[selectedTrack].id === "trending"){
 				setRfu(rfuName);
+				console.log("lol sorry");
 			}
 			else{
 				axios
