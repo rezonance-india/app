@@ -158,11 +158,6 @@ const ArtistSearch = ({navigation}) => {
 					)
 				)
 			}
-			<View style={{
-				marginTop:height/7
-			}}>
-				{queue && queue.length > 0 ? <MiniPlayer nav={navigation} /> : null}
-			</View>
 		</LinearGradientComp>
 	);
 };

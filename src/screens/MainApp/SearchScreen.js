@@ -30,7 +30,7 @@ const SearchScreen = () => {
 					top: '110%',
 				},
 				style: {
-					height: height / 12,
+					height: height / 10,
 					backgroundColor: "rgb(15, 15, 15)",
 				},
 			}}>

@@ -10,7 +10,6 @@ import SearchBox from '../../components/Search/SearchBox';
 import {GlobalContext} from '../../context/GlobalState';
 import LinearGradientComp from '../Shared/LinearGradient';
 import FillerContent from '../Shared/FillerContent';
-import MiniPlayer from '../Shared/MiniPlayer';
 
 const {width,height} = Dimensions.get("screen");
 
@@ -125,11 +124,6 @@ const SongSearch = ({navigation}) => {
 					)
 				)
 			}
-			<View style={{
-				marginTop:height/7
-			}}>
-				{queue && queue.length > 0 ? <MiniPlayer nav={navigation} /> : null}
-			</View>
 		</LinearGradientComp>
 	);
 };

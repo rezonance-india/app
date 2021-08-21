@@ -13,9 +13,11 @@ const {width, height} = Dimensions.get('window');
 const RemoveFriendModal = ({modalVisible,toggleVisibility,id}) => {
 
     const {updateUser,user,token} = useContext(GlobalContext);
+    const [removingText,setRemovingText] = useState(false);
 
     const removeFriend = () => {
         console.log(id,"in remove");
+        setRemovingText(true);
         axios.post(`${userApiUrl}/friends/removeFriend`,
         {
             friendId:id,
@@ -27,9 +29,11 @@ const RemoveFriendModal = ({modalVisible,toggleVisibility,id}) => {
         .then(async (res) => {
             console.log(res.data,"remove user data");
             updateUser(res.data);
+            setRemovingText(false);
             await AsyncStorage.setItem('user', JSON.stringify(res.data));
             ToastAndroid.show("Friend Removed", ToastAndroid.SHORT);
         }).catch((err) => {
+            setRemovingText(false);
             console.log(err,"err");
             if (Array.isArray(err.response.data.errors)) {
                 if (Platform.OS === 'android') {
@@ -54,20 +58,25 @@ const RemoveFriendModal = ({modalVisible,toggleVisibility,id}) => {
 			}}>
                 <View style={styles.modalView}>
                     <Text style={{
-                        color:"white"
+                        color:"black",
+                        fontSize:18,
+                        marginLeft:15,
+                        fontFamily:"NotoSans-Regular"
                     }}>
                         Are you sure you want to remove them as friends?
                     </Text>
                     <View style={{
-                        marginLeft:180,
+                        marginLeft:"70%",
                         marginTop:20
                     }}>
                         <View style={{
                             flexDirection:"row",
-                            right:100
+                            justifyContent:"space-between",
+                            right:100,
+                            top:20,
                         }}>
                         <Button title="Yes" onPressFunction={removeFriend}>
-                            Yes
+                            {removingText ? "..." : "Yes"}
                         </Button>
                         <Button title="No" onPressFunction={closeModal}>
                             No
@@ -84,7 +93,7 @@ const styles = StyleSheet.create({
 	modalView: {
         marginHorizontal:(width -300)/2,
         marginTop:height/2.5,
-        backgroundColor:"rgba(0, 0, 0, 0.95)",
+        backgroundColor:"white",
         width:300,
         height:180,
         paddingVertical:20,
