@@ -9,6 +9,7 @@ import LinearGradientComp from '../Shared/LinearGradient';
 import FillerContent from '../Shared/FillerContent';
 
 const ArtistSearch = ({navigation}) => {
+
 	const [result, setResult] = useState([]);
 	const [searchQuery, setSearchQuery] = useState('');
 	const [filler,setFiller] = useState(true);
@@ -68,13 +69,15 @@ const ArtistSearch = ({navigation}) => {
 						<Text
 							style={{
 								color: 'white',
-								fontFamily: 'IBMPlexSans',
+								fontFamily: 'NotoSans-Regular',
 								marginVertical: 20,
 								fontSize: 18,
-								fontWeight: 'bold',
 								letterSpacing: 0.4,
 							}}>
-							{item.artist_name}
+							{item.artist_name.length > 15 ?
+								item.artist_name.substring(0,15)+"..."
+								: item.artist_name
+							}
 						</Text>
 					</View>
 				</View>
@@ -122,7 +125,7 @@ const ArtistSearch = ({navigation}) => {
 					marginTop: 20,
 				}}>
 				<SearchBox
-					placeholder="Search Artists/Songs"
+					placeholder="Search Artists"
 					searchQuery={searchQuery}
 					setSearchQuery={search}
 					navigation={navigation}
@@ -135,7 +138,7 @@ const ArtistSearch = ({navigation}) => {
 				):(
 					filler ? (
 						<>
-							<FillerContent text={"Nothing to Search"} />
+							<FillerContent text={"Nothing Searched"} />
 						</>
 					):(
 						<>

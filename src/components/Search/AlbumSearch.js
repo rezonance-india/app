@@ -10,6 +10,8 @@ import {colors} from '../../constants/colors';
 import Type from '../Shared/Type';
 import FillerContent from '../Shared/FillerContent';
 
+const {width, height} = Dimensions.get('screen');
+
 const AlbumSearch = ({navigation}) => {
 	const [result, setResult] = useState([]);
 	const [searchQuery, setSearchQuery] = useState('');
@@ -86,7 +88,7 @@ const AlbumSearch = ({navigation}) => {
 						<View
 							style={{
 								flexDirection: 'row',
-								marginTop: 5,
+								marginTop: 2,
 								justifyContent: 'space-between',
 								flex: 1,
 								width: '100%',
@@ -108,6 +110,7 @@ const AlbumSearch = ({navigation}) => {
 							style={{
 								fontSize: width / 26,
 								color: '#D3D3D3',
+								fontFamily:"NotoSans-Regular"
 							}}>
 							{item.artist_name}
 						</Type>
@@ -157,7 +160,7 @@ const AlbumSearch = ({navigation}) => {
 					marginTop: 20,
 				}}>
 				<SearchBox
-					placeholder="Search Artists/Songs"
+					placeholder="Search Albums"
 					searchQuery={searchQuery}
 					setSearchQuery={search}
 					navigation={navigation}
@@ -170,7 +173,7 @@ const AlbumSearch = ({navigation}) => {
 				):(
 					filler ? (
 						<>
-						<FillerContent text={"Nothing to Search"} />
+						<FillerContent text={"Nothing Searched"} />
 						</>
 					):(
 						<>

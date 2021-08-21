@@ -96,7 +96,7 @@ const SongSearch = ({navigation}) => {
 					marginTop: 20,
 				}}>
 				<SearchBox
-					placeholder="Search Artists/Songs"
+					placeholder="Search Songs"
 					searchQuery={searchQuery}
 					setSearchQuery={search}
 					navigation={navigation}
@@ -108,7 +108,7 @@ const SongSearch = ({navigation}) => {
 				):(
 					filler ? (
 						<>
-							<FillerContent text={"Nothing to Search"} />
+							<FillerContent text={"Nothing Searched"} />
 						</>
 					):(
 						<>

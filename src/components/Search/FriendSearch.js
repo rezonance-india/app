@@ -70,7 +70,7 @@ const FriendSearch = ({navigation}) => {
 						<View
 							style={{
 								flexDirection: 'row',
-								marginTop: 5,
+								marginTop: 1,
 								justifyContent: 'space-between',
 								flex: 1,
 								width: '100%',
@@ -80,7 +80,7 @@ const FriendSearch = ({navigation}) => {
 									fontSize: width / 24,
 									width: '80%',
 									color: colors.text,
-									fontWeight: 'bold',
+									fontFamily:"NotoSans-Bold",
 								}}>
 								{item.username.length > 30
 									? `${item.username.substring(0, 20)}....`
@@ -92,6 +92,7 @@ const FriendSearch = ({navigation}) => {
 							style={{
 								fontSize: width / 26,
 								color: '#D3D3D3',
+								fontFamily:"NotoSans-Regular"
 							}}>
 							{`${item.friends.length} friends`}
 						</Type>
@@ -154,7 +155,7 @@ const FriendSearch = ({navigation}) => {
 				):(
 					filler ? (
 						<>
-							<FillerContent text = {"Nothing to Search"} />
+							<FillerContent text = {"Nothing Searched"} />
 						</>
 					):(
 						<>

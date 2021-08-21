@@ -79,7 +79,7 @@ const ListItem = ({navig, data, selectedSong, toggleDisability}) => {
 				<View
 					style={{
 						flexDirection: 'row',
-						marginTop: 5,
+						marginTop: 2,
 						justifyContent: 'space-between',
 						flex: 1,
 						width: '100%',
@@ -113,6 +113,7 @@ const ListItem = ({navig, data, selectedSong, toggleDisability}) => {
 					style={{
 						fontSize: width / 26,
 						color: '#D3D3D3',
+						fontFamily:"NotoSans-Regular"
 					}}>
 					{data.artist_name}
 				</Type>

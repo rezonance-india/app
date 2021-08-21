@@ -125,7 +125,7 @@ const List = ({item,friends,pending,currentUser}) => {
                                     fontSize: width / 22,
                                     width: '80%',
                                     color: colors.text,
-                                    marginTop:-6,
+                                    marginTop:-2,
                                     fontFamily:"NotoSans-Bold"
                                 }}>
                                 {
@@ -166,11 +166,11 @@ const List = ({item,friends,pending,currentUser}) => {
 					}}>
 					{
                             pending ? (
-                                "1 friend"
+                                ""
                             ):(
                                 friends ?
                                 (
-                                    "1 friend"
+                                    ""
                                 ): (
                                     `${item.songs.length} ${item.songs.length> 1 ? "songs" : "song"}`
                                 )

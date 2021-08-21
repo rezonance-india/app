@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
 import {Modal, Text, View, StyleSheet, FlatList} from 'react-native';
 import { userData } from '../../constants/store';
+import FillerContent from '../Shared/FillerContent';
 import LinearGradientComp from '../Shared/LinearGradient';
 import List from "./List"
+import FillerImage from "../../../assets/modal.png"
 
 const PendingRequestsModal = ({modalVisible, toggleVisibility,data}) => {
 	const renderer = ({item}) => {
@@ -27,12 +29,37 @@ const PendingRequestsModal = ({modalVisible, toggleVisibility,data}) => {
 				}}>
 				<View>
 					<View style={styles.modalView}>
-                        <FlatList
-					        keyExtractor={(item) => (item._id).toString()}
-                            data={data}
-                            renderItem={renderer}
-                            showsVerticalScrollIndicator={false}
-				        />
+						{
+							data.length > 0 ? (
+								<>
+									<View style={{
+										justifyContent:'center',
+										alignItems:"center",
+										marginBottom:40
+									}}> 
+									
+										<Text style={{
+											color:"white",
+											fontSize:28,
+											fontWeight:"bold"
+										}}>
+											Friends
+										</Text>
+									</View>
+
+									<FlatList
+										keyExtractor={(item) => (item._id).toString()}
+										data={data}
+										renderItem={renderer}
+										showsVerticalScrollIndicator={false}
+									/>
+								</>
+							): (
+								<>
+									<FillerContent fillerImage ={FillerImage} text="No pending requests"/>
+								</>
+							)
+						}
                     </View>       
 				</View>
 			</LinearGradientComp>
