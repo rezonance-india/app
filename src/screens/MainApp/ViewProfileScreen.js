@@ -56,10 +56,12 @@ const ViewProfileScreen = ({route,navigation}) => {
 		setListModalVisible(true);
 	}
 
+	console.log(currentUser._id,"id radio");
+	
 	useEffect(() => {
 		const fetchUser = () => {
 			axios.post(`${userApiUrl}/user/getAUser`,{
-				_id:currentUser._id
+				userId:currentUser._id
 			},{
 				headers: {
 					Authorization: "Bearer " + token,

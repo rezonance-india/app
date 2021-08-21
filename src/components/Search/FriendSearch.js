@@ -11,12 +11,14 @@ import Type from '../Shared/Type';
 import { GlobalContext } from '../../context/GlobalState';
 import FillerContent from '../Shared/FillerContent';
 
+const {width, height} = Dimensions.get('screen');
+
 const FriendSearch = ({navigation}) => {
 	const [result, setResult] = useState([]);
 	const [searchQuery, setSearchQuery] = useState('');
 	const [filler,setFiller] = useState(true);
  
-	const {user} = useContext(GlobalContext); 
+	const {user,token} = useContext(GlobalContext); 
 
 	const renderer = ({item}) => {
 		return (
@@ -115,7 +117,7 @@ const FriendSearch = ({navigation}) => {
 					},
 					{
 						headers: {
-							'Content-Type': 'application/json',
+							Authorization: "Bearer " + token,
 						},
 					},
 				)
