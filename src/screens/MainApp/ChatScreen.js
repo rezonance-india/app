@@ -35,7 +35,7 @@ const ChatScreen = ({navigation}) => {
 		const diff = parseInt(((today - d)/60000));
 
 		if(diff>0 && diff<60){
-			return `${diff}mins`;
+			return `${diff} mins`;
 		}
 		else if(diff > 60 && diff < 1440){
 			return `${parseInt(diff/60)} hours`
@@ -95,6 +95,7 @@ const ChatScreen = ({navigation}) => {
 					flexDirection: 'column',
 					marginVertical:"5%",
 					height: '10%',
+					marginBottom: 30
 				}}>
 			
 					<TouchableOpacity onPress={pressChatBox}
@@ -115,6 +116,7 @@ const ChatScreen = ({navigation}) => {
 						<View
 							style={{
 								flex: 1,
+								
 							}}>
 							<View
 								style={{
@@ -155,7 +157,7 @@ const ChatScreen = ({navigation}) => {
 										marginTop: 2,
 										fontFamily: 'NotoSans-Regular',
 									}}>
-									{`${item.chat[item.chat.length-1].user._id === user._id ? "You" : item.chat[item.chat.length-1].user.username} shared ${item.chat[item.chat.length-1].message.trackName}, By ${item.chat[item.chat.length-1].message.artistName}`}.
+									{`${item.chat[item.chat.length-1].user._id === user._id ? "You" : item.chat[item.chat.length-1].user.username} shared ${item.chat[item.chat.length-1].message.trackName}`}.
 								</Text>		
 									</View>
 
