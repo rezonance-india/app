@@ -130,8 +130,7 @@ const Recommend = ({modalVisible, toggleVisibility,navig,selectedSong}) => {
 						setResult(res.data);
 					})
 					.catch((err) => {
-						console.log("in error vala cheez");
-						console.log(err,"errorsss");
+						console.log(err,"errors");
 					});
 			}
 		}
@@ -187,6 +186,7 @@ const styles = StyleSheet.create({
   },
 	modalView:{
 		marginTop:"20%",
+		marginBottom:"20%"
 	},
 	album: {
 		width: (width * 5) / 6.5,

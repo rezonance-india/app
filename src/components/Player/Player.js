@@ -99,8 +99,9 @@ const Player = (props) => {
 						const tracks = queue;
 	
 						// for(let i =3,j=1;i<res.data.length;i+=3,j++){
-							let i = 4;
-	
+							let i = Math.floor(Math.random() * (10)) +0;
+							console.log(i,"value of i")
+
 							tracks[selectedTrack+1] = {
 								title : result[i].track_name,
 								artist: result[i].artist_name,

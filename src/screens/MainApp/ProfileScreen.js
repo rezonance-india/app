@@ -36,12 +36,12 @@ const ProfileScreen = ({route,navigation}) => {
 					item
 				})
 			}}>
-				<List item = {item} /> 
+				<List currentUser={user} playlists={true} item = {item} /> 
 			</TouchableOpacity>	
 		)
 	}
 
-	console.log(user.playlists,"user");
+	console.log(user.friends,"user");
 
 	const openModal = () => {
 		setFriendModalVisible(true);

@@ -22,12 +22,20 @@ const SongContainer = ({songtitles,navigation,rfu,trending}) => {
 			): (
 				songtitle === "Recommended For You" ? (
 					rfu.map((songs,i) => {
+						if(i>=5){
+							return;
+						}
 						return <SongCards navigation = {navigation} item={songs} key={i} />;
 					})	
 				) :(
 					songtitle === "Recently Played" ? (
 						queue.map((songs,i) => {
-							return <SongCards navigation = {navigation} rp={true} item={songs} key={i} />;
+							if(i>=5){
+								return;
+							}
+							else{
+								return <SongCards navigation = {navigation} rp={true} item={songs} key={i} />;
+							}
 						})	
 					):(
 						<>
