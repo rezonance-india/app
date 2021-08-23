@@ -18,7 +18,7 @@
   <p align="center">
     <img src="STATIC/header.png" alt="Logo" >
     <!-- <br /> -->
-    <strong>Rezonance APP</strong>
+    <strong>Rezonance App</strong>
     <!-- <br /> -->
     <a href="https://rezonanceindia.tech/"><strong>Visit the website »</strong></a>
     <br />
@@ -81,22 +81,16 @@ Discover new music based on the song you're currently listening to.
 
 We used content based recommendations to find music similar to the one chosen by the user based on cosine similarity of metrics of songs.
 
-<br />
 
 ## In App Sharing
 Users can share songs with their friends within the application. No need to copy links or send screenshots
 
-<br />
-
 ## Unlimited Downloads
 Listen to your favourite songs even without an internet connection. Download songs without any limit.
-
-<br />
 
 ## Ad Free
 Enjoy ad-free seamless playback. Cuz even we don't like ads
 
-<br />
 <br />
 
 ## Built With
@@ -155,7 +149,7 @@ npm react-native run-android (For android)
 
 ### Referenced Repositories
 
-[Salyd Server](https://github.com/rezonance-india/rezonancebackend)
+[User Backend](https://github.com/rezonance-india/rezonancebackend)
 
 
 ## Product Screenshots
