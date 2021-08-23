@@ -50,7 +50,7 @@ const ChatScreen = ({navigation}) => {
 			return `${parseInt(diff/43200)} months`
 		}
 		else{
-			return `${diff} secs ago`
+			return `${diff} secs`
 		}
 	}
 
@@ -95,7 +95,7 @@ const ChatScreen = ({navigation}) => {
 					flexDirection: 'column',
 					marginVertical:"5%",
 					height: '10%',
-					marginBottom: 30
+					marginBottom: "12%"
 				}}>
 			
 					<TouchableOpacity onPress={pressChatBox}

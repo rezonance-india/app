@@ -93,17 +93,13 @@ const SongSearch = ({navigation}) => {
 				colorOne: "rgb(15, 15, 15)",
 				colorTwo: "rgb(15, 15, 15)",
 			}}> 
-			<View
-				style={{
-					marginTop: 20,
-				}}>
+			
 				<SearchBox
 					placeholder="Search Songs"
 					searchQuery={searchQuery}
 					setSearchQuery={search}
 					navigation={navigation}
 				/>
-			</View>
 			{
 				result.length === 0 && !filler ? (		
 					<FillerContent text={"No Search Results"} />

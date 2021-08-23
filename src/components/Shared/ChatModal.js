@@ -19,6 +19,8 @@ const ChatModal = ({modalVisible, toggleVisibility,selectedSong}) => {
 	
 	const {album_image,track_name,track_url,artist_name,track_id} = selectedSong;
 	
+	console.log(user,"user");
+
 	useEffect(() => {
 		if(searchQuery == null){
 			setSearchResults(user.friends);

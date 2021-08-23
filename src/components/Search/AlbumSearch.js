@@ -158,17 +158,12 @@ const AlbumSearch = ({navigation}) => {
 				colorOne: "rgb(15, 15, 15)",
 				colorTwo: "rgb(15, 15, 15)",
 			}}>
-			<View
-				style={{
-					marginTop: 20,
-				}}>
 				<SearchBox
 					placeholder="Search Albums"
 					searchQuery={searchQuery}
 					setSearchQuery={search}
 					navigation={navigation}
 				/>
-			</View>
 			
 			{
 				result.length === 0 && !filler ? (		

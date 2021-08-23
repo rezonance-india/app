@@ -125,18 +125,12 @@ const ArtistSearch = ({navigation}) => {
 				colorOne: "rgb(15, 15, 15)",
 				colorTwo: "rgb(15, 15, 15)",
 			}}>
-			<View
-				style={{
-					marginTop: 20,
-				}}>
 				<SearchBox
 					placeholder="Search Artists"
 					searchQuery={searchQuery}
 					setSearchQuery={search}
 					navigation={navigation}
 				/>
-			</View>
-
 			{
 				result.length === 0 && !filler ? (		
 					<FillerContent text={"No Search Results"} />		

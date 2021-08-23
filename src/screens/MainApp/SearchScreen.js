@@ -19,7 +19,7 @@ const SearchScreen = () => {
 				activeTintColor: 'white',
 				labelStyle: {
 					color: 'white',
-					marginTop: 35,
+					marginTop: 30,
 					fontSize: 16,
 					fontFamily: 'NotoSans-Regular',
 				},
@@ -27,7 +27,7 @@ const SearchScreen = () => {
 					backgroundColor: 'white',
 					width: "15%",
 					left: '5%',
-					top: '110%',
+					top: '95%',
 				},
 				style: {
 					height: height / 10,
