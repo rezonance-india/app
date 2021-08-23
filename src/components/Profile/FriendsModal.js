@@ -7,6 +7,7 @@ import FillerImage from "../../../assets/modal.png"
 import FillerContent from '../Shared/FillerContent';
 
 const FriendsModal = ({modalVisible, toggleVisibility,data,currentUser}) => {
+	console.log(currentUser,"item from friend");
 
 	const renderer = ({item}) => {
         return (

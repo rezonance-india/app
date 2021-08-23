@@ -8,15 +8,16 @@ import { userApiUrl } from "../../constants/config";
 import { GlobalContext } from "../../context/GlobalState";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import RemoveFriendModal from "./RemoveFriendModal";
+import ConfirmationModal from "./ConfirmationModal";
 
 const {width, height} = Dimensions.get('screen');
 
-const List = ({item,friends,pending,currentUser}) => {
+const List = ({item,friends,pending,currentUser,playlists}) => {
     
-    console.log(item,"item");
     const {updateUser,user,token} = useContext(GlobalContext);
 	const [confirmationModalVisible,setConfirmationModalVisible] = useState(false);
-    
+    const [playlistRemoveModalVisible,setPlaylistRemoveModalVisible] = useState(false);
+
     const acceptRequest = () => {
         axios.post(`${userApiUrl}/friends/acceptFriendRequest`,
         {
@@ -43,6 +44,10 @@ const List = ({item,friends,pending,currentUser}) => {
 
     const removeFriend = () => {
         setConfirmationModalVisible(true);
+    }
+
+    const removePlaylist = () => {
+        setPlaylistRemoveModalVisible(true);
     }
 
     const rejectRequest = () => {
@@ -76,6 +81,13 @@ const List = ({item,friends,pending,currentUser}) => {
 				toggleVisibility={setConfirmationModalVisible}
 				modalVisible={confirmationModalVisible}
 			/>	
+
+            <ConfirmationModal 
+                id = {item._id}
+				toggleVisibility={setPlaylistRemoveModalVisible}
+				modalVisible={playlistRemoveModalVisible}
+            />
+
             {/* <TouchableOpacity onPress={renderFunc}> */}
 			<View
 				style={{
@@ -149,8 +161,22 @@ const List = ({item,friends,pending,currentUser}) => {
                                 (
                                     <Button title="remove" backColor = {friends ? "red" :""} onPressFunction={removeFriend}>Remove</Button>
                                 ): (
-                                    <>
-                                    </>
+                                    playlists && currentUser._id === user._id ?
+                                    (
+                                        <TouchableOpacity onPress = {removePlaylist}
+                                        hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
+                                        >
+                                            <Text style={{
+                                                color:"white",
+                                                fontSize:24
+                                            }}>X</Text>
+
+                                        </TouchableOpacity>
+                                    ):(
+                                        <>
+                                      
+                                        </>
+                                    )
                                 )
                             )
                         }

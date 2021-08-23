@@ -1,17 +1,43 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React,{useContext} from 'react';
 import {View, TouchableOpacity, Text, Dimensions, Image} from 'react-native';
 import {colors} from '../../constants/colors';
+import { GlobalContext } from '../../context/GlobalState';
 import Type from "../Shared/Type"
 
 const {width, height} = Dimensions.get('screen');
 
-const SongsList = ({item}) => {
+const SongsList = ({item,navig}) => {
+
+	console.log('songs from ps',item);
+
+	const {queue,updateQueue,selectedTrack} = useContext(GlobalContext);
 
 	return (
 		<TouchableOpacity
 			activeOpacity={0.75}
 			onPress={() => {
+				const trackDetails = queue;
+				trackDetails[selectedTrack] = {
+					title: item.trackName,
+					artist: item.artistName,
+					artwork: item.albumArt,
+					url: item.trackUrl,
+					id: item._id,
+				};
+					
+				updateQueue(trackDetails);
+					
+				const persistingData = async () => {
+					await AsyncStorage.setItem(
+						'queue',
+						JSON.stringify(trackDetails),
+					);
+				};
+				
+				persistingData();
 
+				navig.navigate("PlayerScreen");
 			}}>
 			<View style={{flexDirection: 'row', width: '100%'}}>
 				<View

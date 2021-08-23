@@ -6,21 +6,22 @@ import { Modal,View,Text,FlatList,StyleSheet,Dimensions, ToastAndroid } from "re
 import { userApiUrl } from "../../constants/config";
 import { GlobalContext } from "../../context/GlobalState";
 import Button from "../Shared/Button";
-import InputBox from "../Shared/InputBox";
 
 const {width, height} = Dimensions.get('window');
 
-const RemoveFriendModal = ({modalVisible,toggleVisibility,id}) => {
+const ConfirmationModal = ({modalVisible,toggleVisibility,id}) => {
 
     const {updateUser,user,token} = useContext(GlobalContext);
     const [removingText,setRemovingText] = useState(false);
+    console.log(id,"in remove");
 
-    const removeFriend = () => {
-        console.log(id,"in remove");
+
+    const removePlaylist = () => {
+
         setRemovingText(true);
-        axios.post(`${userApiUrl}/friends/removeFriend`,
+        axios.post(`${userApiUrl}/songs/deletePlaylist`,
         {
-            friendId:id,
+            playlistId:id,
         },{
             headers: {
 				Authorization: "Bearer " + token,
@@ -31,7 +32,8 @@ const RemoveFriendModal = ({modalVisible,toggleVisibility,id}) => {
             updateUser(res.data);
             setRemovingText(false);
             await AsyncStorage.setItem('user', JSON.stringify(res.data));
-            ToastAndroid.show("Friend Removed", ToastAndroid.SHORT);
+            toggleVisibility(!modalVisible);
+            ToastAndroid.show("Playlist removed", ToastAndroid.SHORT);
         }).catch((err) => {
             setRemovingText(false);
             console.log(err,"err");
@@ -63,7 +65,7 @@ const RemoveFriendModal = ({modalVisible,toggleVisibility,id}) => {
                         marginLeft:15,
                         fontFamily:"NotoSans-Regular"
                     }}>
-                        Are you sure you want to remove them as friends?
+                        Are you sure you want to remove this playlist?
                     </Text>
                     <View style={{
                         marginLeft:"70%",
@@ -75,7 +77,7 @@ const RemoveFriendModal = ({modalVisible,toggleVisibility,id}) => {
                             right:100,
                             top:20,
                         }}>
-                        <Button title="Yes" onPressFunction={removeFriend}>
+                        <Button title="Yes" onPressFunction={removePlaylist}>
                             {removingText ? "Pro.." : "Yes"}
                         </Button>
                         <Button title="No" onPressFunction={closeModal}>
@@ -101,4 +103,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default RemoveFriendModal;
+export default ConfirmationModal;
