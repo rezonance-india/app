@@ -83,7 +83,7 @@ We used content based recommendations to find music similar to the one chosen by
 
 
 ## In App Sharing
-Users can share songs with their friends within the application. No need to copy links or send screenshots
+Users can share songs with their friends within the application. No need to copy links or send screenshots to your friends now.
 
 ## Unlimited Downloads
 Listen to your favourite songs even without an internet connection. Download songs without any limit.
